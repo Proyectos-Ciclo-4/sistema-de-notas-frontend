@@ -1,0 +1,5 @@
+@import "../assets/scss/global.scss";
+
+.prueba{
+    @include box-shadow
+}

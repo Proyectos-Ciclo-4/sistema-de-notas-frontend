@@ -1,0 +1,12 @@
+$primary-color: #673ab7;
+$secondary-color: #673ab7b2;
+$color-button: #421cde;
+$light-color: #fff;
+$error-color: #fa3007;
+$success-color: #15a14d;
+$font-color: #302f32a8;
+$dark-color: #121111;
+
+@mixin box-shadow {
+  box-shadow: inset 0px 3px 6px #00000029, 0px 6px 6px #00000029;
+}
