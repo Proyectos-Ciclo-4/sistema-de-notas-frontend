@@ -1,0 +1,190 @@
+<div class="container">
+  <app-header></app-header>
+  <div class="title flex align-items-center justify-content-center">
+    <h1 class="text-center">Registo</h1>
+  </div>
+  <div class="grid flex justify-content-center m-0 mt-5">
+    <div class="col-12 md:col-8 xl:col-8">
+      <div class="card-signup p-5">
+        <form
+          [formGroup]="formSignup"
+          class="sign-up-form"
+          (submit)="register()"
+        >
+          <div class="grid m-0">
+            
+            <div class="p-inputgroup col-12 xl:col-6 mt-3">
+              <span class="p-float-label">
+                <input
+                  formControlName="name"
+                  id="float-input-name"
+                  type="text"
+                  pInputText
+                  class="font-bold"
+                  autocomplete="off"
+                />
+                <label for="float-input-name "
+                  >Nombre (s)<span class="text-red-600">*</span></label
+                >
+              </span>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3">
+              <span class="p-float-label">
+                <input
+                  formControlName="lastName"
+                  id="float-input-lastName"
+                  type="text"
+                  pInputText
+                  class="font-bold"
+                  autocomplete="off"
+                />
+                <label for="float-input-lastName "
+                  >Apellido (s)<span class="text-red-600">*</span></label
+                >
+              </span>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3 flex flex-column">
+              <span class="p-float-label">
+                <input
+                name="celPhone"
+                  formControlName="celPhone"
+                  id="float-input-celPhone"
+                  type="number"
+                  pInputText
+                  class="font-bold"
+                  autocomplete="off"
+                />
+                <label for="float-input-celPhone "
+                  >Numero de celular <span class="text-red-600">*</span></label
+                >
+              </span>
+              <small id="float-input-password-help" class="p-error block"
+                >Incluya el código del país</small
+              >
+            </div>
+
+            <div class="p-inputgroup col-12 xl:col-6 mt-3">
+              <span class="p-float-label">
+                <input
+                  formControlName="email"
+                  id="float-input-email"
+                  type="email"
+                  pInputText
+                  class="font-bold"
+                  autocomplete="off"
+                />
+                <label for="float-input-email "
+                  >Correo electronico <span class="text-red-600">*</span></label
+                >
+              </span>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3 flex flex-column">
+              <span class="p-float-label">
+                <input
+                  formControlName="password"
+                  id="float-input-password"
+                  type="password"
+                  pInputText
+                  class="ng-dirty font-bold"
+                />
+                <label for="float-input-password"
+                  >Contraseña <span class="text-red-600">*</span></label
+                >
+              </span>
+              <small id="float-input-password-help" class="p-error block">{{
+                formSignup.get("password")?.getError("validPassword")
+              }}</small>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3 flex flex-column">
+              <span class="p-float-label">
+                <input
+                  formControlName="confirmPassword"
+                  id="float-input-confirmPassword"
+                  type="password"
+                  pInputText
+                  class="font-bold"
+                />
+                <label for="float-input-confirmPassword"
+                  >Confirmar contraseña
+                  <span class="text-red-600">*</span></label
+                >
+              </span>
+              <small id="float-input-password-help" class="p-error block">{{
+                formSignup.get("confirmPassword")?.getError("invalidPassword")
+              }}</small>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3">
+              <span class="p-float-label w-full">
+                <p-dropdown
+                  [style]="{
+                    minWidth: '100%',
+                    backgroundColor: '#f0f0f0',
+                    border: 'none'
+                  }"
+                  
+                  formControlName="idType"
+                  inputId="idType-dropdown"
+                  [options]="idType"
+                  optionLabel="name"
+                  placeholder="Tipo de Identificación"
+                  [autoDisplayFirst]="false"
+                ></p-dropdown>
+                <label for="idType-dropdown"
+                  >Tipo de Identificación
+                  <span class="text-red-600">*</span></label
+                >
+              </span>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3">
+              <span class="p-float-label">
+                <input
+                  formControlName="idNumber"
+                  id="float-input-idNumber"
+                  type="text"
+                  pInputText
+                  class="font-bold"
+                  autocomplete="off"
+                />
+                <label for="float-input-idNumber "
+                  >Número de identificación
+                  <span class="text-red-600">*</span></label
+                >
+              </span>
+            </div>
+            <div class="p-inputgroup col-12 xl:col-6 mt-3">
+              <span class="p-float-label w-full">
+                
+                <p-dropdown
+                  [style]="{
+                    minWidth: '100%',
+                    backgroundColor: '#f0f0f0',
+                    border: 'none'
+                  }"
+                  formControlName="role"
+                  [autoDisplayFirst]="false"
+                  inputId="role"
+                  [options]="role"
+                  optionLabel="name"
+                  placeholder="Perfil"
+                ></p-dropdown>
+                <label for="role"
+                  >Perfil <span class="text-red-600">*</span></label
+                >
+              </span>
+            </div>
+          </div>
+          <div class="w-full flex justify-content-end mt-5">
+            <button [disabled]="!formSignup.valid"  class="mr-2" pButton type="submit" label="Guardar"></button>
+            <button
+              (click)="clearData()"
+              pButton
+              type="button"
+              label="cancelar"
+              class="p-button-danger"
+            ></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

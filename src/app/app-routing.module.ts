@@ -18,6 +18,10 @@ const routes: Routes = [
       import('./sofka-note/sofka-note.module').then((m) => m.SofkaNoteModule),
     ...canActivate(() => redirectUnauthorizedTo(['/login'])),
   },
+  {
+    path: '**',
+    redirectTo: "/login",
+  },
 ];
 
 @NgModule({

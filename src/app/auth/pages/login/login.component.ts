@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
     this.formLogin = this.createFormLogin();
   }
 
+  
+  ngOnInit(): void {}
+
   createFormLogin(): FormGroup<any> {
     return new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -50,8 +53,6 @@ export class LoginComponent implements OnInit {
 
       });
   }
-
-  ngOnInit(): void {}
 
   resetPassword() {
     this.swal$.resetPassword();

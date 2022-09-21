@@ -1,0 +1,36 @@
+@import "../../../../assets/scss/global.scss";
+
+.sign-up-form {
+  margin: 0 auto;
+  width: 90%;
+  input {
+    background-color: $background-color;
+    color: $text-color;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    height: 52px;
+  }
+  label {
+    background-color: $background-color;
+  }
+}
+
+.card-signup {
+  @include box-shadow($light-color);
+}
+
+
+#dropdown {
+  width: 100% !important;
+  .p-dropdown {
+    width: 100% !important;
+  }
+}
+
+.title {
+  height: 71px;
+  @include box-shadow($secondary-color);
+  background-color: $secondary-color;
+  color: $light-color;
+}

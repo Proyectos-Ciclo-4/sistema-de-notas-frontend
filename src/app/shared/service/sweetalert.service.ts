@@ -14,7 +14,7 @@ export class SweetalertService {
       icon: 'success',
       title: message,
       showConfirmButton: false,
-      timer: 50000,
+      timer: 1500,
     });
   }
 
