@@ -3,11 +3,25 @@ import { Routes, RouterModule } from '@angular/router';
 
 // components
 import { HomeComponent } from './pages/home/home.component';
+import { SofkaNoteComponent } from './sofka-note.component';
+
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: SofkaNoteComponent,
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: '/sofkau-note/home',
+      },
+      {
+        path: 'home',
+        pathMatch: 'full',
+        component: HomeComponent,
+      },
+    ],
   },
 ];
 
