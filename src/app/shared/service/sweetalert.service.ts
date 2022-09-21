@@ -8,22 +8,22 @@ import { AuthService } from '../../auth/services/auth.service';
 export class SweetalertService {
   constructor(private authService:AuthService) {}
 
-  succesMessage(message = 'Your work has been saved') {
+  succesMessage(message = 'La operación se efectúo con éxito') {
     return Swal.fire({
       position: 'center',
       icon: 'success',
       title: message,
       showConfirmButton: false,
-      timer: 1500,
+      timer: 50000,
     });
   }
 
-  errorMessage(message = 'Something went wrong!') {
+  errorMessage(message = 'Algo salio mal!') {
     return Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: message,
-      footer: 'Why do I have this issue?',
+      footer: 'Verifica la información ingresada',
     });
   }
 
@@ -38,21 +38,20 @@ export class SweetalertService {
       confirmButtonText: 'Enviar',
       showLoaderOnConfirm: true,
       preConfirm: (email) => {
-        debugger
         return this.authService.resetPassword(email)
           .then(response => {
            console.log(response)
           })
           .catch(error => {
             Swal.showValidationMessage(
-              `Request failed: ${error}`
+              `Operación fallida: ${error}`
             )
           })
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        this.succesMessage("Se envió la contraseña satisfactoriamente ")
+        Swal.fire('Se envió la contraseña satisfactoriamente al correo registrado')
       }
     })
   }

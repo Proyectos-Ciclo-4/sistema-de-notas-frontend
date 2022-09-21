@@ -1,6 +1,6 @@
 <div class="container">
   <app-header></app-header>
-  <div class="grid flex justify-content-center m-0 mt-5 ">
+  <div class="grid flex justify-content-center m-0 mt-5">
     <div class="col-12 md:col-6 xl:col-4">
       <div class="card-login p-5">
         <form
@@ -38,7 +38,7 @@
             </span>
           </div>
           <div class="w-full text-center mt-5">
-            <span>he olvidado mi </span>
+            <span>He olvidado mi </span>
             <span (click)="resetPassword()" class="underline">contraseña</span>
           </div>
           <div class="text-center mt-5">
@@ -46,14 +46,16 @@
               [disabled]="!formLogin.valid"
               pButton
               type="submit"
-              label="Iniciar sesion"
+              label="Iniciar sesión"
             ></button>
           </div>
           <div class="w-full text-center mt-5 register">
-            <a href="">!Registrate gratis!</a>
+            <a routerLink="/sign-up">!Registrate gratis!</a>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+
