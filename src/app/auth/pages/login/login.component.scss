@@ -1,0 +1,25 @@
+@import "../../../../assets/scss/global.scss";
+
+.login-form {
+  margin: 0 auto;
+  width: 90%;
+  input {
+    background-color: $background-color;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+  }
+  label {
+    background-color: $background-color;
+  }
+}
+
+.card-login {
+  @include box-shadow($light-color);
+}
+
+.register {
+  a {
+    font-size: $font-size-two;
+  }
+}

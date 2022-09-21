@@ -1,1 +1,46 @@
-<p>login works!</p>
+<div class="conatiner">
+  <app-header></app-header>
+  <div class="grid flex justify-content-center mt-5">
+    <div class="col-12 md:col-6 xl:col-4">
+      <div class="card-login p-5">
+        <form class="login-form pt-5">
+          <div class="p-inputgroup w-full">
+            <span class="p-float-label">
+              <input
+                id="float-input-invalid"
+                type="email"
+                pInputText
+                class="ng-dirty font-bold"
+              />
+              <label for="float-input-invalid "
+                >Correo electronico <span class="text-red-600">*</span></label
+              >
+            </span>
+          </div>
+          <div class="p-inputgroup w-full mt-5">
+            <span class="p-float-label">
+              <input
+                id="float-input-invalid"
+                type="password"
+                pInputText
+                class="ng-dirty font-bold"
+              />
+              <label for="float-input-invalid"
+                >Contraseña <span class="text-red-600">*</span></label
+              >
+            </span>
+          </div>
+          <div class="w-full text-center mt-5">
+            <span>he olvidado mi </span> <a href="">contraseña</a>
+          </div>
+          <div class="text-center mt-5">
+            <button pButton type="button" label="Iniciar sesion"></button>
+          </div>
+          <div class="w-full text-center mt-5 register">
+            <a href="">!Registrate gratis!</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
