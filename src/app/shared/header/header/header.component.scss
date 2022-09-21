@@ -1,0 +1,7 @@
+@import "../../../../assets/scss/global.scss";
+.header {
+  height: 71px;
+  @include box-shadow($primary-color);
+  color: $light-color;
+  padding-left: 22px;
+}
