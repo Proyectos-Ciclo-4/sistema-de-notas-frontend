@@ -6,14 +6,15 @@ $error-color: #fa3007;
 $success-color: #15a14d;
 $font-color: #302f32a8;
 $dark-color: #121111;
-$background-color : #F0F0F0;
+$background-color: #f0f0f0;
 
+$text-color: #302f32a8;
 
 $font-size-one: 15px;
 $font-size-two: 18px;
 
 @mixin box-shadow($color) {
-  background: $color  0% no-repeat padding-box;
+  background: $color 0% no-repeat padding-box;
   border: 1px solid #70707042;
   border-radius: 20px;
   opacity: 1;
