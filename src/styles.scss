@@ -1,7 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/scss/global.scss";
 
+*{
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
 body {
   font-family: var(--font-family);
   color: $font-color;
+}
+
+.container {
+  width: 100vw;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+a {
+  color: $color-button;
+  font-weight: bold;
 }
