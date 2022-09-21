@@ -1,18 +1,24 @@
-<div class="conatiner">
+<div class="container">
   <app-header></app-header>
-  <div class="grid flex justify-content-center mt-5">
+  <div class="grid flex justify-content-center m-0 mt-5 ">
     <div class="col-12 md:col-6 xl:col-4">
       <div class="card-login p-5">
-        <form class="login-form pt-5">
+        <form
+          class="login-form pt-5"
+          [formGroup]="formLogin"
+          (submit)="login()"
+        >
           <div class="p-inputgroup w-full">
             <span class="p-float-label">
               <input
-                id="float-input-invalid"
+                formControlName="email"
+                id="float-input-email"
                 type="email"
                 pInputText
                 class="ng-dirty font-bold"
+                autocomplete="off"
               />
-              <label for="float-input-invalid "
+              <label for="float-input-email "
                 >Correo electronico <span class="text-red-600">*</span></label
               >
             </span>
@@ -20,21 +26,28 @@
           <div class="p-inputgroup w-full mt-5">
             <span class="p-float-label">
               <input
-                id="float-input-invalid"
+                formControlName="password"
+                id="float-input-password"
                 type="password"
                 pInputText
                 class="ng-dirty font-bold"
               />
-              <label for="float-input-invalid"
+              <label for="float-input-password"
                 >Contraseña <span class="text-red-600">*</span></label
               >
             </span>
           </div>
           <div class="w-full text-center mt-5">
-            <span>he olvidado mi </span> <a href="">contraseña</a>
+            <span>he olvidado mi </span>
+            <span (click)="resetPassword()" class="underline">contraseña</span>
           </div>
           <div class="text-center mt-5">
-            <button pButton type="button" label="Iniciar sesion"></button>
+            <button
+              [disabled]="!formLogin.valid"
+              pButton
+              type="submit"
+              label="Iniciar sesion"
+            ></button>
           </div>
           <div class="w-full text-center mt-5 register">
             <a href="">!Registrate gratis!</a>
