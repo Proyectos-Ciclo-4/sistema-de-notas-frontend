@@ -4,4 +4,8 @@
   @include box-shadow($primary-color);
   color: $light-color;
   padding-left: 22px;
+  img{
+    display: flex;
+    height: 100%;
+  }
 }
