@@ -1,15 +1,16 @@
 @import "../../../../assets/scss/global.scss";
 
-input {
-  background-color: $background-color;
-  color: $text-color;
-  border-top: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  height: 52px;
-  font-weight: bold;
+form {
+  input {
+    background-color: $background-color;
+    color: $text-color;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    height: 52px;
+    font-weight: bold;
+  }
+  label {
+    background-color: $background-color;
+  }
 }
-label {
-  background-color: $background-color;
-}
-
