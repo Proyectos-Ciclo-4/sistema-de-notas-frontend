@@ -1,0 +1,19 @@
+<form (ngSubmit)="search($event)" autocomplete="off" class="grid m-0">
+  <div class="p-inputgroup col-12 mt-3">
+    <span class="p-float-label p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input
+        [(ngModel)]="term"
+        required="true"
+        name="term"
+        id="float-input-search"
+        type="text"
+        pInputText
+        class="font-bold"
+        autocomplete="off"
+        (input)="pressKey($event)"
+      />
+      <label for="float-input-search ">{{ placeHolder }}</label>
+    </span>
+  </div>
+</form>
