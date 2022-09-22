@@ -5,9 +5,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { SofkaNoteComponent } from './sofka-note.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderTitleComponent } from './shared/header-title/header-title.component';
+import { TopicFormComponent } from './components/topic-form/topic-form.component';
+
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { HeaderTitleComponent } from './shared/header-title/header-title.compone
     SofkaNoteComponent,
     SearchInputComponent,
     HeaderTitleComponent,
+    TopicFormComponent,
+
   ],
   imports: [
     CommonModule,
@@ -22,6 +26,7 @@ import { HeaderTitleComponent } from './shared/header-title/header-title.compone
     SharedModule,
     FormsModule,
     PrimeNgModule,
+    ReactiveFormsModule
   ],
 })
 export class SofkaNoteModule {}

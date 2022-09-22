@@ -1,0 +1,29 @@
+<form
+  class="topic-form grid m-0 mt-2"
+  [formGroup]="formTopic"
+  (submit)="formTopic.valid && createTopic()"
+>
+  <div class="flex w-full">
+    <div class="p-inputgroup px-2">
+      <span class="p-float-label">
+        <input
+          required="true"
+          formControlName="topic"
+          id="float-input-topic"
+          type="text"
+          pInputText
+          class="font-bold"
+          autocomplete="off"
+        />
+        <label for="float-input-topic "
+          >Tema <span class="text-red-600">*</span></label
+        >
+      </span>
+    </div>
+    <div class="btn-container-add">
+      <button class="add-icon">
+        <i class="pi pi-plus"></i>
+      </button>
+    </div>
+  </div>
+</form>
