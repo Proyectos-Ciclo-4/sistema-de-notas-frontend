@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '@angular/fire/auth';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 
 @Component({
@@ -7,18 +10,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  faEnvelope = faEnvelope;
 
+  currentUser!: User | null;
 
-
-
-  constructor() {
-
-
-
+  constructor(private authservice: AuthService) {
+    this.currentUser = this.authservice.currentUser();
   }
 
   ngOnInit(): void {}
-
-
-
 }

@@ -33,7 +33,7 @@ export class AuthService {
 
   logout() {
     return signOut(this.auth$);
-    
+
   }
 
   register({ email, password }: LoginModel): Promise<UserCredential> {
@@ -55,5 +55,9 @@ export class AuthService {
   createUser(user: UserModel) {
     const userRef = doc(this.refCollectionUser, user.uid);
     return setDoc(userRef, user);
+  }
+
+  currentUser(){
+    return this.auth$.currentUser;
   }
 }
