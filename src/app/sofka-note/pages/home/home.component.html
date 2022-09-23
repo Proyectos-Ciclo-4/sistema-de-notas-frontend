@@ -1,1 +1,82 @@
+<p-tabView>
+  <!-- START SECTION MIS ESTUDIANTES -->
 
+  <p-tabPanel header="Mis estudiantes" [headerStyle]="headerStyle">
+    Content 1
+  </p-tabPanel>
+  <!-- END SECTION MIS ESTUDIANTES -->
+
+  <!-- START SECTION CREAR -->
+  <p-tabPanel [selected]="true" header="Crear" [headerStyle]="headerStyle">
+    <!-- START SECTION REGISTAR CURSOS Y TAREAS -->
+    <div class="card-teacher p-1 pb-5">
+      <app-header-title
+        (showAccordion)="showAccordion($event)"
+        [show]="showCreateCourse"
+        title="Registrar mis cursos y temas"
+      ></app-header-title>
+      <div *ngIf="showCreateCourse" class="scalein animation-duration-1000">
+        <div class="flex justify-content-center align-items-center">
+          <div class="w-full">
+            <app-search-input
+              placeHolder="Curso"
+              (onDebunce)="courseSuggestions($event)"
+              [term]="termSearch"
+            ></app-search-input>
+            <div class="relative">
+              <ul
+                *ngIf="showSuggestion"
+                class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
+              >
+                <li
+                  (click)="selectCourse(course)"
+                  class="mt-1"
+                  *ngFor="let course of courses"
+                >
+                  {{ course.titulo }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="add-container-icon px-5">
+            <div class="add-icon" (click)="createCourse()">
+              <i class="pi pi-plus"></i>
+            </div>
+          </div>
+        </div>
+        <app-topic-form [course]="course ? course : null"></app-topic-form>
+      </div>
+
+      <!-- END SECTION REGISTAR CURSOS Y TAREAS -->
+
+      <!-- START SECTION ASIGNAR TAREAS -->
+      <div class="mt-5">
+        <app-header-title
+          (showAccordion)="showAccordion($event)"
+          [show]="showTask"
+          title="Asignar tareas"
+        ></app-header-title>
+      </div>
+      <div *ngIf="showTask" class="scalein animation-duration-1000">
+
+        <app-assign-task></app-assign-task>
+      </div>
+
+
+      <!-- END SECTION ASIGNAR TAREAS -->
+    </div>
+  </p-tabPanel>
+  <!-- END SECTION CREAR -->
+
+  <!-- START SECTION HISTORICOS -->
+  <p-tabPanel header="Históricos" [headerStyle]="headerStyle">
+    Content 3
+  </p-tabPanel>
+  <!-- END SECTION HISTORICOS -->
+</p-tabView>
+
+<app-modal-form
+  header="Crear curso"
+  [displayModal]="showDialog"
+  (closeModal)="closeModal($event)"
+></app-modal-form>
