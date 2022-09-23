@@ -1,0 +1,126 @@
+<div class="grid m-0">
+  <div class="col-6">
+    <app-search-input
+      placeHolder="Curso"
+      (onDebunce)="courseSuggestions($event)"
+      [term]="termSearch"
+    ></app-search-input>
+    <div class="relative">
+      <ul
+        *ngIf="showSuggestion"
+        class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
+      >
+        <li
+          (click)="selectCourse(course)"
+          class="mt-1"
+          *ngFor="let course of courses"
+        >
+          {{ course.titulo }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="p-inputgroup col-12 xl:col-6 mt-3 w-full">
+      <span class="p-float-label w-full">
+        <p-dropdown
+          [style]="{
+            minWidth: '100%',
+            backgroundColor: '#f0f0f0',
+            border: 'none',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.38)'
+          }"
+          inputId="topic-dropdown"
+          [options]="topics"
+          optionLabel="titulo"
+          placeholder="Tipo de Identificación"
+          [autoDisplayFirst]="false"
+          [(ngModel)] = "topic"
+        ></p-dropdown>
+        <label for="topic-dropdown"
+          >Tema <span class="text-red-600">*</span></label
+        >
+      </span>
+    </div>
+  </div>
+  <div class="col-12">
+    <form [formGroup]="formTopic" (submit)="submitForm()">
+      <div class="grid m-0">
+        <div class="p-inputgroup col-6">
+          <span class="p-float-label">
+            <input
+              formControlName="titulo"
+              id="float-input-title"
+              type="text"
+              pInputText
+              class="font-bold"
+              autocomplete="off"
+            />
+            <label for="float-input-title "
+              >Titulo de la tarea<span class="text-red-600">*</span></label
+            >
+          </span>
+        </div>
+        <div class="p-inputgroup col-3 flex flex-column">
+          <span class="p-float-label">
+            <input
+              formControlName="orden"
+              id="float-input-order"
+              type="number"
+              pInputText
+              class="font-bold"
+              autocomplete="off"
+            />
+            <label for="float-input-title "
+              >Orden<span class="text-red-600">*</span></label
+            >
+          </span>
+          <small id="float-input-password-help" class="p-error block">{{
+            formTopic.get("orden")?.getError("invalidOrder")
+          }}</small>
+        </div>
+        <div class="p-inputgroup col-3">
+          <span class="p-float-label">
+            <input
+              formControlName="fecha"
+              id="float-input-date"
+              type="date"
+              pInputText
+              class="font-bold"
+              autocomplete="off"
+              [defaultValue]="today"
+              [min]="today"
+            />
+            <label for="float-input-date "
+              >Fecha<span class="text-red-600">*</span></label
+            >
+          </span>
+        </div>
+        <div class="p-inputgroup col-12">
+          <span class="p-float-label w-full">
+            <input
+              formControlName="descripcion"
+              id="float-input-description"
+              type="text"
+              pInputText
+              class="font-bold w-full"
+              autocomplete="off"
+            />
+            <label for="float-input-description "
+              >Descripción<span class="text-red-600">*</span></label
+            >
+          </span>
+        </div>
+        <div class="w-full flex justify-content-end mt-5">
+          <button [disabled]="!formTopic.valid || !course || !topic" class="mr-2" pButton type="submit" label="Guardar"></button>
+          <button
+            pButton
+            type="button"
+            label="cancelar"
+            class="p-button-danger"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
