@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@angular/fire/auth';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { UserModel } from 'src/app/auth/interface/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
-
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +12,13 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class NavbarComponent implements OnInit {
   faEnvelope = faEnvelope;
 
-  currentUser!: User | null;
+  currentLogin!: UserModel;
 
-  constructor(private authservice: AuthService) {
-    this.currentUser = this.authservice.currentUser();
+  constructor(private authservice: AuthService) {}
+
+  ngOnInit(): void {
+    this.authservice.currentUser().subscribe((user) => {
+      this.currentLogin = user[0];
+    });
   }
-
-  ngOnInit(): void {}
 }
