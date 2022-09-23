@@ -1,0 +1,49 @@
+<form
+  class="topic-form grid m-0 mt-2"
+  [formGroup]="formTopic"
+  (submit)="formTopic.valid && course && createTopic()"
+>
+  <div class="grid m-0"></div>
+  <div class="flex w-full">
+    <div class="p-inputgroup px-2">
+      <span class="p-float-label">
+        <input
+          required="true"
+          formControlName="topic"
+          id="float-input-topic"
+          type="text"
+          pInputText
+          class="font-bold"
+          autocomplete="off"
+        />
+        <label for="float-input-topic "
+          >Tema <span class="text-red-600">*</span></label
+        >
+      </span>
+    </div>
+    <div class="p-inputgroup px-2 flex flex-column" style="max-width: 250px;">
+      <span class="p-float-label">
+        <input
+          required="true"
+          formControlName="order"
+          id="float-input-order"
+          type="number"
+          pInputText
+          class="font-bold"
+          autocomplete="off"
+        />
+        <label for="float-input-order"
+          >Orden <span class="text-red-600">*</span></label
+        >
+      </span>
+      <small id="float-input-password-help" class="p-error block">{{
+        formTopic.get("order")?.getError("invalidOrder")
+      }}</small>
+    </div>
+    <div class="btn-container-add mx-5">
+      <button [disabled]="!formTopic.valid || !course" class="add-icon">
+        <i class="pi pi-plus"></i>
+      </button>
+    </div>
+  </div>
+</form>

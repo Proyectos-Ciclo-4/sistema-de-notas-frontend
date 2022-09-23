@@ -6,7 +6,11 @@ import {
   collection,
   Firestore,
   doc,
-  setDoc
+  setDoc,
+  getDoc,
+  collectionData,
+  where,
+  query,
 } from '@angular/fire/firestore';
 
 import {
@@ -17,6 +21,7 @@ import {
   updateProfile,
   User,
 } from '@firebase/auth';
+import { Observable } from 'rxjs';
 import { LoginModel } from '../interface/Login.model';
 import { UserModel } from '../interface/user.model';
 
@@ -33,7 +38,6 @@ export class AuthService {
 
   logout() {
     return signOut(this.auth$);
-    
   }
 
   register({ email, password }: LoginModel): Promise<UserCredential> {
@@ -55,5 +59,21 @@ export class AuthService {
   createUser(user: UserModel) {
     const userRef = doc(this.refCollectionUser, user.uid);
     return setDoc(userRef, user);
+  }
+
+  AllUsers() {
+    let users = collectionData(this.refCollectionUser);
+
+    return users;
+  }
+
+  currentUser() {
+    const queryUser = query(
+      this.refCollectionUser,
+      where('uid', '==', this.auth$.currentUser?.uid)
+    );
+    return collectionData(queryUser, { idField: 'uid' }) as Observable<
+      UserModel[]
+    >;
   }
 }

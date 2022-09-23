@@ -1,0 +1,10 @@
+@import "../../../../assets/scss/global.scss";
+
+.header-title {
+  @include box-shadow($secondary-color);
+  background-color: $secondary-color;
+  color: $light-color;
+  border-radius: 6px;
+  min-height: 6px;
+  cursor: pointer;
+}

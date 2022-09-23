@@ -1,0 +1,26 @@
+@import "../../../../assets/scss/global.scss";
+
+.header-list {
+  width: 33.33%;
+  display: flex;
+  justify-content: center;
+}
+
+.add-icon {
+  background-color: $color-button;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: grid;
+  place-items: center;
+  i {
+    cursor: pointer;
+    color: $light-color;
+    font-weight: bold;
+    font-size: $font-size-two;
+  }
+}
+
+.card-teacher {
+  @include box-shadow-card($light-color);
+}

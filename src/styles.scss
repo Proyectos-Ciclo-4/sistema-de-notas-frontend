@@ -22,3 +22,17 @@ a {
   color: $color-button;
   font-weight: bold;
 }
+
+
+
+.suggestion {
+  list-style: none;
+  background-color: $light-color;
+  li {
+    padding: 1rem 1rem 0px 1rem;
+    border-bottom: 1px solid $hover-color;
+  }
+  li:hover {
+    background-color: $hover-color;
+  }
+}
