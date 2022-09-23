@@ -34,8 +34,8 @@ export class TopicFormComponent implements OnInit {
     const messageBotton = 'Crear';
     this.swal$.confirmationPopup(title, text, messageBotton).then((result) => {
       if (result.isConfirmed) {
-       this.swal$.succesMessage("Tema creado con éxito")
+        this.swal$.succesMessage('Tema creado con éxito');
       }
-    })
+    });
   }
 }
