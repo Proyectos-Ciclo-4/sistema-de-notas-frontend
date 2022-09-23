@@ -1,0 +1,26 @@
+<div class="navbar flex align-items-center">
+  <div class="cont-info">
+    <h3>{{ currentLogin.name }} - {{ currentLogin.rol }}</h3>
+  </div>
+  <div class="cont-icons flex justify-content-end">
+    <div class="icons">
+      <i class="text-lg pi pi-envelope"></i>
+    </div>
+    <div class="icons">
+      <button
+        class="text-lg"
+        #btn
+        type="button"
+        pButton
+        icon="pi pi-user"
+        (click)="menu.toggle($event)"
+      ></button>
+      <p-slideMenu
+        #menu
+        [model]="items"
+        [popup]="true"
+        [viewportHeight]="100"
+      ></p-slideMenu>
+    </div>
+  </div>
+</div>
