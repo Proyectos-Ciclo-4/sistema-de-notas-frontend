@@ -10,6 +10,7 @@ import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderTitleComponent } from './shared/header-title/header-title.component';
 import { TopicFormComponent } from './components/topic-form/topic-form.component';
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
+import { AssignTaskComponent } from './components/assign-task/assign-task.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { ModalFormComponent } from './components/modal-form/modal-form.component
     HeaderTitleComponent,
     TopicFormComponent,
     ModalFormComponent,
+    AssignTaskComponent,
 
   ],
   imports: [
