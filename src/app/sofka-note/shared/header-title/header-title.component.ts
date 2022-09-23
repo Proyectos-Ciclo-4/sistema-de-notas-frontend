@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-header-title',
@@ -7,8 +7,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HeaderTitleComponent implements OnInit {
   @Input('title') title: string = '';
+  @Input('show') show: boolean = false;
+  @Output() showAccordion: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  showAccordionEmiter() {
+    this.showAccordion.emit(!this.show);
+  }
 }
