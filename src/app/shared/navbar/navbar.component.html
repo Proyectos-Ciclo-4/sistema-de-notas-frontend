@@ -3,9 +3,24 @@
     <h3>{{ currentLogin.name }} - {{ currentLogin.rol }}</h3>
   </div>
   <div class="cont-icons flex justify-content-end">
-    <i class="icons pi pi-envelope"></i>
-    <button>
-      <i class="icons pi pi-user"></i>
-    </button>
+    <div class="icons">
+      <i class="pi pi-envelope"></i>
+    </div>
+    <div class="icons">
+      <button
+        class=""
+        #btn
+        type="button"
+        pButton
+        icon="pi pi-user"
+        (click)="menu.toggle($event)"
+      ></button>
+      <p-slideMenu
+        #menu
+        [model]="items"
+        [popup]="true"
+        [viewportHeight]="210"
+      ></p-slideMenu>
+    </div>
   </div>
 </div>
