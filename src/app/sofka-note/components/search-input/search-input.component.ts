@@ -7,12 +7,13 @@ import { debounceTime, Subject } from 'rxjs';
   styleUrls: ['./search-input.component.scss'],
 })
 export class SearchInputComponent implements OnInit {
-  term: string = '';
-
+  
+  // term: string = ''
   @Output() onDebunce: EventEmitter<string> = new EventEmitter();
   @Output() onEnter: EventEmitter<string> = new EventEmitter();
 
   @Input() placeHolder: string = 'generic';
+  @Input() term: string = ''
 
   deBouncer: Subject<string> = new Subject();
 
