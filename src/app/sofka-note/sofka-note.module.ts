@@ -11,6 +11,7 @@ import { HeaderTitleComponent } from './shared/header-title/header-title.compone
 import { TopicFormComponent } from './components/topic-form/topic-form.component';
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
 import { AssignTaskComponent } from './components/assign-task/assign-task.component';
+import { HomeStudentComponent } from './pages/home-student/home-student.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { AssignTaskComponent } from './components/assign-task/assign-task.compon
     TopicFormComponent,
     ModalFormComponent,
     AssignTaskComponent,
+    HomeStudentComponent,
 
   ],
   imports: [
