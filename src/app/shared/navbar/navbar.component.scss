@@ -1,25 +1,23 @@
 @import "../../../assets/scss/global.scss";
 
-.navbar{
+.navbar {
   width: 100%;
   height: 71px;
   @include box-shadow($primary-color);
   color: $light-color;
   padding-left: 22px;
+  border-radius: 10px;
 }
 
-.cont-info{
+.cont-info {
   width: 70%;
 }
 
-.cont-icons{
-
+.cont-icons {
   width: 30%;
 }
 
-.icons{
-  font-size:1.6rem;
+.icons {
+  font-size: 1.6rem;
   margin-right: 1.5rem;
 }
-
-
