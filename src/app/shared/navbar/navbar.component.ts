@@ -19,7 +19,6 @@ import { SweetalertService } from '../service/sweetalert.service';
     `,
   ],
 })
-
 export class NavbarComponent implements OnInit {
   currentLogin!: UserModel;
   items!: MenuItem[];
@@ -36,9 +35,6 @@ export class NavbarComponent implements OnInit {
     });
 
     this.items = [
-      { label: 'Perfil', icon: 'pi pi-user-edit' },
-      { label: 'Configuración', icon: 'pi pi-pencil' },
-      { separator: true },
       {
         label: 'Logout',
         icon: 'pi pi-power-off',
@@ -49,12 +45,17 @@ export class NavbarComponent implements OnInit {
     ];
   }
 
-
   logout() {
-    this.authservice.logout().then(() => {
-      this.swal$.succesMessage('Sesión cerrada correctamente').then(() => {
-        this.router.navigate(['/auth/login']);
-      });
+    const title = 'Estas seguro de salir?';
+    const text = 'Para ingresar deberás iniciar sesión nuevamente!';
+    const btnMessage = 'Si, salir';
+    this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
+      if (result.isConfirmed) {
+        this.swal$.succesMessage('Sesión cerrada exitosamente');
+        this.authservice.logout().then(() => {
+          this.router.navigate(['/']);
+        });
+      }
     });
   }
 }
