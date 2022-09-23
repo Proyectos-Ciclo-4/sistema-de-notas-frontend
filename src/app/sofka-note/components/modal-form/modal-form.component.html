@@ -1,0 +1,53 @@
+<p-dialog
+  [header]="header"
+  [(visible)]="displayModal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="0.5"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+>
+  <form
+    class="login-form pt-5"
+    [formGroup]="formCreateCourse"
+    (submit)="formCreateCourse.valid && submitForm()"
+  >
+    <div class="p-inputgroup w-full flex flex-column">
+      <span class="p-float-label">
+        <input
+          formControlName="title"
+          id="float-input-title"
+          type="title"
+          pInputText
+          class="font-bold"
+          autocomplete="off"
+        />
+        <label for="float-input-title "
+          >Curso <span class="text-red-600">*</span></label
+        >
+      </span>
+      <small id="float-input-title-help font-bold" class="p-error block"
+        >Una vez guardado el curso no se podrá editar o eliminar</small
+      >
+    </div>
+    <div class="w-full flex justify-content-end mt-5">
+      <button
+        [disabled]="!formCreateCourse.valid"
+        class="mr-2"
+        pButton
+        type="submit"
+        label="Guardar"
+      ></button>
+      <button
+        pButton
+        pRipple
+        (click)="closeModalEmmiter()"
+        type="button"
+        label="Cancelar"
+        class="p-button-danger"
+      ></button>
+    </div>
+  </form>
+  <ng-template pTemplate="footer"> </ng-template>
+</p-dialog>
