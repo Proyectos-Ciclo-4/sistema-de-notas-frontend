@@ -1,7 +1,7 @@
 <form
   class="topic-form grid m-0 mt-2"
   [formGroup]="formTopic"
-  (submit)="formTopic.valid && createTopic()"
+  (submit)="(formTopic.valid && course) && createTopic()"
 >
   <div class="flex w-full">
     <div class="p-inputgroup px-2">
@@ -20,7 +20,7 @@
         >
       </span>
     </div>
-    <div class="btn-container-add">
+    <div class="btn-container-add mx-5">
       <button class="add-icon">
         <i class="pi pi-plus"></i>
       </button>

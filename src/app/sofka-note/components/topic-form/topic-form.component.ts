@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { CourseModel } from '../../interfaces/course.model';
+import { SweetalertService } from '../../../shared/service/sweetalert.service';
 
 @Component({
   selector: 'app-topic-form',
@@ -9,9 +11,9 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 export class TopicFormComponent implements OnInit {
   formTopic: FormGroup;
 
-  @Input('course') course: any;
+  @Input('course') course: CourseModel | null = null;
 
-  constructor() {
+  constructor(private swal$: SweetalertService) {
     this.formTopic = this.createForm();
   }
 
@@ -19,11 +21,21 @@ export class TopicFormComponent implements OnInit {
 
   private createForm() {
     return new FormGroup({
-      topic: new FormControl('', [Validators.required,Validators.maxLength(200)]),
+      topic: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(200),
+      ]),
     });
   }
 
   createTopic() {
-    console.log(this.formTopic);
+    const title = '¿Estas seguro de crear el tema?';
+    const text = '¡No podrás revertir esto!';
+    const messageBotton = 'Crear';
+    this.swal$.confirmationPopup(title, text, messageBotton).then((result) => {
+      if (result.isConfirmed) {
+       this.swal$.succesMessage("Tema creado con éxito")
+      }
+    })
   }
 }
