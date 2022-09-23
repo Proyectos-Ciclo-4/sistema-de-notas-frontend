@@ -1,6 +1,9 @@
 <div class="navbar flex align-items-center">
   <div class="cont-info">
-    <h3>{{ currentLogin.name }} - {{ currentLogin.rol }}</h3>
+    <h3>
+      {{ currentLogin && currentLogin.name }} -
+      {{ currentLogin && currentLogin.rol }}
+    </h3>
   </div>
   <div class="cont-icons flex justify-content-end">
     <div class="icons">
@@ -19,7 +22,7 @@
         #menu
         [model]="items"
         [popup]="true"
-        [viewportHeight]="100"
+        [viewportHeight]="105"
       ></p-slideMenu>
     </div>
   </div>

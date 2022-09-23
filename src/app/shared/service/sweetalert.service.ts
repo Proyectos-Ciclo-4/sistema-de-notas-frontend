@@ -69,17 +69,4 @@ export class SweetalertService {
     });
   }
 
-  confirmationPopup(title:string, text: string, messageButton: string){
-    return Swal.fire({
-      title: title,
-      text: text,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: messageButton
-    })
-  }
-
-
 }

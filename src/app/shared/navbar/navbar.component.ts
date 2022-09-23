@@ -11,13 +11,6 @@ import { SweetalertService } from '../service/sweetalert.service';
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  styles: [
-    `
-      :host ::ng-deep .ui-slidemenu {
-        width: 13.5em;
-      }
-    `,
-  ],
 })
 export class NavbarComponent implements OnInit {
   currentLogin!: UserModel;
