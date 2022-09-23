@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
 import { HeaderTitleComponent } from './shared/header-title/header-title.component';
 import { TopicFormComponent } from './components/topic-form/topic-form.component';
+import { ModalFormComponent } from './components/modal-form/modal-form.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TopicFormComponent } from './components/topic-form/topic-form.component
     SearchInputComponent,
     HeaderTitleComponent,
     TopicFormComponent,
+    ModalFormComponent,
 
   ],
   imports: [
