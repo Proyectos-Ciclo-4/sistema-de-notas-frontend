@@ -1,8 +1,10 @@
+import { TaskModel } from "./task.model";
+
 export interface TopicModel {
-  temaID: string,
-  orden: number;
-  titulo: string;
-  fecha?: string;
-  descripcion?: string;
-  tareasID?: string[];
+
+  temaID:  string;
+  cursoID: string;
+  titulo:  string;
+  orden:   number;
+  tareas:  TaskModel[];
 }

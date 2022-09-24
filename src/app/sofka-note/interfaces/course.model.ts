@@ -1,7 +1,8 @@
 import { TopicModel } from './topic.model';
 
 export interface CourseModel {
-  cursoID: string;
-  titulo: string;
-  temas?: TopicModel[];
+  _id:        string;
+  titulo:     string;
+  profesorID: string;
+  temas:      TopicModel[];
 }
