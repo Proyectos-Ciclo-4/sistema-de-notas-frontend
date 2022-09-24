@@ -12,7 +12,8 @@ import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { TreeTableModule } from 'primeng/treetable';
 import { TreeModule } from 'primeng/tree';
-
+import {TableModule} from 'primeng/table';
+import {FileUploadModule} from 'primeng/fileupload';
 @NgModule({
   declarations: [],
   exports: [
@@ -27,6 +28,8 @@ import { TreeModule } from 'primeng/tree';
     ToastModule,
     TreeTableModule,
     TreeModule,
+    TableModule,
+    FileUploadModule
   ],
 })
 export class PrimeNgModule {}

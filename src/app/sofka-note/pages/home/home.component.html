@@ -2,14 +2,16 @@
   <!-- START SECTION MIS ESTUDIANTES -->
 
   <p-tabPanel header="Mis estudiantes" [headerStyle]="headerStyle">
-    Content 1
+    <div class="card-custom p-1 pb-5">
+      <app-table-students></app-table-students>
+    </div>
   </p-tabPanel>
   <!-- END SECTION MIS ESTUDIANTES -->
 
   <!-- START SECTION CREAR -->
   <p-tabPanel [selected]="true" header="Crear" [headerStyle]="headerStyle">
     <!-- START SECTION REGISTAR CURSOS Y TAREAS -->
-    <div class="card-teacher p-1 pb-5">
+    <div class="card-custom p-1 pb-5">
       <app-header-title
         (showAccordion)="showAccordion($event)"
         [show]="showCreateCourse"
@@ -68,13 +70,12 @@
 
   <!-- START SECTION HISTORICOS -->
   <p-tabPanel header="Históricos" [headerStyle]="headerStyle">
-    <div class="card-teacher p-1 pb-5">
+    <div class="card-custom p-1 pb-5">
       <app-header-title
         title="Mis cursos, temarios y tareas"
       ></app-header-title>
       <app-history-courses></app-history-courses>
     </div>
-    
   </p-tabPanel>
   <!-- END SECTION HISTORICOS -->
 </p-tabView>

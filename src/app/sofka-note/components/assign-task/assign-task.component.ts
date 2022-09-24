@@ -93,6 +93,6 @@ export class AssignTaskComponent implements OnInit {
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
-    this.topics = this.api$.getTopic(this.course.cursoID);
+    this.topics = this.api$.getTopic(this.course._id);
   }
 }
