@@ -36,3 +36,7 @@ a {
     background-color: $hover-color;
   }
 }
+
+.card-custom {
+  @include box-shadow-card($light-color);
+}
