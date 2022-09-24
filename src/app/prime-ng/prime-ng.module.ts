@@ -10,8 +10,8 @@ import { SlideMenuModule } from 'primeng/slidemenu';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
-
-
+import { TreeTableModule } from 'primeng/treetable';
+import { TreeModule } from 'primeng/tree';
 
 @NgModule({
   declarations: [],
@@ -25,6 +25,8 @@ import { DialogModule } from 'primeng/dialog';
     SlideMenuModule,
     SplitButtonModule,
     ToastModule,
+    TreeTableModule,
+    TreeModule,
   ],
 })
 export class PrimeNgModule {}
