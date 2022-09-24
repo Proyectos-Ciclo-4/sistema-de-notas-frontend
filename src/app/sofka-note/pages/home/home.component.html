@@ -58,10 +58,8 @@
         ></app-header-title>
       </div>
       <div *ngIf="showTask" class="scalein animation-duration-1000">
-
         <app-assign-task></app-assign-task>
       </div>
-
 
       <!-- END SECTION ASIGNAR TAREAS -->
     </div>
@@ -70,7 +68,13 @@
 
   <!-- START SECTION HISTORICOS -->
   <p-tabPanel header="Históricos" [headerStyle]="headerStyle">
-    Content 3
+    <div class="card-teacher p-1 pb-5">
+      <app-header-title
+        title="Mis cursos, temarios y tareas"
+      ></app-header-title>
+      <app-history-courses></app-history-courses>
+    </div>
+    
   </p-tabPanel>
   <!-- END SECTION HISTORICOS -->
 </p-tabView>

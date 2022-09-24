@@ -1,0 +1,49 @@
+<app-search-input
+  placeHolder="Curso"
+  (onDebunce)="courseSuggestions($event)"
+  [term]="termSearch"
+></app-search-input>
+<div class="relative">
+  <ul
+    *ngIf="showSuggestion"
+    class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
+  >
+    <li
+      (click)="selectCourse(course)"
+      class="mt-1"
+      *ngFor="let course of courses"
+    >
+      {{ course.titulo }}
+    </li>
+  </ul>
+</div>
+<app-header-title></app-header-title>
+<p-treeTable [value]="files" [columns]="cols"  [paginator]="true" [rows]="5">
+  <ng-template pTemplate="header" let-columns cente>
+    <tr >
+      <th class="text-center" *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
+      <th class="text-center" style="width: 8rem">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowNode
+    let-rowData="rowData"
+    let-columns="columns"
+  >
+    <tr>
+      <td *ngFor="let col of columns; let i = index">
+        <p-treeTableToggler
+          [rowNode]="rowNode"
+          *ngIf="i == 0"
+        ></p-treeTableToggler>
+        {{ rowData[col.field] }}
+      </td>
+      <td class="text-center">
+        <p-button (onClick)="deleteItem(rowData)" icon="pi pi-trash" styleClass="p-button-danger"></p-button>
+      </td>
+    </tr>
+  </ng-template>
+</p-treeTable>
