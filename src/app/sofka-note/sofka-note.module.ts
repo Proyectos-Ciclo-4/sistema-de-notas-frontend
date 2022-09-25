@@ -16,7 +16,7 @@ import { HistoryCoursesComponent } from './components/history-courses/history-co
 import { TableStudentsComponent } from './components/table-students/table-students.component';
 import { DeliveryTaskComponent } from './components/delivery-task/delivery-task.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MySuscriptionsComponent } from './component/my-suscriptions/my-suscriptions.component';
+import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscriptions.component';
 
 @NgModule({
   declarations: [
