@@ -12,6 +12,7 @@ export class ApiServiceService {
   private courses: CourseModel[];
   private topics: any[];
   private deliveries: any[];
+  private inscriptions: any[];
 
   constructor(private storage: Storage) {
     this.courses = [...data] as CourseModel[];
@@ -47,6 +48,25 @@ export class ApiServiceService {
         estado: true,
       },
     ];
+
+    this.inscriptions = [
+      {
+        curso: 'Curso # 1',
+        fecha: '22/09/2022',
+      },
+      {
+        curso: 'Curso # 2',
+        fecha: '22/09/2022',
+      },
+      {
+        curso: 'Curso # 3',
+        fecha: '22/09/2022',
+      },
+      {
+        curso: 'Curso # 4',
+        fecha: '22/09/2022',
+      },
+    ];
   }
 
   searchCourse(term: string) {
@@ -61,8 +81,12 @@ export class ApiServiceService {
     return this.deliveries;
   }
 
-  uploapFile(file: any,name:string) {
+  uploapFile(file: any, name: string) {
     const filesRef = ref(this.storage, `entregas/${name}`);
     return uploadBytes(filesRef, file);
+  }
+
+  getInscriptions(studentid: string, courseId: string) {
+    return this.inscriptions;
   }
 }

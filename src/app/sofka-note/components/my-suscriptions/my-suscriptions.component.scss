@@ -1,0 +1,10 @@
+@import "../../../../assets/scss/global.scss";
+
+tr {
+  th,
+  td {
+    color: $font-color;
+    font-weight: bold;
+  }
+  border-bottom: 1.3px solid $primary-color;
+}
