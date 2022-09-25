@@ -1,0 +1,115 @@
+<div class="grid m-0 flex align-items-center">
+  <div class="col-5">
+    <app-search-input
+      placeHolder="Curso"
+      (onDebunce)="courseSuggestions($event)"
+      [term]="termSearch"
+    ></app-search-input>
+    <div class="relative">
+      <ul
+        *ngIf="showSuggestion"
+        class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
+      >
+        <li
+          (click)="selectCourse(course)"
+          class="mt-1"
+          *ngFor="let course of courses"
+        >
+          {{ course.titulo }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-5">
+    <div class="p-inputgroup col-12 xl:col-6 mt-3 w-full">
+      <span class="p-float-label w-full">
+        <p-dropdown
+          [style]="{
+            minWidth: '100%',
+            backgroundColor: '#f0f0f0',
+            border: 'none',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.38)'
+          }"
+          inputId="topic-dropdown"
+          [options]="topics"
+          optionLabel="titulo"
+          placeholder="Tipo de Identificación"
+          [autoDisplayFirst]="false"
+          [(ngModel)]="topic"
+        ></p-dropdown>
+        <label for="topic-dropdown"
+          >Tema <span class="text-red-600">*</span></label
+        >
+      </span>
+    </div>
+  </div>
+  <div class="col-2">
+    <div class="flex justify-content-evenly">
+      <button
+        [disabled]="!course || !topic"
+        class="mr-2"
+        pButton
+        type="button"
+        label="Buscar"
+        (click)="searchDelivery()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancelar"
+        class="p-button-danger"
+        (click)="clearFilter()"
+      ></button>
+    </div>
+  </div>
+</div>
+
+<div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
+  <h1 class="m-2">Cumplimiento:45%</h1>
+  <app-header-title></app-header-title>
+  <p-table
+    [value]="deliveries"
+    styleClass="p-datatable-striped"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>N°</th>
+        <th>Tarea</th>
+        <th>Limite</th>
+        <th>Estado</th>
+        <th>Entrega</th>
+        <th>Subir arvhivo</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-delivery>
+      <tr>
+        <td>{{ delivery.numero }}</td>
+        <td>{{ delivery.titulo }}</td>
+        <td>{{ delivery.limite }}</td>
+        <td>{{ delivery.estado }}</td>
+        <td>{{ delivery.fechaEntregado }}</td>
+        <td>
+          <div class="flex justify-content-center">
+            <div class="file-upload m-2">
+              <input
+                type="file"
+                (change)="onUpload($event, delivery.tareaID)"
+                class="p-1"
+                id="upload"
+                hidden
+              />
+              <label for="upload"><i class="pi pi-upload"></i></label>
+            </div>
+            <i
+              (click)="saveFile()"
+              *ngIf="idDelivery == delivery.tareaID && file"
+              class="pi pi-check m-2"
+            ></i>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

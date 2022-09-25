@@ -1,1 +1,10 @@
-<p>home-student works!</p>
+<p-tabView class="w-full">
+  <p-tabPanel header="Inscripciones" [headerStyle]="headerStyle">
+    <div class="card-custom p-1 pb-5"></div>
+  </p-tabPanel>
+
+  <p-tabPanel [selected]="true" header="Mis tareas" [headerStyle]="headerStyle">
+       <app-delivery-task></app-delivery-task>
+  
+  </p-tabPanel>
+</p-tabView>
