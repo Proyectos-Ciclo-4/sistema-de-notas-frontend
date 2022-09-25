@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { SofkaNoteComponent } from './sofka-note.component';
 import { HomeStudentComponent } from './pages/home-student/home-student.component';
+import { EstudianteGuard } from './guards/estudiante.guard';
+import { ProfesorGuard } from './guards/profesor.guard';
 
 const routes: Routes = [
   {
@@ -20,11 +22,13 @@ const routes: Routes = [
         path: 'home',
         pathMatch: 'full',
         component: HomeComponent,
+        canActivate: [ProfesorGuard],
       },
       {
         path: 'student',
         pathMatch: 'full',
         component: HomeStudentComponent,
+        canActivate: [EstudianteGuard],
       },
     ],
   },
