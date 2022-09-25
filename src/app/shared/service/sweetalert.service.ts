@@ -18,12 +18,15 @@ export class SweetalertService {
     });
   }
 
-  errorMessage(message = 'Algo salio mal!') {
+  errorMessage(
+    message = 'Algo salio mal!',
+    footer: string = 'Verifica la información ingresada'
+  ) {
     return Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: message,
-      footer: 'Verifica la información ingresada',
+      footer: footer,
     });
   }
 
@@ -68,5 +71,4 @@ export class SweetalertService {
       confirmButtonText: messageButton,
     });
   }
-
 }
