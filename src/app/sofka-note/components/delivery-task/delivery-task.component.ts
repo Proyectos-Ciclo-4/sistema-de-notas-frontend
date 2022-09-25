@@ -22,7 +22,7 @@ export class DeliveryTaskComponent implements OnInit {
   deliveries: any[] = [];
   file: any;
   idDelivery: string = '';
-  validExtension: string[] = ['pdf', 'doc', 'pptx', 'txt', 'xlsx'];
+  validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
 
   constructor(
     private api$: ApiServiceService,
@@ -64,6 +64,7 @@ export class DeliveryTaskComponent implements OnInit {
       this.idDelivery = idDelivery;
       return;
     }
+    this.file = null;
     this.swal$.errorMessage(
       'Extensión invalida',
       `Las extensiones permitidas son: ${this.validExtension}`
@@ -71,18 +72,20 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   saveFile() {
+    //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
     const nameFile = `${v4()}.${this.file.name.split('.').pop()}`;
     const title = 'Estas seguro de realizar la entrega?';
     const text = 'Una vez envia no se podra revertir';
     const btnMessage = 'Si, enviar';
     this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
       if (result.isConfirmed) {
-        this.api$.uploapFile(this.file, nameFile).then((res) => {
-          getDownloadURL(res.ref).then((url) => {
-            console.log(url);
-          });
+        this.api$.uploapFile(this.file, nameFile).then(async (res) => {
+          const url = await getDownloadURL(res.ref);
+          console.log(url);
           this.swal$.succesMessage('Entrega realizada con éxito');
+          this.file = null;
         });
+        this.file = null;
       }
     });
   }
