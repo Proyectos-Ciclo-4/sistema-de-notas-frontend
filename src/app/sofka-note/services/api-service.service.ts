@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CourseCommand } from '../interfaces/commands/courseCommand';
 import { TopicCommand } from '../interfaces/commands/topicCommand';
 import { TaskCommand } from '../interfaces/commands/taskCommand';
-import { EnrollCommand } from '../interfaces/commands/entollCommand';
+import { EnrollCommand } from '../interfaces/commands/enrollCommand';
 
 @Injectable({
   providedIn: 'root',

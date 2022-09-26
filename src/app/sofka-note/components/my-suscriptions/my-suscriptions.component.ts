@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { Auth } from '@angular/fire/auth';
-import { EnrollCommand } from '../../interfaces/commands/entollCommand';
+import { EnrollCommand } from '../../interfaces/commands/enrollCommand';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 
 @Component({

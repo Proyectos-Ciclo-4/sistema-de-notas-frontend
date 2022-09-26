@@ -22,7 +22,8 @@ export class HistoryCoursesComponent implements OnInit {
   cols: any[] = [];
   constructor(
     private api$: ApiServiceService,
-    private swal$: SweetalertService,private auth$:Auth
+    private swal$: SweetalertService,
+    private auth$: Auth
   ) {}
   ngOnInit(): void {
     this.cols = [
@@ -38,12 +39,12 @@ export class HistoryCoursesComponent implements OnInit {
     this.files = [];
     if (termSearch != '') {
       this.api$
-      .searchCourse(termSearch, this.auth$.currentUser?.uid!)
-      .subscribe({
-        next: (res) => {
-          this.courses = res;
-        },
-      });
+        .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+        .subscribe({
+          next: (res) => {
+            this.courses = res;
+          },
+        });
     } else {
       this.courses = [];
     }
@@ -60,17 +61,9 @@ export class HistoryCoursesComponent implements OnInit {
   generateTreeNode(topics: TopicModel[]): TreeNode[] {
     return topics.map(
       ({ temaID, titulo, cursoID, orden, tareas }: TopicModel) => {
-        return {
-          data: {
-            titulo: titulo,
-            tarea: '',
-            porcentaje: '',
-            temaID,
-            cursoID,
-            orden,
-            type: 'delete.topic',
-          },
-          children: [
+        let children: any = [];
+        if (tareas?.length > 0) {
+          children = [
             {
               data: {
                 titulo: 'tareas',
@@ -96,7 +89,19 @@ export class HistoryCoursesComponent implements OnInit {
                 })),
               ],
             },
-          ],
+          ];
+        }
+        return {
+          data: {
+            titulo: titulo,
+            tarea: '',
+            porcentaje: '',
+            temaID,
+            cursoID,
+            orden,
+            type: 'delete.topic',
+          },
+          children,
         };
       }
     );
