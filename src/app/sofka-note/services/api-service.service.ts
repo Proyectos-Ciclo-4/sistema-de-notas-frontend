@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CourseCommand } from '../interfaces/commands/courseCommand';
 import { TopicCommand } from '../interfaces/commands/topicCommand';
 import { TaskCommand } from '../interfaces/commands/taskCommand';
+import { EnrollCommand } from '../interfaces/commands/entollCommand';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,9 @@ import { TaskCommand } from '../interfaces/commands/taskCommand';
 export class ApiServiceService {
   private deliveries: any[];
   private inscriptions: any[];
-  private BASE_USRL: string = environment.baseUrl;
+  private BASE_URL: string = environment.baseUrl;
 
   constructor(private storage: Storage, private http: HttpClient) {
-  
-
     this.deliveries = [
       {
         numero: 1,
@@ -64,28 +63,41 @@ export class ApiServiceService {
 
   createCourse(courseCommand: CourseCommand): Observable<CourseCommand> {
     return this.http.post<CourseCommand>(
-      `${this.BASE_USRL}/crearCurso`,
+      `${this.BASE_URL}/crearCurso`,
       courseCommand
     );
   }
 
   createTopic(topicCommand: TopicCommand): Observable<TopicCommand> {
     return this.http.post<TopicCommand>(
-      `${this.BASE_USRL}/crearTema`,
+      `${this.BASE_URL}/crearTema`,
       topicCommand
     );
   }
 
   createTask(taskCommand: TaskCommand): Observable<TopicCommand> {
     return this.http.post<TopicCommand>(
-      `${this.BASE_USRL}/crearTarea`,
+      `${this.BASE_URL}/crearTarea`,
       taskCommand
+    );
+  }
+
+  enrollCourse(enrollCommad: EnrollCommand): Observable<EnrollCommand> {
+    return this.http.post<EnrollCommand>(
+      `${this.BASE_URL}/inscribirEstudiante`,
+      enrollCommad
     );
   }
 
   searchCourse(term: string, teacherId: string): Observable<CourseModel[]> {
     return this.http.get<CourseModel[]>(
-      `${this.BASE_USRL}/buscarCursoTituloProfesor/${term}/${teacherId}`
+      `${this.BASE_URL}/buscarCursoTituloProfesor/${term}/${teacherId}`
+    );
+  }
+
+  searchAllCourse(term: string): Observable<CourseModel[]> {
+    return this.http.get<CourseModel[]>(
+      `${this.BASE_URL}/buscarTituloCurso/${term}`
     );
   }
 
