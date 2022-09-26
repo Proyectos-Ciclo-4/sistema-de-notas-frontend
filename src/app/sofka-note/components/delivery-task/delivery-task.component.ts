@@ -41,7 +41,7 @@ export class DeliveryTaskComponent implements OnInit {
     if (termSearch != '') {
       if (termSearch != '') {
         this.api$
-          .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+          .searchAllCourse(termSearch)
           .subscribe({
             next: (res) => {
               this.courses = res;

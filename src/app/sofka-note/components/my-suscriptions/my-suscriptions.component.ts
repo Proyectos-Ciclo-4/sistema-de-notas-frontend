@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { Auth } from '@angular/fire/auth';
+import { EnrollCommand } from '../../interfaces/commands/entollCommand';
+import { SweetalertService } from '../../../shared/service/sweetalert.service';
 
 @Component({
   selector: 'app-my-suscriptions',
@@ -14,23 +16,20 @@ export class MySuscriptionsComponent implements OnInit {
   termSearch: string = '';
   showSuggestion: boolean = false;
   suscriptions: any[] = [];
-  user: any;
 
-  constructor(private api$: ApiServiceService, private auth$: Auth) {}
-  ngOnInit(): void {
-    //TODO: PENDIENTE USUARIO
-    this.user = { uid: '123' };
-  }
+  constructor(
+    private api$: ApiServiceService,
+    private auth$: Auth,
+    private swal$: SweetalertService
+  ) {}
+  ngOnInit(): void {}
 
   courseSuggestions(termSearch: string) {
     this.course = null;
     this.termSearch = termSearch;
-    this.showSuggestion = true;
-
     if (termSearch != '') {
-      this.api$
-      .searchCourse(termSearch, this.auth$.currentUser?.uid!)
-      .subscribe({
+      this.showSuggestion = true;
+      this.api$.searchAllCourse(termSearch).subscribe({
         next: (res) => {
           this.courses = res;
         },
@@ -52,10 +51,19 @@ export class MySuscriptionsComponent implements OnInit {
     this.termSearch = '';
   }
 
-  searchMySuscription() {
-    this.suscriptions = this.api$.getInscriptions(
-      this.user.uid,
-      this.course?._id!
-    );
+  enrollCourse() {
+    const enrollComan: EnrollCommand = {
+      cursoId: this.course?._id!,
+      estudianteID: this.auth$.currentUser?.uid!,
+    };
+
+    this.api$.enrollCourse(enrollComan).subscribe({
+      next: (res) => {
+        this.swal$.succesMessage('Inscripción exitosa');
+      },
+      error: (err) =>{
+        debugger
+        this.swal$.errorMessage()},
+    });
   }
 }
