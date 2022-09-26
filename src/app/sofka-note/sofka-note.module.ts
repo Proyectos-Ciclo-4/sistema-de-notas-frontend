@@ -40,7 +40,6 @@ import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscrip
     FormsModule,
     PrimeNgModule,
     ReactiveFormsModule,
-    HttpClientModule,
   ],
 })
 export class SofkaNoteModule {}
