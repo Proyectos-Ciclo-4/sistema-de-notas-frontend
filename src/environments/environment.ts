@@ -12,7 +12,8 @@ export const environment = {
     authDomain: 'sofkau-note.firebaseapp.com',
     messagingSenderId: '471437960998',
   },
-  production: false
+  production: false,
+  baseUrl: 'http://localhost:8080',
 };
 
 /*

@@ -4,6 +4,10 @@ import { CourseModel } from '../interfaces/course.model';
 import { TopicModel } from '../interfaces/topic.model';
 import { data } from '../../../assets/db/courses';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
+import { StudentCommand } from '../interfaces/commands/studentCommand';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { StudentViewModel } from '../interfaces/views/studentView.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +17,9 @@ export class ApiServiceService {
   private topics: any[];
   private deliveries: any[];
   private inscriptions: any[];
+  private BASE_USRL: string = environment.baseUrl;
 
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage, private http: HttpClient) {
     this.courses = [...data] as CourseModel[];
 
     this.topics = this.courses.reduce((ant: TopicModel[], act: CourseModel) => {
@@ -68,6 +73,8 @@ export class ApiServiceService {
       },
     ];
   }
+
+
 
   searchCourse(term: string) {
     return this.courses.filter((e) => e.titulo.includes(term));
