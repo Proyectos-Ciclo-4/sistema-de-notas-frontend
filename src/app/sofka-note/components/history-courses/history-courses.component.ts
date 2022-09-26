@@ -4,6 +4,7 @@ import { ApiServiceService } from '../../services/api-service.service';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { TreeNode } from 'primeng/api';
 import { TopicModel } from '../../interfaces/topic.model';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-history-courses',
@@ -21,7 +22,7 @@ export class HistoryCoursesComponent implements OnInit {
   cols: any[] = [];
   constructor(
     private api$: ApiServiceService,
-    private swal$: SweetalertService
+    private swal$: SweetalertService,private auth$:Auth
   ) {}
   ngOnInit(): void {
     this.cols = [
@@ -36,7 +37,13 @@ export class HistoryCoursesComponent implements OnInit {
     this.showSuggestion = true;
     this.files = [];
     if (termSearch != '') {
-      this.courses = this.api$.searchCourse(termSearch);
+      this.api$
+      .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+      .subscribe({
+        next: (res) => {
+          this.courses = res;
+        },
+      });
     } else {
       this.courses = [];
     }

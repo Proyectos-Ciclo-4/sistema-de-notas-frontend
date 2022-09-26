@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { CourseModel } from '../../interfaces/course.model';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
+import { ApiServiceService } from '../../services/api-service.service';
+import { TopicCommand } from '../../interfaces/commands/topicCommand';
 
 @Component({
   selector: 'app-topic-form',
@@ -15,10 +17,14 @@ import { SweetalertService } from '../../../shared/service/sweetalert.service';
 })
 export class TopicFormComponent implements OnInit {
   formTopic: FormGroup;
+  showLoading: boolean = false;
 
   @Input('course') course: CourseModel | null = null;
 
-  constructor(private swal$: SweetalertService) {
+  constructor(
+    private swal$: SweetalertService,
+    private api$: ApiServiceService
+  ) {
     this.formTopic = this.createForm();
   }
 
@@ -26,11 +32,11 @@ export class TopicFormComponent implements OnInit {
 
   private createForm() {
     return new FormGroup({
-      topic: new FormControl('', [
+      titulo: new FormControl('', [
         Validators.required,
         Validators.maxLength(200),
       ]),
-      order: new FormControl('', [
+      orden: new FormControl('', [
         Validators.required,
         this.validateOrder.bind(this),
       ]),
@@ -48,13 +54,28 @@ export class TopicFormComponent implements OnInit {
     const messageBotton = 'Crear';
     this.swal$.confirmationPopup(title, text, messageBotton).then((result) => {
       if (result.isConfirmed) {
-        this.swal$.succesMessage('Tema creado con éxito');
-        this.formTopic.reset()
-      }else{
-        this.formTopic.reset()
+        this.showLoading = true;
+        const topicCommand: TopicCommand = {
+          ...this.formTopic.value,
+          cursoID: this.course?._id,
+          tareas: [],
+        };
+        this.api$.createTopic(topicCommand).subscribe({
+          next: (res) => {
+            this.showLoading = false;
+            console.log(res);
+            this.swal$.succesMessage('Tema creado con éxito');
+            this.formTopic.reset();
+          },
+          error: () => {
+            this.showLoading = false;
+
+            this.swal$.errorMessage();
+          },
+        });
+      } else {
+        this.formTopic.reset();
       }
-      
-      
     });
   }
 }

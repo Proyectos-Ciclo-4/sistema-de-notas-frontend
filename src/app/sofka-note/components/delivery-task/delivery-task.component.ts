@@ -6,6 +6,7 @@ import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { getDownloadURL } from '@angular/fire/storage';
 
 import { v4 as uuidv4, v4 } from 'uuid';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-delivery-task',
@@ -26,7 +27,8 @@ export class DeliveryTaskComponent implements OnInit {
 
   constructor(
     private api$: ApiServiceService,
-    private swal$: SweetalertService
+    private swal$: SweetalertService,
+    private auth$: Auth
   ) {}
 
   ngOnInit(): void {}
@@ -37,7 +39,17 @@ export class DeliveryTaskComponent implements OnInit {
     this.showSuggestion = true;
     this.topics = [];
     if (termSearch != '') {
-      this.courses = this.api$.searchCourse(termSearch);
+      if (termSearch != '') {
+        this.api$
+          .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+          .subscribe({
+            next: (res) => {
+              this.courses = res;
+            },
+          });
+      } else {
+        this.courses = [];
+      }
     } else {
       this.courses = [];
     }
@@ -48,7 +60,7 @@ export class DeliveryTaskComponent implements OnInit {
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
-    this.topics = this.api$.getTopic(this.course._id);
+    this.topics = this.course.temas;
   }
 
   clearFilter() {

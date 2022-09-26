@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
-import { UserModel } from '../../../auth/interface/user.model';
-import { AuthService } from '../../../auth/services/auth.service';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-my-suscriptions',
@@ -17,7 +16,7 @@ export class MySuscriptionsComponent implements OnInit {
   suscriptions: any[] = [];
   user: any;
 
-  constructor(private api$: ApiServiceService, private auth$: AuthService) {}
+  constructor(private api$: ApiServiceService, private auth$: Auth) {}
   ngOnInit(): void {
     //TODO: PENDIENTE USUARIO
     this.user = { uid: '123' };
@@ -29,7 +28,13 @@ export class MySuscriptionsComponent implements OnInit {
     this.showSuggestion = true;
 
     if (termSearch != '') {
-      this.courses = this.api$.searchCourse(termSearch);
+      this.api$
+      .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+      .subscribe({
+        next: (res) => {
+          this.courses = res;
+        },
+      });
     } else {
       this.courses = [];
     }

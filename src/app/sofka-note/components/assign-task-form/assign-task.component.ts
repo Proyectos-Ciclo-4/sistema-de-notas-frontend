@@ -10,6 +10,8 @@ import * as moment from 'moment';
 import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
+import { TaskCommand } from '../../interfaces/commands/taskCommand';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-assign-task',
@@ -25,9 +27,11 @@ export class AssignTaskComponent implements OnInit {
   course?: CourseModel | null;
   termSearch: string = '';
   courses: CourseModel[] = [];
+  showLoading: boolean = false;
   constructor(
     private api$: ApiServiceService,
-    private swal$: SweetalertService
+    private swal$: SweetalertService,
+    private auth$: Auth
   ) {
     this.formTopic = this.createFormGroup();
   }
@@ -44,7 +48,7 @@ export class AssignTaskComponent implements OnInit {
         Validators.required,
         this.validateOrder.bind(this),
       ]),
-      fecha: new FormControl(this.today, [Validators.required]),
+      fechaLimite: new FormControl(this.today, [Validators.required]),
       descripcion: new FormControl('', [
         Validators.required,
         Validators.maxLength(500),
@@ -58,14 +62,27 @@ export class AssignTaskComponent implements OnInit {
     const btnMessage = 'Crear';
     this.swal$.confirmationPopup(title, message, btnMessage).then((result) => {
       if (result.isConfirmed) {
-        this.swal$.succesMessage('Tarea creado con éxito');
-        this.formTopic.reset();
-        this.topic = null;
-        this.course = null;
-        this.termSearch = '';
-        this.topics = [];
-        this.formTopic.value['fecha'] = this.today
-        
+        this.showLoading = true;
+        const taskCommand: TaskCommand = {
+          cursoID: this.course?._id,
+          temaID: this.topic?.temaID!,
+          ...this.formTopic.value,
+          porcentaje: 0,
+        };
+        this.api$.createTask(taskCommand).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.showLoading = false;
+            this.swal$.succesMessage('Tarea creado con éxito');
+            this.formTopic.reset();
+            this.course = null;
+            this.formTopic.value['fecha'] = this.today;
+          },
+          error: () => {
+            this.showLoading = false;
+            this.swal$.errorMessage();
+          },
+        });
       }
     });
   }
@@ -77,7 +94,13 @@ export class AssignTaskComponent implements OnInit {
     this.topics = [];
     this.showSuggestion = true;
     if (termSearch != '') {
-      this.courses = this.api$.searchCourse(termSearch);
+      this.api$
+        .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+        .subscribe({
+          next: (resp) => {
+            this.courses = resp;
+          },
+        });
     } else {
       this.courses = [];
     }
@@ -93,6 +116,14 @@ export class AssignTaskComponent implements OnInit {
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
-    this.topics = this.api$.getTopic(this.course._id);
+    this.topics = this.course.temas;
+  }
+
+  clearForm() {
+    this.formTopic.reset();
+    this.topic = null;
+    this.course = null;
+    this.termSearch = '';
+    this.topics = [];
   }
 }

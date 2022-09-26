@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-table-students',
@@ -12,7 +13,7 @@ export class TableStudentsComponent implements OnInit {
   course?: CourseModel | null;
   termSearch: string = '';
   courses: CourseModel[] = [];
-  constructor(private api$: ApiServiceService) {}
+  constructor(private api$: ApiServiceService, private auth$: Auth) {}
 
   ngOnInit(): void {}
 
@@ -28,7 +29,13 @@ export class TableStudentsComponent implements OnInit {
 
     this.showSuggestion = true;
     if (termSearch != '') {
-      this.courses = this.api$.searchCourse(termSearch);
+      this.api$
+        .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+        .subscribe({
+          next: (res) => {
+            this.courses = res;
+          },
+        });
     } else {
       this.courses = [];
     }

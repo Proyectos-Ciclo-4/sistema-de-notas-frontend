@@ -9,7 +9,7 @@
       <span class="p-float-label">
         <input
           required="true"
-          formControlName="topic"
+          formControlName="titulo"
           id="float-input-topic"
           type="text"
           pInputText
@@ -25,7 +25,7 @@
       <span class="p-float-label">
         <input
           required="true"
-          formControlName="order"
+          formControlName="orden"
           id="float-input-order"
           type="number"
           pInputText
@@ -47,3 +47,5 @@
     </div>
   </div>
 </form>
+
+<app-loading *ngIf="showLoading"></app-loading>

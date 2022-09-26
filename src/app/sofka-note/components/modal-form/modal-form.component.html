@@ -11,7 +11,7 @@
   <form
     class="login-form pt-5"
     [formGroup]="formCreateCourse"
-    (submit)="formCreateCourse.valid && submitForm()"
+    (submit)="formCreateCourse.valid && submitCreateCouser()"
   >
     <div class="p-inputgroup w-full flex flex-column">
       <span class="p-float-label">
@@ -51,3 +51,5 @@
   </form>
   <ng-template pTemplate="footer"> </ng-template>
 </p-dialog>
+
+<app-loading *ngIf="showLoading"></app-loading>

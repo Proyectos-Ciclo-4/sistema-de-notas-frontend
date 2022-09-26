@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiServiceService } from '../../services/api-service.service';
 import { CourseModel } from '../../interfaces/course.model';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
   showTask: boolean = false;
   showCreateCourse: boolean = true;
 
-  constructor(private api$: ApiServiceService) {
+  constructor(private api$: ApiServiceService, private auth$: Auth) {
     this.headerStyle = {
       display: 'flex',
       justifyContent: 'center',
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   searchCourse(termSearch: string) {
-    this.courses = this.api$.searchCourse(termSearch);
+    // this.courses = this.api$.searchCourse(termSearch);
   }
 
   courseSuggestions(termSearch: string) {
@@ -37,7 +38,13 @@ export class HomeComponent implements OnInit {
     this.termSearch = termSearch;
     this.showSuggestion = true;
     if (termSearch != '') {
-      this.courses = this.api$.searchCourse(termSearch);
+      this.api$
+        .searchCourse(termSearch, this.auth$.currentUser?.uid!)
+        .subscribe({
+          next: (res) => {
+            this.courses = res;
+          },
+        });
     } else {
       this.courses = [];
     }

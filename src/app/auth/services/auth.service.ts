@@ -26,7 +26,7 @@ import { LoginModel } from '../interface/Login.model';
 import { Role, UserModel } from '../interface/user.model';
 import { map, catchError, of } from 'rxjs';
 import { StudentCommand } from 'src/app/sofka-note/interfaces/commands/studentCommand';
-import { StudentViewModel } from '../../sofka-note/interfaces/views/studentView.model';
+import { StudentViewModel } from '../../sofka-note/interfaces/studentView.model';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { TeacherCommand } from '../../sofka-note/interfaces/commands/teacherCommand';

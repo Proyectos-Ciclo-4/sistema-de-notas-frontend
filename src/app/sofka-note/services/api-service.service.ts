@@ -1,35 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CourseModel } from '../interfaces/course.model';
-import { TopicModel } from '../interfaces/topic.model';
-import { data } from '../../../assets/db/courses';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
-import { StudentCommand } from '../interfaces/commands/studentCommand';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { StudentViewModel } from '../interfaces/views/studentView.model';
+import { CourseCommand } from '../interfaces/commands/courseCommand';
+import { TopicCommand } from '../interfaces/commands/topicCommand';
+import { TaskCommand } from '../interfaces/commands/taskCommand';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiServiceService {
-  private courses: CourseModel[];
-  private topics: any[];
   private deliveries: any[];
   private inscriptions: any[];
   private BASE_USRL: string = environment.baseUrl;
 
   constructor(private storage: Storage, private http: HttpClient) {
-    this.courses = [...data] as CourseModel[];
-
-    this.topics = this.courses.reduce((ant: TopicModel[], act: CourseModel) => {
-      return (ant = [
-        ...ant,
-        ...act?.temas.map((ele) => {
-          return { ...ele };
-        }),
-      ]);
-    }, []);
+  
 
     this.deliveries = [
       {
@@ -74,14 +62,31 @@ export class ApiServiceService {
     ];
   }
 
-
-
-  searchCourse(term: string) {
-    return this.courses.filter((e) => e.titulo.includes(term));
+  createCourse(courseCommand: CourseCommand): Observable<CourseCommand> {
+    return this.http.post<CourseCommand>(
+      `${this.BASE_USRL}/crearCurso`,
+      courseCommand
+    );
   }
 
-  getTopic(courseId: string) {
-    return this.topics;
+  createTopic(topicCommand: TopicCommand): Observable<TopicCommand> {
+    return this.http.post<TopicCommand>(
+      `${this.BASE_USRL}/crearTema`,
+      topicCommand
+    );
+  }
+
+  createTask(taskCommand: TaskCommand): Observable<TopicCommand> {
+    return this.http.post<TopicCommand>(
+      `${this.BASE_USRL}/crearTarea`,
+      taskCommand
+    );
+  }
+
+  searchCourse(term: string, teacherId: string): Observable<CourseModel[]> {
+    return this.http.get<CourseModel[]>(
+      `${this.BASE_USRL}/buscarCursoTituloProfesor/${term}/${teacherId}`
+    );
   }
 
   getDeliveries(courseId: string, studentId: string, topicId: string) {
