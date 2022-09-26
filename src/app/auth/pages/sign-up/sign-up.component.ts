@@ -24,6 +24,7 @@ export class SignUpComponent implements OnInit {
   formSignup: FormGroup;
   idType: any;
   role: any;
+  showLoading: boolean = false;
 
   constructor(
     private authservice: AuthService,
@@ -109,11 +110,13 @@ export class SignUpComponent implements OnInit {
   }
 
   register() {
+    debugger
     const { password, ...user } = this.generateUser();
 
     const userRegister: UserModel = {
       ...user,
     };
+    this.showLoading = true;
     this.authservice
       .register({
         email: userRegister.email,
@@ -134,6 +137,7 @@ export class SignUpComponent implements OnInit {
             userRegister.rol == Role.Estudiante
               ? this.createStudent(userRegister)
               : this.createTeacher(userRegister);
+            this.showLoading = false;
             this.authservice.logout();
             Swal.fire(
               `Se envió un email de verificación a ${userRegister.email}`
@@ -142,9 +146,10 @@ export class SignUpComponent implements OnInit {
             });
           });
       })
-      .catch((err) =>
-        this.swal$.errorMessage('El usuario se encuantra registrado')
-      );
+      .catch((err) => {
+        this.showLoading = false;
+        this.swal$.errorMessage('El usuario se encuantra registrado');
+      });
   }
 
   createTeacher(user: UserModel) {

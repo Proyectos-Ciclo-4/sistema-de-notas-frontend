@@ -6,12 +6,13 @@ import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PrimeNgModule } from '../prime-ng/prime-ng.module';
+import { LoadingComponent } from './loading/loading.component';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, NavbarComponent],
+  declarations: [HeaderComponent, NavbarComponent, LoadingComponent],
   imports: [CommonModule, PrimeNgModule],
-  exports: [HeaderComponent, NavbarComponent,RouterModule],
+  exports: [HeaderComponent, NavbarComponent,RouterModule,LoadingComponent],
 })
 export class SharedModule {}
