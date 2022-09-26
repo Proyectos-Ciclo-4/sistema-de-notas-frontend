@@ -1,0 +1,66 @@
+<div class="grid m-0">
+  <div class="col-10">
+    <app-search-input
+      placeHolder="Curso"
+      (onDebunce)="courseSuggestions($event)"
+      [term]="termSearch"
+    ></app-search-input>
+    <div class="relative">
+      <ul
+        *ngIf="showSuggestion"
+        class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
+      >
+        <li
+          (click)="selectCourse(course)"
+          class="mt-1"
+          *ngFor="let course of courses"
+        >
+          {{ course.titulo }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-2 flex justify-content-evenly align-items-center">
+    <button
+      [disabled]="!course"
+      class="mr-2"
+      pButton
+      type="button"
+      label="Buscar"
+      (click)="searchMySuscription()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancelar"
+      class="p-button-danger"
+      (click)="clearFilter()"
+    ></button>
+  </div>
+</div>
+
+<div class="mt-5 flex justify-content-center">
+  <div class="xl:w-11 w-full">
+    <app-header-title title="Mis inscripciones"></app-header-title>
+    <p-table
+      *ngIf="suscriptions.length > 0"
+      [value]="suscriptions"
+      styleClass="p-datatable-striped"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Curso</th>
+          <th>Inscripción</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-suscription>
+        <tr>
+          <td>{{ suscription.curso }}</td>
+          <td>{{ suscription.fecha }}</td>
+        </tr></ng-template
+      >
+    </p-table>
+  </div>
+</div>

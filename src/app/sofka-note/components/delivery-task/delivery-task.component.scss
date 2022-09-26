@@ -1,0 +1,39 @@
+@import "../../../../assets/scss/global.scss";
+
+tr {
+  th,
+  td {
+    color: $font-color;
+    text-align: center;
+    font-weight: bold;
+  }
+  border-bottom: 1.3px solid $primary-color;
+}
+
+h1 {
+
+  color: $success-color;
+  font-weight: bolder;
+  font-size: $font-size-two;
+}
+
+i {
+  color: $success-color;
+  font-size: 25px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.file-upload {
+  display: grid;
+  place-items: center;
+  label {
+    color: $dark-color;
+    cursor: pointer;
+    i {
+      color: $dark-color;
+    }
+  }
+}

@@ -12,7 +12,11 @@ import { TopicFormComponent } from './components/topic-form/topic-form.component
 import { ModalFormComponent } from './components/modal-form/modal-form.component';
 import { AssignTaskComponent } from './components/assign-task/assign-task.component';
 import { HomeStudentComponent } from './pages/home-student/home-student.component';
-
+import { HistoryCoursesComponent } from './components/history-courses/history-courses.component';
+import { TableStudentsComponent } from './components/table-students/table-students.component';
+import { DeliveryTaskComponent } from './components/delivery-task/delivery-task.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscriptions.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import { HomeStudentComponent } from './pages/home-student/home-student.componen
     ModalFormComponent,
     AssignTaskComponent,
     HomeStudentComponent,
-
+    HistoryCoursesComponent,
+    TableStudentsComponent,
+    DeliveryTaskComponent,
+    MySuscriptionsComponent,
   ],
   imports: [
     CommonModule,
@@ -32,7 +39,8 @@ import { HomeStudentComponent } from './pages/home-student/home-student.componen
     SharedModule,
     FormsModule,
     PrimeNgModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
 })
 export class SofkaNoteModule {}

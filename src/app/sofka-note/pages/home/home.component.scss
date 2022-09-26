@@ -21,6 +21,8 @@
   }
 }
 
-.card-teacher {
-  @include box-shadow-card($light-color);
+ul {
+  max-height: 350px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
