@@ -29,7 +29,6 @@ export class EstudianteGuard implements CanActivate {
     | UrlTree {
     return this.authService.validateStudentRol().pipe(
       tap((valid) => {
-        debugger
         !valid && this.router.navigate(['/sofkau-note/home']);
       })
     );

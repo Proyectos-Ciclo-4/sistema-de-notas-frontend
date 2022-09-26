@@ -17,7 +17,7 @@ export class ProfesorGuard implements CanActivate {
   currentLogin!: UserModel;
   profesor: Role = Role.Profesor;
 
-  constructor(private authService: AuthService,private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -29,9 +29,7 @@ export class ProfesorGuard implements CanActivate {
     | UrlTree {
     return this.authService.validateTeacherRol().pipe(
       tap((valid) => {
-        
-        !valid&&  this.router.navigate(["/sofkau-note/student"])
-        
+        !valid && this.router.navigate(['/sofkau-note/student']);
       })
     );
   }
