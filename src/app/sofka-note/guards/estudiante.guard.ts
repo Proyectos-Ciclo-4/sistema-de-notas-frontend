@@ -8,6 +8,8 @@ import {
 import { Observable } from 'rxjs';
 import { Role, UserModel } from 'src/app/auth/interface/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +18,7 @@ export class EstudianteGuard implements CanActivate {
   currentLogin!: UserModel;
   estudiante: Role = Role.Estudiante;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -25,11 +27,11 @@ export class EstudianteGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // Código de verificación de rol
-    this.authService.currentUser().subscribe((user) => {
-      this.currentLogin = user[0];
-    });
-
-    return this.currentLogin.rol == this.estudiante ? true : false;
+    return this.authService.validateStudentRol().pipe(
+      tap((valid) => {
+        debugger
+        !valid && this.router.navigate(['/sofkau-note/home']);
+      })
+    );
   }
 }

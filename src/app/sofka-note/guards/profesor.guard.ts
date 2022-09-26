@@ -5,9 +5,10 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Role, UserModel } from 'src/app/auth/interface/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class ProfesorGuard implements CanActivate {
   currentLogin!: UserModel;
   profesor: Role = Role.Profesor;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -26,12 +27,12 @@ export class ProfesorGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // Código de verificación de rol
-    this.authService.currentUser().subscribe((user) => {
-      this.currentLogin = user[0];
-      console.log(this.currentLogin);
-    });
-
-    return this.currentLogin.rol == Role.Profesor ? true : false;
+    return this.authService.validateTeacherRol().pipe(
+      tap((valid) => {
+        
+        !valid&&  this.router.navigate(["/sofkau-note/student"])
+        
+      })
+    );
   }
 }

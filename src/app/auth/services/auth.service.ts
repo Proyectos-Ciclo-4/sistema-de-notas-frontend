@@ -23,7 +23,8 @@ import {
 } from '@firebase/auth';
 import { Observable } from 'rxjs';
 import { LoginModel } from '../interface/Login.model';
-import { UserModel } from '../interface/user.model';
+import { Role, UserModel } from '../interface/user.model';
+import { map, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -75,5 +76,22 @@ export class AuthService {
     return collectionData(queryUser, { idField: 'uid' }) as Observable<
       UserModel[]
     >;
+  }
+
+  validateStudentRol(): Observable<boolean> {
+    return this.currentUser().pipe(
+      map((resp) => {
+        return resp[0].rol === Role.Estudiante;
+      }),
+      catchError((err) => of(false))
+    );
+  }
+  validateTeacherRol(): Observable<boolean> {
+    return this.currentUser().pipe(
+      map((resp) => {
+        return resp[0].rol === Role.Profesor;
+      }),
+      catchError((err) => of(false))
+    );
   }
 }

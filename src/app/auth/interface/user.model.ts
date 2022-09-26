@@ -17,6 +17,6 @@ export enum IdType {
 }
 
 export enum Role {
-  Profesor,
-  Estudiante,
+  Profesor = "Profesor",
+  Estudiante = "Estudiante",
 }
