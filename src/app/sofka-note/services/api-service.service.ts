@@ -9,6 +9,7 @@ import { TopicCommand } from '../interfaces/commands/topicCommand';
 import { TaskCommand } from '../interfaces/commands/taskCommand';
 import { EnrollCommand } from '../interfaces/commands/enrollCommand';
 import { StudentModel } from '../interfaces/student.model';
+import { CourseGeneric } from '../interfaces/courseGeneric';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +41,6 @@ export class ApiServiceService {
         estado: true,
       },
     ];
-
   }
 
   createCourse(courseCommand: CourseCommand): Observable<CourseCommand> {
@@ -83,6 +83,15 @@ export class ApiServiceService {
     );
   }
 
+  searchCourseByStudent(
+    term: string,
+    idStudent: string
+  ): Observable<CourseGeneric[]> {
+    return this.http.get<CourseGeneric[]>(
+      `${this.BASE_URL}/encontrarInscripcion/${term}/${idStudent}`
+    );
+  }
+
   getDeliveries(courseId: string, studentId: string, topicId: string) {
     return this.deliveries;
   }
@@ -93,6 +102,8 @@ export class ApiServiceService {
   }
 
   getInscriptions(studentId: string) {
-    return this.http.get<StudentModel>(`${this.BASE_URL}/buscarAlumno/${studentId}`);
+    return this.http.get<StudentModel>(
+      `${this.BASE_URL}/buscarAlumno/${studentId}`
+    );
   }
 }

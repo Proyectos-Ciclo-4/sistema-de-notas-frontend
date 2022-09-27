@@ -7,6 +7,7 @@ import { getDownloadURL } from '@angular/fire/storage';
 
 import { v4 as uuidv4, v4 } from 'uuid';
 import { Auth } from '@angular/fire/auth';
+import { CourseGeneric } from '../../interfaces/courseGeneric';
 
 @Component({
   selector: 'app-delivery-task',
@@ -14,8 +15,8 @@ import { Auth } from '@angular/fire/auth';
   styleUrls: ['./delivery-task.component.scss'],
 })
 export class DeliveryTaskComponent implements OnInit {
-  course: CourseModel | null = null;
-  courses: CourseModel[] = [];
+  course: CourseGeneric | null = null;
+  courses: CourseGeneric[] = [];
   termSearch: string = '';
   showSuggestion: boolean = false;
   topics: TopicModel[] = [];
@@ -41,7 +42,7 @@ export class DeliveryTaskComponent implements OnInit {
     if (termSearch != '') {
       if (termSearch != '') {
         this.api$
-          .searchAllCourse(termSearch)
+          .searchCourseByStudent(termSearch, this.auth$.currentUser?.uid!)
           .subscribe({
             next: (res) => {
               this.courses = res;
@@ -55,12 +56,11 @@ export class DeliveryTaskComponent implements OnInit {
     }
   }
 
-  selectCourse(course: CourseModel) {
-    this.termSearch = course.titulo;
+  selectCourse(course: CourseGeneric) {
+    this.termSearch = course.nombreCurso;
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
-    this.topics = this.course.temas;
   }
 
   clearFilter() {
@@ -104,7 +104,7 @@ export class DeliveryTaskComponent implements OnInit {
 
   searchDelivery() {
     this.deliveries = this.api$.getDeliveries(
-      this.course?._id || '',
+      this.course?.cursoID || '',
       '1',
       this.topic?.temaID || ''
     );
