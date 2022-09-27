@@ -1,1 +1,60 @@
-<h1>modal-form Works!</h1>
+<p-dialog
+  [header]="header"
+  [(visible)]="displayModal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="0.5"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="false"
+>
+  <form class="login-form pt-5">
+    <!-- Input Nota -->
+    <div class="p-inputgroup w-full flex flex-column">
+      <span class="p-float-label">
+        <input
+          formControlName="title"
+          id="float-input-title"
+          type="title"
+          pInputText
+          class="font-bold"
+          autocomplete="off"
+        />
+        <label for="float-input-title "
+          >Nota <span class="text-red-600">*</span></label
+        >
+      </span>
+      <small id="float-input-title-help font-bold" class="p-error block"
+        >Una vez guardado el registro no se podrá modificar la
+        calificación</small
+      >
+    </div>
+
+    <!-- Input Retroalimentación -->
+    <div class="p-inputgroup w-full flex flex-column">
+      <span class="p-float-label">
+        <input
+          formControlName="title"
+          id="float-input-title"
+          type="title"
+          pInputText
+          class="font-bold"
+          autocomplete="off"
+        />
+        <label for="float-input-title ">Retroalimentación</label>
+      </span>
+    </div>
+
+    <div class="w-full flex justify-content-end mt-5">
+      <button class="mr-2" pButton type="submit" label="Guardar"></button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Cancelar"
+        class="p-button-danger"
+      ></button>
+    </div>
+  </form>
+  <ng-template pTemplate="footer"> </ng-template>
+</p-dialog>
