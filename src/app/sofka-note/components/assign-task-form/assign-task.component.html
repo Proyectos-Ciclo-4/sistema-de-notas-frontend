@@ -35,7 +35,7 @@
           optionLabel="titulo"
           placeholder="Tipo de Identificación"
           [autoDisplayFirst]="false"
-          [(ngModel)] = "topic"
+          [(ngModel)]="topic"
         ></p-dropdown>
         <label for="topic-dropdown"
           >Tema <span class="text-red-600">*</span></label
@@ -79,10 +79,12 @@
             formTopic.get("orden")?.getError("invalidOrder")
           }}</small>
         </div>
-        <div class="p-inputgroup col-3">
+        <div class="p-inputgroup col-3 lex flex-column">
           <span class="p-float-label">
             <input
+              [(ngModel)]="dateSelect"
               formControlName="fechaLimite"
+              placeholder="Fecha"
               id="float-input-date"
               type="date"
               pInputText
@@ -95,6 +97,9 @@
               >Fecha<span class="text-red-600">*</span></label
             >
           </span>
+          <small id="float-input-password-help" class="p-error block">{{
+            formTopic.get("fechaLimite")?.getError("errorDate")
+          }}</small>
         </div>
         <div class="p-inputgroup col-12">
           <span class="p-float-label w-full">
@@ -112,7 +117,13 @@
           </span>
         </div>
         <div class="w-full flex justify-content-end mt-5">
-          <button [disabled]="!formTopic.valid || !course || !topic" class="mr-2" pButton type="submit" label="Guardar"></button>
+          <button
+            [disabled]="!formTopic.valid || !course || !topic"
+            class="mr-2"
+            pButton
+            type="submit"
+            label="Guardar"
+          ></button>
           <button
             pButton
             type="button"

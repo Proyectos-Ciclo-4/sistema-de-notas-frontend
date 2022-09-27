@@ -22,7 +22,8 @@ export class AssignTaskComponent implements OnInit {
   topics: TopicModel[] = [];
   topic: TopicModel | null = null;
   formTopic: FormGroup;
-  today: any = moment().format('DD-MM-YYYY');
+  today: any;
+  dateSelect: any;
   showSuggestion: boolean = false;
   course?: CourseModel | null;
   termSearch: string = '';
@@ -34,6 +35,8 @@ export class AssignTaskComponent implements OnInit {
     private auth$: Auth
   ) {
     this.formTopic = this.createFormGroup();
+    this.today = moment().format('YYYY-MM-DD');
+    this.dateSelect = this.today;
   }
 
   ngOnInit(): void {}
@@ -48,7 +51,10 @@ export class AssignTaskComponent implements OnInit {
         Validators.required,
         this.validateOrder.bind(this),
       ]),
-      fechaLimite: new FormControl(this.today, [Validators.required]),
+      fechaLimite: new FormControl(this.today, [
+        Validators.required,
+        this.validateDate.bind(this),
+      ]),
       descripcion: new FormControl('', [
         Validators.required,
         Validators.maxLength(500),
@@ -67,9 +73,12 @@ export class AssignTaskComponent implements OnInit {
           cursoID: this.course?._id,
           temaID: this.topic?.temaID!,
           ...this.formTopic.value,
-          fechaLimite: "09/10/2022",
+          fechaLimite: moment(this.formTopic.value.fechaLimite).format(
+            'DD/MM/YYYY'
+          ),
           porcentaje: 0,
         };
+        debugger;
         this.api$.createTask(taskCommand).subscribe({
           next: (res) => {
             console.log(res);
@@ -112,6 +121,13 @@ export class AssignTaskComponent implements OnInit {
       ? null
       : { invalidOrder: 'Rango de 1 a 50' };
   }
+
+  validateDate(control: AbstractControl) {
+    return moment(control.value).diff(this.today, 'days') < 0
+      ? { errorDate: `Fecha no puede ser menor a ${moment(this.today).format("DD/MM/YYYY")}` }
+      : null;
+  }
+
   selectCourse(course: CourseModel) {
     this.termSearch = course.titulo;
     this.course = course;
