@@ -8,23 +8,29 @@
   [resizable]="false"
   [closable]="false"
 >
-  <form class="login-form pt-5">
+  <div>
+    <!-- <h1>Tarea 3: {{ tarea.titulo }}</h1> -->
+    <h2>Fecha y hora de entrega: {{ tarea.fechaEntregado }}</h2>
+    <h2>Archivo(s): {{ tarea.URLArchivo }}</h2>
+  </div>
+
+  <form class="login-form pt-5" (submit)="formAddNote.valid && submitForm()">
     <!-- Input Nota -->
     <div class="p-inputgroup w-full flex flex-column">
       <span class="p-float-label">
         <input
-          formControlName="title"
-          id="float-input-title"
+          formControlName="note"
+          id="float-input-note"
           type="title"
           pInputText
           class="font-bold"
           autocomplete="off"
         />
-        <label for="float-input-title "
+        <label for="float-input-note "
           >Nota <span class="text-red-600">*</span></label
         >
       </span>
-      <small id="float-input-title-help font-bold" class="p-error block"
+      <small id="float-input-note-help font-bold" class="p-error block"
         >Una vez guardado el registro no se podrá modificar la
         calificación</small
       >
@@ -34,20 +40,20 @@
     <div class="p-inputgroup w-full flex flex-column">
       <span class="p-float-label">
         <input
-          formControlName="title"
-          id="float-input-title"
-          type="title"
+          formControlName="feedback"
+          id="float-input-feedback"
+          type="text"
           pInputText
           class="font-bold"
           autocomplete="off"
         />
-        <label for="float-input-title ">Retroalimentación</label>
+        <label for="float-input-feedback ">Retroalimentación</label>
       </span>
     </div>
 
     <div class="w-full flex justify-content-end mt-5">
       <button
-        [disabled]="!formCreateCourse.valid"
+        [disabled]="formAddNote.invalid"
         class="mr-2"
         pButton
         type="submit"

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { SweetalertService } from 'src/app/shared/service/sweetalert.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SweetalertService } from '../../../shared/service/sweetalert.service';
+import { ApiServiceService } from '../../services/api-service.service';
 
 @Component({
   selector: 'app-modal-note',
@@ -12,15 +13,21 @@ export class ModalNoteComponent implements OnInit {
   @Input() displayModal: boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
-  formCreateCourse!: FormGroup;
+  formAddNote!: FormGroup;
 
-  constructor(private swal$: SweetalertService) {}
+  tarea!: any;
+
+  constructor(private swal$: SweetalertService) {
+    this.formAddNote = new FormGroup({
+      title: new FormControl('', [Validators.required]),
+    });
+  }
 
   ngOnInit(): void {}
 
   closeModalEmmiter() {
     this.closeModal.emit(false);
-    this.formCreateCourse.reset();
+    this.formAddNote.reset();
   }
 
   submitForm() {
@@ -34,5 +41,20 @@ export class ModalNoteComponent implements OnInit {
         this.closeModalEmmiter();
       }
     });
+  }
+
+  getTask() {
+    const task = {
+      numero: 1,
+      tareaID: '1',
+      titulo: 'Tarea # 1',
+      limite: '27/10/2022',
+      calificacion: null,
+      fechaEntregado: '09/10/2022',
+      URLArchivo: 'https://www.google.com.co/',
+      estado: true,
+    };
+
+    this.tarea = task;
   }
 }
