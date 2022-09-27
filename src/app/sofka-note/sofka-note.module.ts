@@ -17,6 +17,7 @@ import { TableStudentsComponent } from './components/table-students/table-studen
 import { DeliveryTaskComponent } from './components/delivery-task/delivery-task.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscriptions.component';
+import { ModalNoteComponent } from './components/modal-note/modal-note.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscrip
     TableStudentsComponent,
     DeliveryTaskComponent,
     MySuscriptionsComponent,
+    ModalNoteComponent,
   ],
   imports: [
     CommonModule,
