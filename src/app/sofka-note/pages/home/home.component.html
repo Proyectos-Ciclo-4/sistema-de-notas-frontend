@@ -17,7 +17,10 @@
         [show]="showCreateCourse"
         title="Registrar mis cursos y temas"
       ></app-header-title>
-      <div *ngIf="showCreateCourse" class="scalein animation-duration-1000">
+      <div
+        *ngIf="showCreateCourse"
+        class="scalein animation-duration-1000"
+      >
         <div class="flex justify-content-center align-items-center">
           <div class="w-full">
             <app-search-input
@@ -27,7 +30,7 @@
             ></app-search-input>
             <div class="relative">
               <ul
-                *ngIf="showSuggestion"
+                *ngIf="showSuggestion && courses.length > 0"
                 class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
               >
                 <li

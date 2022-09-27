@@ -14,6 +14,9 @@ import { TreeTableModule } from 'primeng/treetable';
 import { TreeModule } from 'primeng/tree';
 import {TableModule} from 'primeng/table';
 import {FileUploadModule} from 'primeng/fileupload';
+import {MultiSelectModule} from 'primeng/multiselect';
+
+
 @NgModule({
   declarations: [],
   exports: [
@@ -29,7 +32,8 @@ import {FileUploadModule} from 'primeng/fileupload';
     TreeTableModule,
     TreeModule,
     TableModule,
-    FileUploadModule
+    FileUploadModule,
+    MultiSelectModule
   ],
 })
 export class PrimeNgModule {}

@@ -7,7 +7,6 @@ import {
   Firestore,
   doc,
   setDoc,
-  getDoc,
   collectionData,
   where,
   query,

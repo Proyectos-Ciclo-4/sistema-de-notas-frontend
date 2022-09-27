@@ -15,7 +15,6 @@ import { HomeStudentComponent } from './pages/home-student/home-student.componen
 import { HistoryCoursesComponent } from './components/history-courses/history-courses.component';
 import { TableStudentsComponent } from './components/table-students/table-students.component';
 import { DeliveryTaskComponent } from './components/delivery-task/delivery-task.component';
-import { HttpClientModule } from '@angular/common/http';
 import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscriptions.component';
 
 @NgModule({

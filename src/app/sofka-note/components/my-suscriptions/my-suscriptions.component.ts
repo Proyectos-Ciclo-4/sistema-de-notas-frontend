@@ -4,7 +4,6 @@ import { ApiServiceService } from '../../services/api-service.service';
 import { Auth } from '@angular/fire/auth';
 import { EnrollCommand } from '../../interfaces/commands/enrollCommand';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
-import { EnrollmentModel } from '../../interfaces/enrollment.model';
 import { StudentModel } from '../../interfaces/student.model';
 
 @Component({

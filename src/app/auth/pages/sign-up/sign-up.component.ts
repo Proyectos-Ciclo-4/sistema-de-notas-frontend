@@ -34,10 +34,10 @@ export class SignUpComponent implements OnInit {
     this.formSignup = this.createFormSignUp();
     this.formSignup.reset();
     this.idType = [
-      { name: 'C.C', code: 'CC' },
-      { name: 'T.I', code: 'TI' },
-      { name: 'C.E', code: 'CE' },
-      { name: 'P.E.P', code: 'PEP' },
+      { name: 'Cédula de ciudadanía', code: 'CC' },
+      { name: 'Tarjeta de identidad', code: 'TI' },
+      { name: 'Cédula de extranjería', code: 'CE' },
+      { name: 'PEP', code: 'PEP' },
     ];
     this.role = [
       { name: 'Profesor', code: 'Profesor' },
@@ -64,6 +64,7 @@ export class SignUpComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
+        Validators.maxLength(50),
         this.validatePassword.bind(this),
       ]),
       confirmPassword: new FormControl('', [
@@ -107,10 +108,10 @@ export class SignUpComponent implements OnInit {
 
   clearData() {
     this.formSignup.reset();
+    this.router.navigate(["/login"])
   }
 
   register() {
-    debugger
     const { password, ...user } = this.generateUser();
 
     const userRegister: UserModel = {
