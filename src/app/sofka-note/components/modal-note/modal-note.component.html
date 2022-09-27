@@ -2,15 +2,19 @@
   [header]="header"
   [(visible)]="displayModal"
   [modal]="true"
-  [style]="{ width: '50vw' }"
+  [style]="{ width: '50vw', color: 'gray' }"
   [baseZIndex]="0.5"
   [draggable]="false"
   [resizable]="false"
   [closable]="false"
 >
+  <div>
+    <p class="texts-header">Fecha y hora de entrega: 25/09/2022 10:00 a.m.</p>
+    <p class="texts-header">Archivo(s): queesangular.pdf</p>
+  </div>
   <form class="login-form pt-5">
     <!-- Input Nota -->
-    <div class="p-inputgroup w-full flex flex-column">
+    <div class="p-inputgroup w-3 flex flex-column mb-4">
       <span class="p-float-label">
         <input
           formControlName="title"
@@ -24,10 +28,6 @@
           >Nota <span class="text-red-600">*</span></label
         >
       </span>
-      <small id="float-input-title-help font-bold" class="p-error block"
-        >Una vez guardado el registro no se podrá modificar la
-        calificación</small
-      >
     </div>
 
     <!-- Input Retroalimentación -->
@@ -43,6 +43,10 @@
         />
         <label for="float-input-title ">Retroalimentación</label>
       </span>
+      <small id="float-input-title-help font-bold" class="p-error block"
+        >Una vez guardado el registro no se podrá modificar la
+        calificación</small
+      >
     </div>
 
     <div class="w-full flex justify-content-end mt-5">
