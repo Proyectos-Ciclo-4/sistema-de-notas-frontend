@@ -1,7 +1,5 @@
-
-
 <div class="grid m-0 flex align-items-center">
-  <div class="col-12  md:col-8 xl:col-10">
+  <div class="col-12 md:col-8 xl:col-10">
     <app-search-input
       placeHolder="Curso"
       class="w-full"
@@ -23,10 +21,15 @@
       </ul>
     </div>
   </div>
-  <div class="flex justify-content-evenly col-12 md:col-4 xl:col-2  ">
-    <button  [disabled]="!course" class="mr-2" pButton type="button" label="Buscar"></button>
+  <div class="flex justify-content-evenly col-12 md:col-4 xl:col-2">
     <button
-   
+      [disabled]="!course"
+      class="mr-2"
+      pButton
+      type="button"
+      label="Buscar"
+    ></button>
+    <button
       pButton
       pRipple
       type="button"
@@ -37,3 +40,4 @@
   </div>
 </div>
 <app-header-title></app-header-title>
+<app-modal-note header="Crear curso" [displayModal]="true"> </app-modal-note>

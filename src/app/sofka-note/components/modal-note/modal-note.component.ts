@@ -14,7 +14,7 @@ export class ModalNoteComponent implements OnInit {
 
   formAddNote!: FormGroup;
 
-  tarea!: any;
+  // tarea!: any;
 
   constructor(private swal$: SweetalertService) {
     this.formAddNote = new FormGroup({
@@ -42,18 +42,18 @@ export class ModalNoteComponent implements OnInit {
     });
   }
 
-  getTask() {
-    const task = {
-      numero: 1,
-      tareaID: '1',
-      titulo: 'Tarea # 1',
-      limite: '27/10/2022',
-      calificacion: null,
-      fechaEntregado: '09/10/2022',
-      URLArchivo: 'https://www.google.com.co/',
-      estado: true,
-    };
+  // getTask() {
+  //   const task = {
+  //     numero: 1,
+  //     tareaID: '1',
+  //     titulo: 'Tarea # 1',
+  //     limite: '27/10/2022',
+  //     calificacion: null,
+  //     fechaEntregado: '09/10/2022',
+  //     URLArchivo: 'https://www.google.com.co/',
+  //     estado: true,
+  //   };
 
-    this.tarea = task;
-  }
+  //   this.tarea = task;
+  // }
 }
