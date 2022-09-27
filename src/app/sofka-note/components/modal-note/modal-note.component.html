@@ -46,10 +46,17 @@
     </div>
 
     <div class="w-full flex justify-content-end mt-5">
-      <button class="mr-2" pButton type="submit" label="Guardar"></button>
+      <button
+        [disabled]="!formCreateCourse.valid"
+        class="mr-2"
+        pButton
+        type="submit"
+        label="Guardar"
+      ></button>
       <button
         pButton
         pRipple
+        (click)="closeModalEmmiter()"
         type="button"
         label="Cancelar"
         class="p-button-danger"
