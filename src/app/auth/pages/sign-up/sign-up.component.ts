@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { UserCredential, sendEmailVerification } from '@angular/fire/auth';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
-import { UserModel } from '../../interface/user.model';
+import { Role, UserModel } from '../../interface/user.model';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { StudentCommand } from '../../../sofka-note/interfaces/commands/studentCommand';
+import { TeacherCommand } from '../../../sofka-note/interfaces/commands/teacherCommand';
+
 import {
   FormGroup,
   FormControl,
@@ -21,6 +24,7 @@ export class SignUpComponent implements OnInit {
   formSignup: FormGroup;
   idType: any;
   role: any;
+  showLoading: boolean = false;
 
   constructor(
     private authservice: AuthService,
@@ -30,10 +34,10 @@ export class SignUpComponent implements OnInit {
     this.formSignup = this.createFormSignUp();
     this.formSignup.reset();
     this.idType = [
-      { name: 'C.C', code: 'CC' },
-      { name: 'T.I', code: 'TI' },
-      { name: 'C.E', code: 'CE' },
-      { name: 'P.E.P', code: 'PEP' },
+      { name: 'Cédula de ciudadanía', code: 'CC' },
+      { name: 'Tarjeta de identidad', code: 'TI' },
+      { name: 'Cédula de extranjería', code: 'CE' },
+      { name: 'PEP', code: 'PEP' },
     ];
     this.role = [
       { name: 'Profesor', code: 'Profesor' },
@@ -60,6 +64,7 @@ export class SignUpComponent implements OnInit {
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
         Validators.required,
+        Validators.maxLength(50),
         this.validatePassword.bind(this),
       ]),
       confirmPassword: new FormControl('', [
@@ -103,6 +108,7 @@ export class SignUpComponent implements OnInit {
 
   clearData() {
     this.formSignup.reset();
+    this.router.navigate(["/login"])
   }
 
   register() {
@@ -111,6 +117,7 @@ export class SignUpComponent implements OnInit {
     const userRegister: UserModel = {
       ...user,
     };
+    this.showLoading = true;
     this.authservice
       .register({
         email: userRegister.email,
@@ -127,6 +134,11 @@ export class SignUpComponent implements OnInit {
             return this.authservice.createUser(userRegister);
           })
           .then(() => {
+            userRegister.uid = user.user.uid;
+            userRegister.rol == Role.Estudiante
+              ? this.createStudent(userRegister)
+              : this.createTeacher(userRegister);
+            this.showLoading = false;
             this.authservice.logout();
             Swal.fire(
               `Se envió un email de verificación a ${userRegister.email}`
@@ -135,9 +147,40 @@ export class SignUpComponent implements OnInit {
             });
           });
       })
-      .catch((err) =>
-        this.swal$.errorMessage('El usuario se encuantra registrado')
-      );
+      .catch((err) => {
+        this.showLoading = false;
+        this.swal$.errorMessage('El usuario se encuantra registrado');
+      });
+  }
+
+  createTeacher(user: UserModel) {
+    const teacherCommand: TeacherCommand = {
+      nombre: `${user.name} ${user.lastName}`,
+      profesorID: user.uid!,
+    };
+    this.authservice.createProfesorCommand(teacherCommand).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: () => {
+        this.swal$.errorMessage();
+      },
+    });
+  }
+
+  createStudent(user: UserModel) {
+    const studentComman: StudentCommand = {
+      estudianteID: user.uid!,
+      nombre: `${user.name} ${user.lastName}`,
+    };
+    this.authservice.createStudentCommand(studentComman).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: () => {
+        this.swal$.errorMessage();
+      },
+    });
   }
 
   generateUser(): any {

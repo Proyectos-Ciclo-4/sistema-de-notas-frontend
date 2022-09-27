@@ -1,31 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CourseModel } from '../interfaces/course.model';
-import { TopicModel } from '../interfaces/topic.model';
-import { data } from '../../../assets/db/courses';
 import { Storage, ref, uploadBytes } from '@angular/fire/storage';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { CourseCommand } from '../interfaces/commands/courseCommand';
+import { TopicCommand } from '../interfaces/commands/topicCommand';
+import { TaskCommand } from '../interfaces/commands/taskCommand';
+import { EnrollCommand } from '../interfaces/commands/enrollCommand';
+import { StudentModel } from '../interfaces/student.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiServiceService {
-  private courses: CourseModel[];
-  private topics: any[];
   private deliveries: any[];
-  private inscriptions: any[];
+  private BASE_URL: string = environment.baseUrl;
 
-  constructor(private storage: Storage) {
-    this.courses = [...data] as CourseModel[];
-
-    this.topics = this.courses.reduce((ant: TopicModel[], act: CourseModel) => {
-      return (ant = [
-        ...ant,
-        ...act?.temas.map((ele) => {
-          return { ...ele };
-        }),
-      ]);
-    }, []);
-
+  constructor(private storage: Storage, private http: HttpClient) {
     this.deliveries = [
       {
         numero: 1,
@@ -49,32 +41,46 @@ export class ApiServiceService {
       },
     ];
 
-    this.inscriptions = [
-      {
-        curso: 'Curso # 1',
-        fecha: '22/09/2022',
-      },
-      {
-        curso: 'Curso # 2',
-        fecha: '22/09/2022',
-      },
-      {
-        curso: 'Curso # 3',
-        fecha: '22/09/2022',
-      },
-      {
-        curso: 'Curso # 4',
-        fecha: '22/09/2022',
-      },
-    ];
   }
 
-  searchCourse(term: string) {
-    return this.courses.filter((e) => e.titulo.includes(term));
+  createCourse(courseCommand: CourseCommand): Observable<CourseCommand> {
+    return this.http.post<CourseCommand>(
+      `${this.BASE_URL}/crearCurso`,
+      courseCommand
+    );
   }
 
-  getTopic(courseId: string) {
-    return this.topics;
+  createTopic(topicCommand: TopicCommand): Observable<TopicCommand> {
+    return this.http.post<TopicCommand>(
+      `${this.BASE_URL}/crearTema`,
+      topicCommand
+    );
+  }
+
+  createTask(taskCommand: TaskCommand): Observable<TopicCommand> {
+    return this.http.post<TopicCommand>(
+      `${this.BASE_URL}/crearTarea`,
+      taskCommand
+    );
+  }
+
+  enrollCourse(enrollCommad: EnrollCommand): Observable<EnrollCommand> {
+    return this.http.post<EnrollCommand>(
+      `${this.BASE_URL}/inscribirEstudiante`,
+      enrollCommad
+    );
+  }
+
+  searchCourse(term: string, teacherId: string): Observable<CourseModel[]> {
+    return this.http.get<CourseModel[]>(
+      `${this.BASE_URL}/buscarCursoTituloProfesor/${term}/${teacherId}`
+    );
+  }
+
+  searchAllCourse(term: string): Observable<CourseModel[]> {
+    return this.http.get<CourseModel[]>(
+      `${this.BASE_URL}/buscarTituloCurso/${term}`
+    );
   }
 
   getDeliveries(courseId: string, studentId: string, topicId: string) {
@@ -86,7 +92,7 @@ export class ApiServiceService {
     return uploadBytes(filesRef, file);
   }
 
-  getInscriptions(studentid: string, courseId: string) {
-    return this.inscriptions;
+  getInscriptions(studentId: string) {
+    return this.http.get<StudentModel>(`${this.BASE_URL}/buscarAlumno/${studentId}`);
   }
 }

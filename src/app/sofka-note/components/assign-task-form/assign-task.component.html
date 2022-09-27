@@ -82,7 +82,7 @@
         <div class="p-inputgroup col-3">
           <span class="p-float-label">
             <input
-              formControlName="fecha"
+              formControlName="fechaLimite"
               id="float-input-date"
               type="date"
               pInputText
@@ -118,9 +118,12 @@
             type="button"
             label="cancelar"
             class="p-button-danger"
+            (click)="clearForm()"
           ></button>
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<app-loading *ngIf="showLoading"></app-loading>

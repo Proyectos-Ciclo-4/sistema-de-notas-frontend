@@ -19,6 +19,7 @@
 </div>
 <app-header-title></app-header-title>
 <p-treeTable
+*ngIf="course"
   [value]="files"
   [columns]="cols"
   [paginator]="true"

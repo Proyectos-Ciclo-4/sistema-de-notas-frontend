@@ -7,7 +7,6 @@ import {
   Firestore,
   doc,
   setDoc,
-  getDoc,
   collectionData,
   where,
   query,
@@ -25,6 +24,12 @@ import { Observable } from 'rxjs';
 import { LoginModel } from '../interface/Login.model';
 import { Role, UserModel } from '../interface/user.model';
 import { map, catchError, of } from 'rxjs';
+import { StudentCommand } from 'src/app/sofka-note/interfaces/commands/studentCommand';
+
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { TeacherCommand } from '../../sofka-note/interfaces/commands/teacherCommand';
+import { StudentModel } from '../../sofka-note/interfaces/student.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +40,23 @@ export class AuthService {
     'users'
   );
 
-  constructor(private auth$: Auth, private store$: Firestore) {}
+  private BASE_USRL: string = environment.baseUrl;
+
+  constructor(private auth$: Auth, private store$: Firestore,private http: HttpClient) {}
+
+  createStudentCommand(student: StudentCommand): Observable<StudentModel> {
+    return this.http.post<StudentModel>(
+      `${this.BASE_USRL}/crearEstudiante`,
+      student
+    ) as Observable<StudentModel>
+  }
+
+  createProfesorCommand(teacher: TeacherCommand): Observable<TeacherCommand> {
+    return this.http.post<TeacherCommand>(
+      `${this.BASE_USRL}/crearProfesor`,
+      teacher
+    );
+  }
 
   logout() {
     return signOut(this.auth$);

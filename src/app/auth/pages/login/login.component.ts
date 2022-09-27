@@ -12,6 +12,7 @@ import { UserCredential } from '@angular/fire/auth';
 })
 export class LoginComponent implements OnInit {
   formLogin: FormGroup;
+  showLoading: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -21,7 +22,6 @@ export class LoginComponent implements OnInit {
     this.formLogin = this.createFormLogin();
   }
 
-  
   ngOnInit(): void {}
 
   createFormLogin(): FormGroup<any> {
@@ -32,25 +32,29 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.showLoading = true;
     this.authService
       .login(this.formLogin.value)
       .then((user: UserCredential) => {
         if (user.user.emailVerified) {
+          this.showLoading = false;
+
           this.swal$
             .succesMessage(`¡Bienvenido ${user.user.displayName!}!`)
             .then(() => {
               this.router.navigate(['/sofkau-note']);
             });
         } else {
-          this.authService.logout()
+          this.authService.logout();
+          this.showLoading = false;
           this.swal$.errorMessage(
             'Aún no has confirmado la cuenta, verifica tu bandeja de correo.'
           );
         }
       })
       .catch((err) => {
-        this.swal$.errorMessage("¡Usuario o contraseña incorrecta!");
-
+        this.showLoading = false;
+        this.swal$.errorMessage('¡Usuario o contraseña incorrecta!');
       });
   }
 
