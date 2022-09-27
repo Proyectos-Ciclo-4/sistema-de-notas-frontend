@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-modal-note',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./modal-note.component.scss'],
 })
 export class ModalNoteComponent implements OnInit {
+  @Input() header: string = '';
+  @Input() displayModal: boolean = false;
+  @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}
