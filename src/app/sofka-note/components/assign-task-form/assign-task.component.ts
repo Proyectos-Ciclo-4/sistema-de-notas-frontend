@@ -22,7 +22,7 @@ export class AssignTaskComponent implements OnInit {
   topics: TopicModel[] = [];
   topic: TopicModel | null = null;
   formTopic: FormGroup;
-  today: any = moment().format('YYYY-MM-DD');
+  today: any = moment().format('DD-MM-YYYY');
   showSuggestion: boolean = false;
   course?: CourseModel | null;
   termSearch: string = '';
@@ -67,6 +67,7 @@ export class AssignTaskComponent implements OnInit {
           cursoID: this.course?._id,
           temaID: this.topic?.temaID!,
           ...this.formTopic.value,
+          fechaLimite: "09/10/2022",
           porcentaje: 0,
         };
         this.api$.createTask(taskCommand).subscribe({

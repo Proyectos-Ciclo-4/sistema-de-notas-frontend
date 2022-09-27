@@ -4,6 +4,8 @@ import { ApiServiceService } from '../../services/api-service.service';
 import { Auth } from '@angular/fire/auth';
 import { EnrollCommand } from '../../interfaces/commands/enrollCommand';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
+import { EnrollmentModel } from '../../interfaces/enrollment.model';
+import { StudentModel } from '../../interfaces/student.model';
 
 @Component({
   selector: 'app-my-suscriptions',
@@ -15,14 +17,16 @@ export class MySuscriptionsComponent implements OnInit {
   courses: CourseModel[] = [];
   termSearch: string = '';
   showSuggestion: boolean = false;
-  suscriptions: any[] = [];
+  student: StudentModel | null = null;
 
   constructor(
     private api$: ApiServiceService,
     private auth$: Auth,
     private swal$: SweetalertService
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getStudentView();
+  }
 
   courseSuggestions(termSearch: string) {
     this.course = null;
@@ -52,18 +56,33 @@ export class MySuscriptionsComponent implements OnInit {
   }
 
   enrollCourse() {
-    const enrollComan: EnrollCommand = {
-      cursoId: this.course?._id!,
+    const enrollCommand: EnrollCommand = {
+      cursoID: this.course?._id!,
       estudianteID: this.auth$.currentUser?.uid!,
+      nombreCurso: this.course?.titulo!,
     };
-
-    this.api$.enrollCourse(enrollComan).subscribe({
+    const isEnrollo = this.student?.inscripciones.find((ele) => ele.cursoID === this.course?._id);
+    if (isEnrollo) {
+      this.swal$.errorMessage("Ya te encuentras inscrito en este curso")
+      return
+    }
+    this.api$.enrollCourse(enrollCommand).subscribe({
       next: (res) => {
         this.swal$.succesMessage('Inscripción exitosa');
+        this.getStudentView();
       },
-      error: (err) =>{
-        debugger
-        this.swal$.errorMessage()},
+      error: (err) => {
+        this.swal$.errorMessage();
+      },
+    });
+  }
+
+  getStudentView() {
+    this.api$.getInscriptions(this.auth$.currentUser?.uid!).subscribe({
+      next: (resp) => {
+        this.student = resp;
+      },
+      error: (err) => this.swal$.errorMessage(),
     });
   }
 }

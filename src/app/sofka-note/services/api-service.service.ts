@@ -8,13 +8,13 @@ import { CourseCommand } from '../interfaces/commands/courseCommand';
 import { TopicCommand } from '../interfaces/commands/topicCommand';
 import { TaskCommand } from '../interfaces/commands/taskCommand';
 import { EnrollCommand } from '../interfaces/commands/enrollCommand';
+import { StudentModel } from '../interfaces/student.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiServiceService {
   private deliveries: any[];
-  private inscriptions: any[];
   private BASE_URL: string = environment.baseUrl;
 
   constructor(private storage: Storage, private http: HttpClient) {
@@ -41,24 +41,6 @@ export class ApiServiceService {
       },
     ];
 
-    this.inscriptions = [
-      {
-        curso: 'Curso # 1',
-        fecha: '22/09/2022',
-      },
-      {
-        curso: 'Curso # 2',
-        fecha: '22/09/2022',
-      },
-      {
-        curso: 'Curso # 3',
-        fecha: '22/09/2022',
-      },
-      {
-        curso: 'Curso # 4',
-        fecha: '22/09/2022',
-      },
-    ];
   }
 
   createCourse(courseCommand: CourseCommand): Observable<CourseCommand> {
@@ -110,7 +92,7 @@ export class ApiServiceService {
     return uploadBytes(filesRef, file);
   }
 
-  getInscriptions(studentid: string, courseId: string) {
-    return this.inscriptions;
+  getInscriptions(studentId: string) {
+    return this.http.get<StudentModel>(`${this.BASE_URL}/buscarAlumno/${studentId}`);
   }
 }

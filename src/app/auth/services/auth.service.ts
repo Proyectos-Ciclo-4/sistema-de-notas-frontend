@@ -26,10 +26,11 @@ import { LoginModel } from '../interface/Login.model';
 import { Role, UserModel } from '../interface/user.model';
 import { map, catchError, of } from 'rxjs';
 import { StudentCommand } from 'src/app/sofka-note/interfaces/commands/studentCommand';
-import { StudentViewModel } from '../../sofka-note/interfaces/studentView.model';
+
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { TeacherCommand } from '../../sofka-note/interfaces/commands/teacherCommand';
+import { StudentModel } from '../../sofka-note/interfaces/student.model';
 
 @Injectable({
   providedIn: 'root',
@@ -44,11 +45,11 @@ export class AuthService {
 
   constructor(private auth$: Auth, private store$: Firestore,private http: HttpClient) {}
 
-  createStudentCommand(student: StudentCommand): Observable<StudentViewModel> {
-    return this.http.post<StudentViewModel>(
+  createStudentCommand(student: StudentCommand): Observable<StudentModel> {
+    return this.http.post<StudentModel>(
       `${this.BASE_USRL}/crearEstudiante`,
       student
-    ) as Observable<StudentViewModel>
+    ) as Observable<StudentModel>
   }
 
   createProfesorCommand(teacher: TeacherCommand): Observable<TeacherCommand> {
