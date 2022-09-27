@@ -3,5 +3,6 @@ export interface TaskCommand {
   temaID: string;
   titulo: string;
   fechaLimite: string;
+  descripcion: string;
   porcentaje: number;
 }

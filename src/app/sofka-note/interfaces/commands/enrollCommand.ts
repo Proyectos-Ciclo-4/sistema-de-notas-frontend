@@ -1,4 +1,5 @@
 export interface EnrollCommand {
   estudianteID: string;
-  cursoId: string;
+  cursoID: string;
+  nombreCurso: string
 }
