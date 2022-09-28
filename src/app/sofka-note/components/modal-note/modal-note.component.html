@@ -10,21 +10,26 @@
 >
   <div>
     <p class="texts-header">Fecha y hora de entrega: 25/09/2022 10:00 a.m.</p>
-    <p class="texts-header">Archivo(s): queesangular.pdf</p>
+    <p class="texts-header">Archivo(s): <a href="#">queesangular.pdf</a></p>
   </div>
-  <form class="login-form pt-5">
+  <form
+    class="login-form pt-5"
+    [formGroup]="formAddNote"
+    (submit)="formAddNote.valid && submitForm()"
+  >
     <!-- Input Nota -->
     <div class="p-inputgroup w-3 flex flex-column mb-4">
       <span class="p-float-label">
         <input
-          formControlName="title"
-          id="float-input-title"
-          type="title"
+          name="note"
+          formControlName="note"
+          id="float-input-note"
+          type="number"
           pInputText
           class="font-bold"
           autocomplete="off"
         />
-        <label for="float-input-title "
+        <label for="float-input-note "
           >Nota <span class="text-red-600">*</span></label
         >
       </span>
@@ -34,27 +39,35 @@
     <div class="p-inputgroup w-full flex flex-column">
       <span class="p-float-label">
         <input
-          formControlName="title"
-          id="float-input-title"
-          type="title"
+          name="feedback"
+          formControlName="feedback"
+          id="float-input-feedback"
+          type="feedback"
           pInputText
           class="font-bold"
           autocomplete="off"
         />
-        <label for="float-input-title ">Retroalimentación</label>
+        <label for="float-input-feedback ">Retroalimentación</label>
       </span>
-      <small id="float-input-title-help font-bold" class="p-error block"
+      <small id="float-input-feedback-help font-bold" class="p-error block"
         >Una vez guardado el registro no se podrá modificar la
         calificación</small
       >
     </div>
 
     <div class="w-full flex justify-content-end mt-5">
-      <button class="mr-2" pButton type="submit" label="Guardar"></button>
+      <button
+        [disabled]="formAddNote.invalid"
+        class="mr-2"
+        pButton
+        type="submit"
+        label="Guardar"
+      ></button>
       <button
         pButton
         pRipple
         type="button"
+        (click)="closeModalEmmiter()"
         label="Cancelar"
         class="p-button-danger"
       ></button>
