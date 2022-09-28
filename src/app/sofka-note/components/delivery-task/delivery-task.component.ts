@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { TopicModel } from '../../interfaces/topic.model';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
@@ -11,6 +10,7 @@ import { Auth } from '@angular/fire/auth';
 import { CourseGeneric } from '../../interfaces/courseGeneric';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
 import { HttpClient } from '@angular/common/http';
+import { Status } from '../../enum/status.enum';
 
 @Component({
   selector: 'app-delivery-task',
@@ -30,12 +30,13 @@ export class DeliveryTaskComponent implements OnInit {
   validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
   date: string = '';
   showLoading: boolean = false;
+  
 
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
     private auth$: Auth,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -141,16 +142,16 @@ export class DeliveryTaskComponent implements OnInit {
       .map((ele, index) => {
         let status = ele.estado;
         if (
-          ele.estado.toLocaleLowerCase().trim() != 'entregada' &&
-          ele.estado.toLocaleLowerCase().trim() != 'calificada'
+          ele.estado != Status.ENTREGADA &&
+          ele.estado.toLocaleLowerCase().trim() != Status.CALIFICADA
         ) {
           const days = moment(ele.fechaLimite).diff(moment(), 'days');
           status =
             days == 0 || days == 1
-              ? 'Por vencer'
+              ? Status.POR_VENCER
               : days < 0
-              ? 'Vencida'
-              : 'Sin entregar';
+              ? Status.VENCIDA
+              : Status.SIN_ENTREGAR;
         }
         return {
           ...ele,
@@ -163,5 +164,9 @@ export class DeliveryTaskComponent implements OnInit {
   getDelivery(delivery: HomeworkStatusModel) {
     this.file = null
     this.idDelivery = delivery.tareaID
+  }
+
+  getStatus(){
+    return Status
   }
 }

@@ -83,29 +83,29 @@
         <th>Subir archivo</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-prueba>
+    <ng-template pTemplate="body" let-delivery>
       <tr>
-        <td>{{ prueba.orden }}</td>
-        <td>{{ prueba.titulo }}</td>
-        <td>{{ prueba.fechaLimite }}</td>
+        <td>{{ delivery.orden }}</td>
+        <td>{{ delivery.titulo }}</td>
+        <td>{{ delivery.fechaLimite }}</td>
         <td
           [ngClass]="{
-            'por-vencer': prueba.estado === 'Por vencer',
-            entregada: prueba.estado === 'Entregada',
-            vencida: prueba.estado === 'Vencida',
-            'sin-entregar': prueba.estado === 'Sin entregar',
-            calificada: prueba.estado === 'Calificada'
+            'por-vencer': delivery.estado === getStatus().POR_VENCER,
+            entregada: delivery.estado === getStatus().ENTREGADA,
+            vencida: delivery.estado === getStatus().VENCIDA,
+            'sin-entregar': delivery.estado === getStatus().SIN_ENTREGAR,
+            calificada: delivery.estado === getStatus().CALIFICADA
           }"
         >
-          {{ prueba.estado }}
+          {{ delivery.estado }}
         </td>
-        <td>{{ prueba.fechaEntregado }}</td>
+        <td>{{ delivery.fechaEntregado }}</td>
         <td>
           <div class="flex justify-content-center align-items-center">
             <div
               class="file-upload m-2"
               *ngIf="
-                prueba.estado != 'Calificada' && prueba.estado != 'Vencida'
+                delivery.estado != getStatus().CALIFICADA && delivery.estado != getStatus().VENCIDA
               "
             >
               <input
@@ -115,17 +115,17 @@
                 id="upload"
                 hidden
               />
-              <label (click)="getDelivery(prueba)" for="upload"
+              <label (click)="getDelivery(delivery)" for="upload"
                 ><i class="pi pi-upload"></i
               ></label>
             </div>
             <i
-              (click)="saveFile(prueba)"
-              *ngIf="idDelivery == prueba.tareaID && file"
+              (click)="saveFile(delivery)"
+              *ngIf="idDelivery == delivery.tareaID && file"
               class="pi pi-check m-2 save-file"
             ></i>
 
-            <a *ngIf="prueba.urlarchivo" [href]="prueba.urlarchivo" download
+            <a *ngIf="delivery.urlarchivo" [href]="delivery.urlarchivo" download
               ><i class="pi pi-eye"></i
             ></a>
           </div>
