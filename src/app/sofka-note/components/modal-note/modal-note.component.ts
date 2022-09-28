@@ -36,6 +36,11 @@ export class ModalNoteComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  closeModalEmmiter() {
+    this.closeModal.emit(false);
+    this.formAddNote.reset();
+  }
+
   clearData() {
     this.formAddNote.reset();
     this.router.navigate(['/sofkau-note/home']);
@@ -49,6 +54,7 @@ export class ModalNoteComponent implements OnInit {
     this.swal$.confirmationPopup(title, message, btnMessage).then((result) => {
       if (result.isConfirmed) {
         this.swal$.succesMessage('Calificación agregada con éxito');
+        this.closeModalEmmiter();
       }
     });
   }
