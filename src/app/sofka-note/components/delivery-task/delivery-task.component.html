@@ -36,6 +36,7 @@
           placeholder="Tipo de Identificación"
           [autoDisplayFirst]="false"
           [(ngModel)]="topic"
+          (onChange)="searchDelivery()"
         ></p-dropdown>
         <label for="topic-dropdown"
           >Tema <span class="text-red-600">*</span></label
@@ -65,11 +66,11 @@
   </div>
 </div>
 
-<div class="card-custom p-1 pb-5" *ngIf="homeworkStatus.length > 0">
+<div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
   <h1 class="m-2">Cumplimiento:45%</h1>
   <app-header-title></app-header-title>
   <p-table
-    [value]="homeworkStatus"
+    [value]="deliveries"
     styleClass="p-datatable-striped"
     responsiveLayout="scroll"
   >
@@ -96,6 +97,7 @@
             'sin-entregar': delivery.estado === getStatus().SIN_ENTREGAR,
             calificada: delivery.estado === getStatus().CALIFICADA
           }"
+          (click)="delivery.estado == getStatus().CALIFICADA && showDetails(delivery)"
         >
           {{ delivery.estado }}
         </td>
@@ -109,8 +111,7 @@
                 delivery.estado != getStatus().VENCIDA
               "
             >
-              <h1>
-              </h1>
+              <h1></h1>
               <input
                 type="file"
                 (change)="onUpload($event)"
@@ -147,3 +148,10 @@
 </div>
 
 <app-loading *ngIf="showLoading"></app-loading>
+
+<app-modal-note
+  [isView]="true"
+  [delivery]="delivery"
+  (closeModal)="closeModal($event)"
+  [displayModal]="showModal"
+></app-modal-note>

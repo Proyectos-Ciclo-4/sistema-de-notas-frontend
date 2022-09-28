@@ -24,13 +24,15 @@ export class DeliveryTaskComponent implements OnInit {
   showSuggestion: boolean = false;
   topics: TopicModel[] = [];
   topic: TopicModel | null = null;
-  homeworkStatus: HomeworkStatusModel[] = [];
+  deliveries: HomeworkStatusModel[] = [];
   file: any;
   idDelivery: string = '';
   validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
   date: string = '';
   showLoading: boolean = false;
-  moment = moment
+  moment = moment;
+  delivery: HomeworkStatusModel | null = null;
+  showModal: boolean = false;
 
   constructor(
     private api$: ApiServiceService,
@@ -41,7 +43,7 @@ export class DeliveryTaskComponent implements OnInit {
 
   ngOnInit(): void {
     setInterval(() => {
-      this.date = moment().add(-10,"days").format('DD/MM/YYYY HH: mm: ss');
+      this.date = moment().add(-10, 'days').format('DD/MM/YYYY HH: mm: ss');
     }, 1000);
   }
 
@@ -88,7 +90,7 @@ export class DeliveryTaskComponent implements OnInit {
     this.termSearch = '';
     this.topics = [];
     this.topic = null;
-    this.homeworkStatus = [];
+    this.deliveries = [];
   }
 
   onUpload(event: any) {
@@ -107,7 +109,9 @@ export class DeliveryTaskComponent implements OnInit {
 
   saveFile(delivery: HomeworkStatusModel) {
     //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
-    const nameFile = `${this.auth$.currentUser?.uid+delivery.tareaID}.${this.file.name.split('.').pop()}`;
+    const nameFile = `${
+      this.auth$.currentUser?.uid + delivery.tareaID
+    }.${this.file.name.split('.').pop()}`;
     const title = 'Estas seguro de realizar la entrega?';
     const text = 'Una vez envia no se podra revertir';
     const btnMessage = 'Si, enviar';
@@ -125,7 +129,7 @@ export class DeliveryTaskComponent implements OnInit {
           .then(async (res) => {
             getDownloadURL(res.ref).then((url) => {
               delivery.archivoURL = url;
-              this.deliverHomework(delivery)
+              this.deliverHomework(delivery);
             });
           });
         this.file = null;
@@ -134,7 +138,7 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   searchDelivery() {
-    this.homeworkStatus = this.course?.estadosTarea
+    this.deliveries = this.course?.estadosTarea
       .filter((task) => task.temaID === this.topic?.temaID)!
       .map((ele, index) => {
         let status = ele.estado;
@@ -170,8 +174,8 @@ export class DeliveryTaskComponent implements OnInit {
         this.swal$.succesMessage('Entrega realizada con éxito');
         this.file = null;
         this.showLoading = false;
-        delivery.estado = this.getStatus().ENTREGADA
-        delivery.fechaEntregado = moment().format("YYYY-MM-DD")
+        delivery.estado = this.getStatus().ENTREGADA;
+        delivery.fechaEntregado = moment().format('YYYY-MM-DD');
       },
       error: (err) => {
         this.swal$.errorMessage();
@@ -187,5 +191,15 @@ export class DeliveryTaskComponent implements OnInit {
 
   getStatus() {
     return Status;
+  }
+
+  closeModal(event: any) {
+    this.showModal = event;
+    this.delivery = null;
+  }
+
+  showDetails(delivery: HomeworkStatusModel) {
+    this.showModal = true;
+    this.delivery = delivery;
   }
 }

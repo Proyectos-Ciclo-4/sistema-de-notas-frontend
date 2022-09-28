@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
+import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
 
 @Component({
   selector: 'app-modal-note',
@@ -16,17 +17,19 @@ import { SweetalertService } from '../../../shared/service/sweetalert.service';
 export class ModalNoteComponent implements OnInit {
   @Input() header: string = '';
   @Input() displayModal: boolean = false;
+  @Input() delivery: HomeworkStatusModel | null = null;
+  @Input() isView: boolean = false;
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
 
   formAddNote!: FormGroup;
 
   constructor(private swal$: SweetalertService, private router: Router) {
     this.formAddNote = new FormGroup({
-      note: new FormControl('', [
+      note: new FormControl(this.delivery?.calificacion, [
         Validators.required,
         this.validNote.bind(this),
       ]),
-      feedback: new FormControl('', [
+      feedback: new FormControl(this.delivery?.calificacion, [
         Validators.required,
         Validators.maxLength(500),
       ]),
@@ -39,6 +42,7 @@ export class ModalNoteComponent implements OnInit {
   closeModalEmmiter() {
     this.closeModal.emit(false);
     this.formAddNote.reset();
+    this.delivery = null;
   }
 
   clearData() {
