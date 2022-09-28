@@ -10,6 +10,7 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { Auth } from '@angular/fire/auth';
 import { CourseGeneric } from '../../interfaces/courseGeneric';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-delivery-task',
@@ -27,14 +28,21 @@ export class DeliveryTaskComponent implements OnInit {
   file: any;
   idDelivery: string = '';
   validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
+  date: string = '';
+  showLoading: boolean = false;
 
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
-    private auth$: Auth
+    private auth$: Auth,
+    private http: HttpClient
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setInterval(() => {
+      this.date = moment().format('DD/MM/YYYY HH: mm: ss');
+    }, 1000);
+  }
 
   courseSuggestions(termSearch: string) {
     this.course = null;
@@ -104,11 +112,14 @@ export class DeliveryTaskComponent implements OnInit {
     const btnMessage = 'Si, enviar';
     this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
       if (result.isConfirmed) {
+        this.showLoading = true;
         this.api$.uploapFile(this.file, nameFile).then(async (res) => {
-          const url = await getDownloadURL(res.ref);
-          console.log(url);
-          this.swal$.succesMessage('Entrega realizada con éxito');
-          this.file = null;
+          getDownloadURL(res.ref).then((url) => {
+            this.swal$.succesMessage('Entrega realizada con éxito');
+            console.log(url);
+            this.file = null;
+            this.showLoading = false;
+          });
         });
         this.file = null;
       }
@@ -131,7 +142,6 @@ export class DeliveryTaskComponent implements OnInit {
               : days < 0
               ? 'Vencida'
               : 'Sin entregar';
-          console.log(moment(ele.fechaLimite).diff(moment(), 'days'));
         }
         return {
           ...ele,
