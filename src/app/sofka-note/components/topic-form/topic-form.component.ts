@@ -52,6 +52,7 @@ export class TopicFormComponent implements OnInit {
     const title = '¿Estás seguro de crear el tema?';
     const text = '¡No podrás revertir esto!';
     const messageBotton = 'Crear';
+    debugger
     this.swal$.confirmationPopup(title, text, messageBotton).then((result) => {
       if (result.isConfirmed) {
         this.showLoading = true;

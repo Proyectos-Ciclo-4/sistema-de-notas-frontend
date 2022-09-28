@@ -11,19 +11,24 @@ tr {
 }
 
 h1 {
-
   color: $success-color;
   font-weight: bolder;
   font-size: $font-size-two;
 }
 
 i {
-  color: $success-color;
   font-size: 25px;
   font-weight: bold;
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-right: 5px;
+}
+
+.save-file,
+a {
+  color: $success-color;
+  text-decoration: none;
 }
 
 .file-upload {
@@ -36,4 +41,31 @@ i {
       color: $dark-color;
     }
   }
+}
+
+.por-vencer {
+  color: $error-color !important;
+  font-weight: bold !important;
+  cursor: auto;
+}
+
+.vencida {
+  color: $error-color !important;
+  font-weight: bold !important;
+  cursor: auto;
+}
+
+.calificada {
+  font-weight: bold;
+  color: $success-color !important;
+  cursor: pointer !important;
+}
+.entregada {
+  font-weight: bold !important;
+  color: $text-color !important;
+  cursor: auto;
+}
+
+.sin-entregar {
+  cursor: auto;
 }

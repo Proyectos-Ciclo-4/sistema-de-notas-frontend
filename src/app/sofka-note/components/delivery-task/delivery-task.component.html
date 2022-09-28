@@ -8,14 +8,14 @@
     <div class="relative">
       <ul
         *ngIf="showSuggestion"
-        class="suggestion absolute top-0 w-full z-5 px-3 pb-2"
+        class="suggestion absolute top-0 w-full z-5 px-3 pb-2 card-custom"
       >
         <li
           (click)="selectCourse(course)"
           class="mt-1"
           *ngFor="let course of courses"
         >
-          {{ course.titulo }}
+          {{ course.nombreCurso }}
         </li>
       </ul>
     </div>
@@ -65,11 +65,11 @@
   </div>
 </div>
 
-<div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
+<div class="card-custom p-1 pb-5" *ngIf="homeworkStatus.length > 0">
   <h1 class="m-2">Cumplimiento:45%</h1>
   <app-header-title></app-header-title>
   <p-table
-    [value]="deliveries"
+    [value]="homeworkStatus"
     styleClass="p-datatable-striped"
     responsiveLayout="scroll"
   >
@@ -85,31 +85,65 @@
     </ng-template>
     <ng-template pTemplate="body" let-delivery>
       <tr>
-        <td>{{ delivery.numero }}</td>
+        <td>{{ delivery.orden }}</td>
         <td>{{ delivery.titulo }}</td>
-        <td>{{ delivery.limite }}</td>
-        <td>{{ delivery.estado }}</td>
-        <td>{{ delivery.fechaEntregado }}</td>
+        <td>{{ delivery.fechaLimite | date: "dd/MM/yyyy" }}</td>
+        <td
+          [ngClass]="{
+            'por-vencer': delivery.estado === getStatus().POR_VENCER,
+            entregada: delivery.estado === getStatus().ENTREGADA,
+            vencida: delivery.estado === getStatus().VENCIDA,
+            'sin-entregar': delivery.estado === getStatus().SIN_ENTREGAR,
+            calificada: delivery.estado === getStatus().CALIFICADA
+          }"
+        >
+          {{ delivery.estado }}
+        </td>
+        <td>{{ delivery.fechaEntregado | date: "dd/MM/yyyy" }}</td>
         <td>
-          <div class="flex justify-content-center">
-            <div class="file-upload m-2">
+          <div class="flex justify-content-center align-items-center">
+            <div
+              class="file-upload m-2"
+              *ngIf="
+                delivery.estado != getStatus().CALIFICADA &&
+                delivery.estado != getStatus().VENCIDA
+              "
+            >
+              <h1>
+              </h1>
               <input
                 type="file"
-                (change)="onUpload($event, delivery.tareaID)"
+                (change)="onUpload($event)"
                 class="p-1"
                 id="upload"
                 hidden
               />
-              <label for="upload"><i class="pi pi-upload"></i></label>
+              <label
+                *ngIf="
+                  moment(moment(date, 'DD/MM/YYYY')).diff(
+                    delivery.fechaLimite,
+                    'days'
+                  ) <= 0
+                "
+                (click)="getDelivery(delivery)"
+                for="upload"
+                ><i class="pi pi-upload"></i
+              ></label>
             </div>
             <i
-              (click)="saveFile()"
+              (click)="saveFile(delivery)"
               *ngIf="idDelivery == delivery.tareaID && file"
-              class="pi pi-check m-2"
+              class="pi pi-check m-2 save-file"
             ></i>
+
+            <a *ngIf="delivery.archivoURL" [href]="delivery.urlarchivo" download
+              ><i class="pi pi-eye"></i
+            ></a>
           </div>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
+
+<app-loading *ngIf="showLoading"></app-loading>

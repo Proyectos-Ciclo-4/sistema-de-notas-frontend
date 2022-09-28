@@ -1,7 +1,13 @@
 export interface HomeworkStatusModel {
-    tareaID:        string;
-    calificacion:   number;
-    fechaEntregado: null;
-    estado:         string;
-    urlarchivo:     null;
+  tareaID: string;
+  titulo: string;
+  calificacion: number;
+  fechaEntregado: string | null;
+  estado: string;
+  urlarchivo: string;
+  temaID: string;
+  temaNombre: string;
+  fechaLimite: Date;
+  orden: number;
+  archivoURL: string | null
 }

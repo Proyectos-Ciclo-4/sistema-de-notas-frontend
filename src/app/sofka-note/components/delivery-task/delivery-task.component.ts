@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { TopicModel } from '../../interfaces/topic.model';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { getDownloadURL } from '@angular/fire/storage';
+import * as moment from 'moment';
 
-import { v4 as uuidv4, v4 } from 'uuid';
 import { Auth } from '@angular/fire/auth';
+import { CourseGeneric } from '../../interfaces/courseGeneric';
+import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
+import { HttpClient } from '@angular/common/http';
+import { Status } from '../../enum/status.enum';
+import { DeliveryCommand } from '../../interfaces/commands/deliveryCommand';
 
 @Component({
   selector: 'app-delivery-task',
@@ -14,24 +18,32 @@ import { Auth } from '@angular/fire/auth';
   styleUrls: ['./delivery-task.component.scss'],
 })
 export class DeliveryTaskComponent implements OnInit {
-  course: CourseModel | null = null;
-  courses: CourseModel[] = [];
+  course: CourseGeneric | null = null;
+  courses: CourseGeneric[] = [];
   termSearch: string = '';
   showSuggestion: boolean = false;
   topics: TopicModel[] = [];
   topic: TopicModel | null = null;
-  deliveries: any[] = [];
+  homeworkStatus: HomeworkStatusModel[] = [];
   file: any;
   idDelivery: string = '';
   validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
+  date: string = '';
+  showLoading: boolean = false;
+  moment = moment
 
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
-    private auth$: Auth
+    private auth$: Auth,
+    private http: HttpClient
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    setInterval(() => {
+      this.date = moment().add(-10,"days").format('DD/MM/YYYY HH: mm: ss');
+    }, 1000);
+  }
 
   courseSuggestions(termSearch: string) {
     this.course = null;
@@ -41,7 +53,7 @@ export class DeliveryTaskComponent implements OnInit {
     if (termSearch != '') {
       if (termSearch != '') {
         this.api$
-          .searchAllCourse(termSearch)
+          .searchCourseByStudent(termSearch, this.auth$.currentUser?.uid!)
           .subscribe({
             next: (res) => {
               this.courses = res;
@@ -55,25 +67,35 @@ export class DeliveryTaskComponent implements OnInit {
     }
   }
 
-  selectCourse(course: CourseModel) {
-    this.termSearch = course.titulo;
+  selectCourse(course: CourseGeneric) {
+    this.termSearch = course.nombreCurso;
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
-    this.topics = this.course.temas;
+    if (this.course.estadosTarea.length > 0) {
+      let set = new Set(
+        this.course.estadosTarea.map(({ temaNombre: titulo, temaID }) =>
+          JSON.stringify({ titulo, temaID })
+        )
+      );
+      this.topics = Array.from(set).map((ele) => JSON.parse(ele));
+    }
   }
 
   clearFilter() {
     this.topics = [];
     this.course = null;
     this.termSearch = '';
+    this.topics = [];
+    this.topic = null;
+    this.homeworkStatus = [];
   }
-  onUpload(event: any, idDelivery: string) {
+
+  onUpload(event: any) {
     const { name } = event.target.files[0];
     const extension = name.split('.').pop().toLowerCase().trim();
     if (this.validExtension.includes(extension)) {
       this.file = event.target.files[0];
-      this.idDelivery = idDelivery;
       return;
     }
     this.file = null;
@@ -83,30 +105,87 @@ export class DeliveryTaskComponent implements OnInit {
     );
   }
 
-  saveFile() {
+  saveFile(delivery: HomeworkStatusModel) {
     //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
-    const nameFile = `${v4()}.${this.file.name.split('.').pop()}`;
+    const nameFile = `${this.auth$.currentUser?.uid+delivery.tareaID}.${this.file.name.split('.').pop()}`;
     const title = 'Estas seguro de realizar la entrega?';
     const text = 'Una vez envia no se podra revertir';
     const btnMessage = 'Si, enviar';
     this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
       if (result.isConfirmed) {
-        this.api$.uploapFile(this.file, nameFile).then(async (res) => {
-          const url = await getDownloadURL(res.ref);
-          console.log(url);
-          this.swal$.succesMessage('Entrega realizada con éxito');
-          this.file = null;
-        });
+        this.showLoading = true;
+        this.api$
+          .uploapFile(
+            this.file,
+            this.course?.nombreCurso!,
+            this.topic?.titulo!,
+            delivery.titulo,
+            nameFile
+          )
+          .then(async (res) => {
+            getDownloadURL(res.ref).then((url) => {
+              delivery.archivoURL = url;
+              this.deliverHomework(delivery)
+            });
+          });
         this.file = null;
       }
     });
   }
 
   searchDelivery() {
-    this.deliveries = this.api$.getDeliveries(
-      this.course?._id || '',
-      '1',
-      this.topic?.temaID || ''
-    );
+    this.homeworkStatus = this.course?.estadosTarea
+      .filter((task) => task.temaID === this.topic?.temaID)!
+      .map((ele, index) => {
+        let status = ele.estado;
+        if (
+          ele.estado != Status.ENTREGADA &&
+          ele.estado.trim() != Status.CALIFICADA
+        ) {
+          const days = moment(ele.fechaLimite).diff(moment(), 'days');
+          status =
+            days == 0 || days == 1
+              ? Status.POR_VENCER
+              : days < 0
+              ? Status.VENCIDA
+              : Status.SIN_ENTREGAR;
+        }
+        return {
+          ...ele,
+          estado: status,
+        };
+      })
+      .sort((a, b) => a.orden - b.orden)!;
+  }
+
+  deliverHomework(delivery: HomeworkStatusModel) {
+    const deliverycommand: DeliveryCommand = {
+      archivoURL: delivery.urlarchivo,
+      tareaID: delivery.tareaID,
+      cursoID: this.course?.cursoID!,
+      estudianteID: this.auth$.currentUser?.uid!,
+    };
+    this.api$.deliverHomework(deliverycommand).subscribe({
+      next: (resp) => {
+        this.swal$.succesMessage('Entrega realizada con éxito');
+        this.file = null;
+        this.showLoading = false;
+        delivery.estado = this.getStatus().ENTREGADA
+        delivery.fechaEntregado = moment().format("YYYY-MM-DD")
+      },
+      error: (err) => {
+        this.swal$.errorMessage();
+        this.showLoading = false;
+      },
+    });
+  }
+
+  getDelivery(delivery: HomeworkStatusModel) {
+    this.file = null;
+    this.idDelivery = delivery.tareaID;
+  }
+
+  getStatus() {
+    return Status;
   }
 }

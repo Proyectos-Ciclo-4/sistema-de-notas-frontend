@@ -1,9 +1,14 @@
-ul{
-    max-height: 350px;
-    overflow: hidden;
-    overflow-y: scroll;
+@import "../../../../assets/scss/global.scss";
+
+
+
+
+
+.t-head{
+    color: $text-color !important;
 }
 
-.p-treetable .p-treetable-thead > tr > th{
-    text-align: center;
+.t-data{
+    border-right: 1px solid $background-color !important;
+    padding-left: 3px;
 }

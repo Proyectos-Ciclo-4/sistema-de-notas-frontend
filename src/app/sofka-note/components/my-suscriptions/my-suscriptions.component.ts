@@ -60,15 +60,19 @@ export class MySuscriptionsComponent implements OnInit {
       estudianteID: this.auth$.currentUser?.uid!,
       nombreCurso: this.course?.titulo!,
     };
-    const isEnrollo = this.student?.inscripciones.find((ele) => ele.cursoID === this.course?._id);
-    if (isEnrollo) {
-      this.swal$.errorMessage("Ya te encuentras inscrito en este curso")
-      return
+    const isEnroll = this.student?.inscripciones.find(
+      (ele) => ele.cursoID === this.course?._id
+    );
+    if (isEnroll) {
+      this.swal$.errorMessage('Ya te encuentras inscrito en este curso');
+      return;
     }
     this.api$.enrollCourse(enrollCommand).subscribe({
       next: (res) => {
         this.swal$.succesMessage('Inscripción exitosa');
         this.getStudentView();
+        this.course = null;
+        this.termSearch = '';
       },
       error: (err) => {
         this.swal$.errorMessage();

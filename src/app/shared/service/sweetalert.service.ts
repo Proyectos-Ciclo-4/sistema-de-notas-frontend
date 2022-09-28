@@ -15,6 +15,9 @@ export class SweetalertService {
       title: message,
       showConfirmButton: false,
       timer: 1500,
+      customClass:{
+        popup:"card-custom"
+      }
     });
   }
 
@@ -27,6 +30,11 @@ export class SweetalertService {
       title: 'Oops...',
       text: message,
       footer: footer,
+      cancelButtonColor: '#fa3007',
+      confirmButtonColor: '#673ab7',
+      customClass:{
+        popup:"card-custom"
+      }
     });
   }
 
@@ -39,7 +47,12 @@ export class SweetalertService {
       },
       showCancelButton: true,
       confirmButtonText: 'Enviar',
+      cancelButtonColor: '#fa3007',
+      confirmButtonColor: '#673ab7',
       showLoaderOnConfirm: true,
+      customClass:{
+        popup:"card-custom"
+      },
       preConfirm: (email) => {
         return this.authService
           .resetPassword(email)
@@ -55,6 +68,7 @@ export class SweetalertService {
       if (result.isConfirmed) {
         Swal.fire(
           'Se envió la contraseña satisfactoriamente al correo registrado'
+          
         );
       }
     });
@@ -66,9 +80,12 @@ export class SweetalertService {
       text: text,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      cancelButtonColor: '#fa3007',
+      confirmButtonColor: '#673ab7',
       confirmButtonText: messageButton,
+      customClass:{
+        popup:"card-custom"
+      }
     });
   }
 }
