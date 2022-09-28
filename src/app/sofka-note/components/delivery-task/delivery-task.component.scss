@@ -17,12 +17,16 @@ h1 {
 }
 
 i {
-  color: $success-color;
   font-size: 25px;
   font-weight: bold;
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.save-file,
+a {
+  color: $success-color;
 }
 
 .file-upload {

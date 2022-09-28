@@ -4,7 +4,7 @@ export interface HomeworkStatusModel {
   calificacion: number;
   fechaEntregado: null;
   estado: string;
-  urlarchivo: null;
+  urlarchivo: string;
   temaID: string;
   temaNombre: string;
   fechaLimite: Date;

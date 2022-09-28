@@ -96,8 +96,13 @@ export class ApiServiceService {
     return this.deliveries;
   }
 
-  uploapFile(file: any, name: string) {
-    const filesRef = ref(this.storage, `entregas/${name}`);
+  uploapFile(
+    file: any,
+    course: string,
+    topic: string,
+    name: string
+  ) {
+    const filesRef = ref(this.storage, `entregas/${course}/${topic}/${name}`);
     return uploadBytes(filesRef, file);
   }
 

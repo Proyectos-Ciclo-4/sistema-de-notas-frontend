@@ -38,12 +38,11 @@ export class LoginComponent implements OnInit {
       .then((user: UserCredential) => {
         if (user.user.emailVerified) {
           this.showLoading = false;
+          this.router.navigate(['/sofkau-note']);
 
           this.swal$
             .succesMessage(`¡Bienvenido ${user.user.displayName!}!`)
-            .then(() => {
-              this.router.navigate(['/sofkau-note']);
-            });
+            .then(() => {});
         } else {
           this.authService.logout();
           this.showLoading = false;
