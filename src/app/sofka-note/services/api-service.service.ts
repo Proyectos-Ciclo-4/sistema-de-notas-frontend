@@ -100,9 +100,10 @@ export class ApiServiceService {
     file: any,
     course: string,
     topic: string,
+    task: string,
     name: string
   ) {
-    const filesRef = ref(this.storage, `entregas/${course}/${topic}/${name}`);
+    const filesRef = ref(this.storage, `entregas/${course}/${topic}/${task}/${name}`);
     return uploadBytes(filesRef, file);
   }
 

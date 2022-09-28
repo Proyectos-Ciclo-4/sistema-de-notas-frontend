@@ -89,12 +89,12 @@ export class DeliveryTaskComponent implements OnInit {
     this.topic = null;
     this.homeworkStatus = [];
   }
-  onUpload(event: any, idDelivery: string) {
+  onUpload(event: any) {
+ 
     const { name } = event.target.files[0];
     const extension = name.split('.').pop().toLowerCase().trim();
     if (this.validExtension.includes(extension)) {
       this.file = event.target.files[0];
-      this.idDelivery = idDelivery;
       return;
     }
     this.file = null;
@@ -104,8 +104,9 @@ export class DeliveryTaskComponent implements OnInit {
     );
   }
 
-  saveFile() {
+  saveFile(delivery: HomeworkStatusModel) {
     //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
+    console.log(delivery);
     const nameFile = `${v4()}.${this.file.name.split('.').pop()}`;
     const title = 'Estas seguro de realizar la entrega?';
     const text = 'Una vez envia no se podra revertir';
@@ -113,14 +114,22 @@ export class DeliveryTaskComponent implements OnInit {
     this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
       if (result.isConfirmed) {
         this.showLoading = true;
-        this.api$.uploapFile(this.file, nameFile).then(async (res) => {
-          getDownloadURL(res.ref).then((url) => {
-            this.swal$.succesMessage('Entrega realizada con éxito');
-            console.log(url);
-            this.file = null;
-            this.showLoading = false;
+        this.api$
+          .uploapFile(
+            this.file,
+            this.course?.nombreCurso!,
+            this.topic?.titulo!,
+            delivery.titulo,
+            nameFile
+          )
+          .then(async (res) => {
+            getDownloadURL(res.ref).then((url) => {
+              this.swal$.succesMessage('Entrega realizada con éxito');
+              delivery.urlarchivo = url;
+              this.file = null;
+              this.showLoading = false;
+            });
           });
-        });
         this.file = null;
       }
     });
@@ -129,7 +138,7 @@ export class DeliveryTaskComponent implements OnInit {
   searchDelivery() {
     this.homeworkStatus = this.course?.estadosTarea
       .filter((task) => task.temaID === this.topic?.temaID)!
-      .map((ele) => {
+      .map((ele, index) => {
         let status = ele.estado;
         if (
           ele.estado.toLocaleLowerCase().trim() != 'entregada' &&
@@ -149,5 +158,10 @@ export class DeliveryTaskComponent implements OnInit {
         };
       })
       .sort((a, b) => a.orden - b.orden)!;
+  }
+
+  getDelivery(delivery: HomeworkStatusModel) {
+    this.file = null
+    this.idDelivery = delivery.tareaID
   }
 }

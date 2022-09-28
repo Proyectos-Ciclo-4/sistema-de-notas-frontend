@@ -83,40 +83,51 @@
         <th>Subir archivo</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-delivery>
+    <ng-template pTemplate="body" let-prueba>
       <tr>
-        <td>{{ delivery.orden }}</td>
-        <td>{{ delivery.titulo }}</td>
-        <td>{{ delivery.fechaLimite }}</td>
+        <td>{{ prueba.orden }}</td>
+        <td>{{ prueba.titulo }}</td>
+        <td>{{ prueba.fechaLimite }}</td>
         <td
           [ngClass]="{
-            'por-vencer': delivery.estado === 'Por vencer',
-            'entregada': delivery.estado === 'Entregada',
-            'vencida': delivery.estado === 'Vencida',
-            'sin-entregar': delivery.estado === 'Sin entregar',
-            'calificada' : delivery.estado === 'Calificada'
+            'por-vencer': prueba.estado === 'Por vencer',
+            entregada: prueba.estado === 'Entregada',
+            vencida: prueba.estado === 'Vencida',
+            'sin-entregar': prueba.estado === 'Sin entregar',
+            calificada: prueba.estado === 'Calificada'
           }"
         >
-          {{ delivery.estado }}
+          {{ prueba.estado }}
         </td>
-        <td>{{ delivery.fechaEntregado }}</td>
+        <td>{{ prueba.fechaEntregado }}</td>
         <td>
-          <div class="flex justify-content-center">
-            <div class="file-upload m-2" *ngIf="(delivery.estado != 'Calificada' && delivery.estado != 'Vencida' )">
+          <div class="flex justify-content-center align-items-center">
+            <div
+              class="file-upload m-2"
+              *ngIf="
+                prueba.estado != 'Calificada' && prueba.estado != 'Vencida'
+              "
+            >
               <input
                 type="file"
-                (change)="onUpload($event, delivery.tareaID)"
+                (change)="onUpload($event)"
                 class="p-1"
                 id="upload"
                 hidden
               />
-              <label for="upload"><i class="pi pi-upload"></i></label>
+              <label (click)="getDelivery(prueba)" for="upload"
+                ><i class="pi pi-upload"></i
+              ></label>
             </div>
             <i
-              (click)="saveFile()"
-              *ngIf="idDelivery == delivery.tareaID && file"
-              class="pi pi-check m-2"
+              (click)="saveFile(prueba)"
+              *ngIf="idDelivery == prueba.tareaID && file"
+              class="pi pi-check m-2 save-file"
             ></i>
+
+            <a *ngIf="prueba.urlarchivo" [href]="prueba.urlarchivo" download
+              ><i class="pi pi-eye"></i
+            ></a>
           </div>
         </td>
       </tr>
@@ -124,6 +135,4 @@
   </p-table>
 </div>
 
-
 <app-loading *ngIf="showLoading"></app-loading>
-

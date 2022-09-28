@@ -22,11 +22,13 @@ i {
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-right: 5px;
 }
 
 .save-file,
 a {
   color: $success-color;
+  text-decoration: none;
 }
 
 .file-upload {
