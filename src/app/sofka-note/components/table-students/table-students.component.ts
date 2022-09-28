@@ -53,4 +53,8 @@ export class TableStudentsComponent implements OnInit {
   closeModal(event: boolean) {
     this.showDialog = event;
   }
+
+  AddNote() {
+    this.showDialog = true;
+  }
 }

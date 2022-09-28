@@ -39,6 +39,15 @@
     ></button>
   </div>
 </div>
+
 <app-header-title></app-header-title>
-<app-modal-note header="Tarea 3: Angular básico" [displayModal]="true">
-</app-modal-note>
+
+<div class="add-icon" (click)="AddNote()">
+  <i class="pi pi-plus"></i>
+</div>
+
+<app-modal-note
+  header="Tarea 3: Angular básico"
+  [displayModal]="showDialog"
+  (closeModal)="closeModal($event)"
+></app-modal-note>
