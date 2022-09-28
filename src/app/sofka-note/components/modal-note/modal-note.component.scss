@@ -1,0 +1,25 @@
+@import "../../../../assets/scss/global.scss";
+
+form {
+  input {
+    background-color: $background-color;
+    color: $text-color;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    height: 52px;
+  }
+  label {
+    background-color: $background-color;
+  }
+}
+
+.swal2-container {
+  z-index: 500000;
+}
+
+.texts-header {
+  color: $text-color;
+  font-size: 22px;
+  margin-bottom: 20px;
+}

@@ -13,6 +13,9 @@ export class TableStudentsComponent implements OnInit {
   course?: CourseModel | null;
   termSearch: string = '';
   courses: CourseModel[] = [];
+
+  showDialog: boolean = false;
+
   constructor(private api$: ApiServiceService, private auth$: Auth) {}
 
   ngOnInit(): void {}
@@ -44,5 +47,14 @@ export class TableStudentsComponent implements OnInit {
   clearFilter() {
     (this.termSearch = ''), (this.course = null);
     this.courses = [];
+  }
+
+  //Event close modal
+  closeModal(event: boolean) {
+    this.showDialog = event;
+  }
+
+  AddNote() {
+    this.showDialog = true;
   }
 }
