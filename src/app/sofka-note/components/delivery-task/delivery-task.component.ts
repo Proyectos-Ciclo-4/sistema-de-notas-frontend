@@ -5,12 +5,12 @@ import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { getDownloadURL } from '@angular/fire/storage';
 import * as moment from 'moment';
 
-import { v4 as uuidv4, v4 } from 'uuid';
 import { Auth } from '@angular/fire/auth';
 import { CourseGeneric } from '../../interfaces/courseGeneric';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
 import { HttpClient } from '@angular/common/http';
 import { Status } from '../../enum/status.enum';
+import { DeliveryCommand } from '../../interfaces/commands/deliveryCommand';
 
 @Component({
   selector: 'app-delivery-task',
@@ -30,18 +30,18 @@ export class DeliveryTaskComponent implements OnInit {
   validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
   date: string = '';
   showLoading: boolean = false;
-  
+  moment = moment
 
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
     private auth$: Auth,
-    private http: HttpClient,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
     setInterval(() => {
-      this.date = moment().format('DD/MM/YYYY HH: mm: ss');
+      this.date = moment().add(-10,"days").format('DD/MM/YYYY HH: mm: ss');
     }, 1000);
   }
 
@@ -90,8 +90,8 @@ export class DeliveryTaskComponent implements OnInit {
     this.topic = null;
     this.homeworkStatus = [];
   }
+
   onUpload(event: any) {
- 
     const { name } = event.target.files[0];
     const extension = name.split('.').pop().toLowerCase().trim();
     if (this.validExtension.includes(extension)) {
@@ -107,8 +107,7 @@ export class DeliveryTaskComponent implements OnInit {
 
   saveFile(delivery: HomeworkStatusModel) {
     //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
-    console.log(delivery);
-    const nameFile = `${v4()}.${this.file.name.split('.').pop()}`;
+    const nameFile = `${this.auth$.currentUser?.uid+delivery.tareaID}.${this.file.name.split('.').pop()}`;
     const title = 'Estas seguro de realizar la entrega?';
     const text = 'Una vez envia no se podra revertir';
     const btnMessage = 'Si, enviar';
@@ -125,10 +124,8 @@ export class DeliveryTaskComponent implements OnInit {
           )
           .then(async (res) => {
             getDownloadURL(res.ref).then((url) => {
-              this.swal$.succesMessage('Entrega realizada con éxito');
-              delivery.urlarchivo = url;
-              this.file = null;
-              this.showLoading = false;
+              delivery.archivoURL = url;
+              this.deliverHomework(delivery)
             });
           });
         this.file = null;
@@ -143,7 +140,7 @@ export class DeliveryTaskComponent implements OnInit {
         let status = ele.estado;
         if (
           ele.estado != Status.ENTREGADA &&
-          ele.estado.toLocaleLowerCase().trim() != Status.CALIFICADA
+          ele.estado.trim() != Status.CALIFICADA
         ) {
           const days = moment(ele.fechaLimite).diff(moment(), 'days');
           status =
@@ -161,12 +158,34 @@ export class DeliveryTaskComponent implements OnInit {
       .sort((a, b) => a.orden - b.orden)!;
   }
 
-  getDelivery(delivery: HomeworkStatusModel) {
-    this.file = null
-    this.idDelivery = delivery.tareaID
+  deliverHomework(delivery: HomeworkStatusModel) {
+    const deliverycommand: DeliveryCommand = {
+      archivoURL: delivery.urlarchivo,
+      tareaID: delivery.tareaID,
+      cursoID: this.course?.cursoID!,
+      estudianteID: this.auth$.currentUser?.uid!,
+    };
+    this.api$.deliverHomework(deliverycommand).subscribe({
+      next: (resp) => {
+        this.swal$.succesMessage('Entrega realizada con éxito');
+        this.file = null;
+        this.showLoading = false;
+        delivery.estado = this.getStatus().ENTREGADA
+        delivery.fechaEntregado = moment().format("YYYY-MM-DD")
+      },
+      error: (err) => {
+        this.swal$.errorMessage();
+        this.showLoading = false;
+      },
+    });
   }
 
-  getStatus(){
-    return Status
+  getDelivery(delivery: HomeworkStatusModel) {
+    this.file = null;
+    this.idDelivery = delivery.tareaID;
+  }
+
+  getStatus() {
+    return Status;
   }
 }

@@ -87,7 +87,7 @@
       <tr>
         <td>{{ delivery.orden }}</td>
         <td>{{ delivery.titulo }}</td>
-        <td>{{ delivery.fechaLimite }}</td>
+        <td>{{ delivery.fechaLimite | date: "dd/MM/yyyy" }}</td>
         <td
           [ngClass]="{
             'por-vencer': delivery.estado === getStatus().POR_VENCER,
@@ -99,15 +99,18 @@
         >
           {{ delivery.estado }}
         </td>
-        <td>{{ delivery.fechaEntregado }}</td>
+        <td>{{ delivery.fechaEntregado | date: "dd/MM/yyyy" }}</td>
         <td>
           <div class="flex justify-content-center align-items-center">
             <div
               class="file-upload m-2"
               *ngIf="
-                delivery.estado != getStatus().CALIFICADA && delivery.estado != getStatus().VENCIDA
+                delivery.estado != getStatus().CALIFICADA &&
+                delivery.estado != getStatus().VENCIDA
               "
             >
+              <h1>
+              </h1>
               <input
                 type="file"
                 (change)="onUpload($event)"
@@ -115,7 +118,15 @@
                 id="upload"
                 hidden
               />
-              <label (click)="getDelivery(delivery)" for="upload"
+              <label
+                *ngIf="
+                  moment(moment(date, 'DD/MM/YYYY')).diff(
+                    delivery.fechaLimite,
+                    'days'
+                  ) <= 0
+                "
+                (click)="getDelivery(delivery)"
+                for="upload"
                 ><i class="pi pi-upload"></i
               ></label>
             </div>
@@ -125,7 +136,7 @@
               class="pi pi-check m-2 save-file"
             ></i>
 
-            <a *ngIf="delivery.urlarchivo" [href]="delivery.urlarchivo" download
+            <a *ngIf="delivery.archivoURL" [href]="delivery.urlarchivo" download
               ><i class="pi pi-eye"></i
             ></a>
           </div>

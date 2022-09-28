@@ -74,6 +74,7 @@ export class HistoryCoursesComponent implements OnInit {
                 cursoID,
                 orden,
                 type: 'delete.all.task',
+                showActions: true
               },
               children: [
                 ...tareas!.map((tarea) => ({
@@ -86,6 +87,7 @@ export class HistoryCoursesComponent implements OnInit {
                     orden: '',
                     tareaId: tarea._id,
                     type: 'delete.one.task',
+                    showActions: true
                   },
                 })),
               ],
@@ -101,6 +103,7 @@ export class HistoryCoursesComponent implements OnInit {
             cursoID,
             orden,
             type: 'delete.topic',
+            showActions: false
           },
           children,
         };

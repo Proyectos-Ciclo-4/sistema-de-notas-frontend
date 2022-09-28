@@ -6,7 +6,7 @@
 <div class="relative">
   <ul
     *ngIf="showSuggestion"
-    class="suggestion absolute top-0 w-full z-5 px-3 pb-2  card-custom"
+    class="suggestion absolute top-0 w-full z-5 px-3 pb-2 card-custom"
   >
     <li
       (click)="selectCourse(course)"
@@ -56,12 +56,13 @@
         <p-treeTableToggler
           [rowNode]="rowNode"
           *ngIf="i == 0"
-        >{{i}}</p-treeTableToggler>
+        ></p-treeTableToggler>
 
         {{ rowData[col.field] }}
       </td>
       <td class="text-center">
         <p-button
+          *ngIf="rowData.showActions"
           (onClick)="deleteItem(rowData)"
           icon="pi pi-trash"
           styleClass="p-button-danger"
