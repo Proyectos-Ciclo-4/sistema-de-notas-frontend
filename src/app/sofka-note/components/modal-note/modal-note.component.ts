@@ -1,5 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Router } from '@angular/router';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 
 @Component({
@@ -14,19 +20,25 @@ export class ModalNoteComponent implements OnInit {
 
   formAddNote!: FormGroup;
 
-  // tarea!: any;
-
-  constructor(private swal$: SweetalertService) {
+  constructor(private swal$: SweetalertService, private router: Router) {
     this.formAddNote = new FormGroup({
-      title: new FormControl('', [Validators.required]),
+      note: new FormControl('', [
+        Validators.required,
+        this.validNote.bind(this),
+      ]),
+      feedback: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(500),
+      ]),
     });
+    this.formAddNote.reset();
   }
 
   ngOnInit(): void {}
 
-  closeModalEmmiter() {
-    this.closeModal.emit(false);
+  clearData() {
     this.formAddNote.reset();
+    this.router.navigate(['/sofkau-note/home']);
   }
 
   submitForm() {
@@ -36,24 +48,15 @@ export class ModalNoteComponent implements OnInit {
     const btnMessage = 'Agregar';
     this.swal$.confirmationPopup(title, message, btnMessage).then((result) => {
       if (result.isConfirmed) {
-        this.swal$.succesMessage('Curso creado con éxito');
-        this.closeModalEmmiter();
+        this.swal$.succesMessage('Calificación agregada con éxito');
       }
     });
   }
 
-  // getTask() {
-  //   const task = {
-  //     numero: 1,
-  //     tareaID: '1',
-  //     titulo: 'Tarea # 1',
-  //     limite: '27/10/2022',
-  //     calificacion: null,
-  //     fechaEntregado: '09/10/2022',
-  //     URLArchivo: 'https://www.google.com.co/',
-  //     estado: true,
-  //   };
-
-  //   this.tarea = task;
-  // }
+  validNote(control: AbstractControl) {
+    const value = control.value || 0;
+    return value > 100 || value < 0
+      ? { invalidNumber: 'Nota invalida, rango de (0 a 100) ' }
+      : null;
+  }
 }
