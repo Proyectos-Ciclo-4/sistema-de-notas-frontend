@@ -62,7 +62,7 @@ export class ModalNoteComponent implements OnInit {
   validNote(control: AbstractControl) {
     const value = control.value || 0;
     return value > 100 || value < 0
-      ? { invalidNumber: 'Nota invalida, rango de (0 a 100) ' }
+      ? { invalidNumber: 'Rango de 0 a 100' }
       : null;
   }
 }

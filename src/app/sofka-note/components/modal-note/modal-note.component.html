@@ -33,6 +33,9 @@
           >Nota <span class="text-red-600">*</span></label
         >
       </span>
+      <small id="float-input-feedback-help font-bold" class="p-error block">{{
+        formAddNote.get("note")?.getError("invalidNumber")
+      }}</small>
     </div>
 
     <!-- Input Retroalimentación -->
