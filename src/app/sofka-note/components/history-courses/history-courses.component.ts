@@ -10,6 +10,7 @@ import { Auth } from '@angular/fire/auth';
   selector: 'app-history-courses',
   templateUrl: './history-courses.component.html',
   styleUrls: ['./history-courses.component.scss'],
+  styles: [],
 })
 export class HistoryCoursesComponent implements OnInit {
   showSuggestion: boolean = false;
@@ -62,11 +63,11 @@ export class HistoryCoursesComponent implements OnInit {
     return topics.map(
       ({ temaID, titulo, cursoID, orden, tareas }: TopicModel) => {
         let children: any = [];
-        if (tareas?.length > 0) {
+        if (tareas!?.length > 0) {
           children = [
             {
               data: {
-                titulo: 'tareas',
+                titulo: 'Tareas',
                 tarea: '',
                 porcentaje: '',
                 temaID,
@@ -75,7 +76,7 @@ export class HistoryCoursesComponent implements OnInit {
                 type: 'delete.all.task',
               },
               children: [
-                ...tareas.map((tarea) => ({
+                ...tareas!.map((tarea) => ({
                   data: {
                     titulo: '',
                     tarea: tarea.titulo,

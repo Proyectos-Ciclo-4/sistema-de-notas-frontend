@@ -160,7 +160,7 @@ export class SignUpComponent implements OnInit {
     };
     this.authservice.createProfesorCommand(teacherCommand).subscribe({
       next: (res) => {
-        console.log(res);
+        console.log("Teacher added");
       },
       error: () => {
         this.swal$.errorMessage();
@@ -175,7 +175,7 @@ export class SignUpComponent implements OnInit {
     };
     this.authservice.createStudentCommand(studentComman).subscribe({
       next: (res) => {
-        console.log(res);
+        console.log("srudent added");
       },
       error: () => {
         this.swal$.errorMessage();

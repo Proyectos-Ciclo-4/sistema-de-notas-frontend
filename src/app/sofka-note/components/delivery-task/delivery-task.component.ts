@@ -4,10 +4,12 @@ import { ApiServiceService } from '../../services/api-service.service';
 import { TopicModel } from '../../interfaces/topic.model';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { getDownloadURL } from '@angular/fire/storage';
+import * as moment from 'moment';
 
 import { v4 as uuidv4, v4 } from 'uuid';
 import { Auth } from '@angular/fire/auth';
 import { CourseGeneric } from '../../interfaces/courseGeneric';
+import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
 
 @Component({
   selector: 'app-delivery-task',
@@ -21,7 +23,7 @@ export class DeliveryTaskComponent implements OnInit {
   showSuggestion: boolean = false;
   topics: TopicModel[] = [];
   topic: TopicModel | null = null;
-  deliveries: any[] = [];
+  homeworkStatus: HomeworkStatusModel[] = [];
   file: any;
   idDelivery: string = '';
   validExtension: string[] = ['pdf', 'docx', 'pptx', 'txt', 'xlsx'];
@@ -61,12 +63,23 @@ export class DeliveryTaskComponent implements OnInit {
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
+    if (this.course.estadosTarea.length > 0) {
+      let set = new Set(
+        this.course.estadosTarea.map(({ temaNombre: titulo, temaID }) =>
+          JSON.stringify({ titulo, temaID })
+        )
+      );
+      this.topics = Array.from(set).map((ele) => JSON.parse(ele));
+    }
   }
 
   clearFilter() {
     this.topics = [];
     this.course = null;
     this.termSearch = '';
+    this.topics = [];
+    this.topic = null;
+    this.homeworkStatus = [];
   }
   onUpload(event: any, idDelivery: string) {
     const { name } = event.target.files[0];
@@ -103,10 +116,28 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   searchDelivery() {
-    this.deliveries = this.api$.getDeliveries(
-      this.course?.cursoID || '',
-      '1',
-      this.topic?.temaID || ''
-    );
+    this.homeworkStatus = this.course?.estadosTarea
+      .filter((task) => task.temaID === this.topic?.temaID)!
+      .map((ele) => {
+        let status = ele.estado;
+        if (
+          ele.estado.toLocaleLowerCase().trim() != 'entregada' &&
+          ele.estado.toLocaleLowerCase().trim() != 'calificada'
+        ) {
+          const days = moment(ele.fechaLimite).diff(moment(), 'days');
+          status =
+            days == 0 || days == 1
+              ? 'Por vencer'
+              : days < 0
+              ? 'Vencida'
+              : 'Sin entregar';
+          console.log(moment(ele.fechaLimite).diff(moment(), 'days'));
+        }
+        return {
+          ...ele,
+          estado: status,
+        };
+      })
+      .sort((a, b) => a.orden - b.orden)!;
   }
 }

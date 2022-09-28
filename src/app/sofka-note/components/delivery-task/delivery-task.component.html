@@ -65,11 +65,11 @@
   </div>
 </div>
 
-<div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
+<div class="card-custom p-1 pb-5" *ngIf="homeworkStatus.length > 0">
   <h1 class="m-2">Cumplimiento:45%</h1>
   <app-header-title></app-header-title>
   <p-table
-    [value]="deliveries"
+    [value]="homeworkStatus"
     styleClass="p-datatable-striped"
     responsiveLayout="scroll"
   >
@@ -85,14 +85,24 @@
     </ng-template>
     <ng-template pTemplate="body" let-delivery>
       <tr>
-        <td>{{ delivery.numero }}</td>
+        <td>{{ delivery.orden }}</td>
         <td>{{ delivery.titulo }}</td>
-        <td>{{ delivery.limite }}</td>
-        <td>{{ delivery.estado }}</td>
+        <td>{{ delivery.fechaLimite }}</td>
+        <td
+          [ngClass]="{
+            'por-vencer': delivery.estado === 'Por vencer',
+            'entregada': delivery.estado === 'Entregada',
+            'vencida': delivery.estado === 'Vencida',
+            'sin-entregar': delivery.estado === 'Sin entregar',
+            'calificada' : delivery.estado === 'Calificada'
+          }"
+        >
+          {{ delivery.estado }}
+        </td>
         <td>{{ delivery.fechaEntregado }}</td>
         <td>
           <div class="flex justify-content-center">
-            <div class="file-upload m-2">
+            <div class="file-upload m-2" *ngIf="(delivery.estado != 'Calificada' && delivery.estado != 'Vencida' )">
               <input
                 type="file"
                 (change)="onUpload($event, delivery.tareaID)"

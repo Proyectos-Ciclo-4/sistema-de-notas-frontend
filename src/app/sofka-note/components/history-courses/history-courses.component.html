@@ -19,7 +19,7 @@
 </div>
 <app-header-title></app-header-title>
 <p-treeTable
-*ngIf="course"
+  *ngIf="course"
   [value]="files"
   [columns]="cols"
   [paginator]="true"
@@ -27,10 +27,18 @@
 >
   <ng-template pTemplate="header" let-columns cente>
     <tr>
-      <th class="text-center" *ngFor="let col of columns">
+      <th
+        [ngClass]="'t-head'"
+        class="text-center"
+        *ngFor="let col of columns"
+        [ttSortableColumn]="col.field"
+      >
         {{ col.header }}
+        <p-treeTableSortIcon [field]="col.field"></p-treeTableSortIcon>
       </th>
-      <th class="text-center" style="width: 8rem">Acciones</th>
+      <th [ngClass]="'t-head'" class="text-center" style="width: 8rem">
+        Acciones
+      </th>
     </tr>
   </ng-template>
   <ng-template
@@ -40,11 +48,16 @@
     let-columns="columns"
   >
     <tr>
-      <td *ngFor="let col of columns; let i = index">
+      <td
+        [ngClass]="'t-data'"
+        class="border-300"
+        *ngFor="let col of columns; let i = index"
+      >
         <p-treeTableToggler
           [rowNode]="rowNode"
           *ngIf="i == 0"
-        ></p-treeTableToggler>
+        >{{i}}</p-treeTableToggler>
+
         {{ rowData[col.field] }}
       </td>
       <td class="text-center">
