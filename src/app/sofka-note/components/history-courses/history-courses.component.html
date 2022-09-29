@@ -18,62 +18,6 @@
   </ul>
 </div>
 <app-header-title></app-header-title>
-<!-- <p-treeTable
-  *ngIf="course"
-  [value]="files"
-  [columns]="cols"
-  [paginator]="true"
-  [rows]="5"
-  selectionMode="single"
-  dataKey="titulo"
->
-  <ng-template pTemplate="header" let-columns cente>
-    <tr>
-      <th
-        [ngClass]="'t-head'"
-        class="text-center"
-        *ngFor="let col of columns"
-        [ttSortableColumn]="col.field"
-      >
-        {{ col.header }}
-        <p-treeTableSortIcon [field]="col.field"></p-treeTableSortIcon>
-      </th>
-      <th [ngClass]="'t-head'" class="text-center" style="width: 8rem">
-        Acciones
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template
-    pTemplate="body"
-    let-rowNode
-    let-rowData="rowData"
-    let-columns="columns"
-  >
-    <tr>
-      <td
-        [ngClass]="'t-data'"
-        class="border-300"
-        *ngFor="let col of columns; let i = index"
-      >
-        <p-treeTableToggler
-          [rowNode]="rowNode"
-          *ngIf="i == 0"
-        ></p-treeTableToggler>
-
-        {{ rowData[col.field] }}
-      </td>
-      <td class="text-center">
-        <p-button
-        
-          *ngIf="rowData.showActions"
-          (onClick)="deleteItem(rowData,rowNode)"
-          icon="pi pi-trash"
-          styleClass="p-button-danger"
-        ></p-button>
-      </td>
-    </tr>
-  </ng-template>
-</p-treeTable> -->
 
 <p-table
   [value]="topics"
@@ -84,8 +28,6 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <!-- <th [ngClass]="'t-head'" style="width: 3rem"></th> -->
-      <!-- <th [ngClass]="'t-head'">N°</th> -->
     </tr>
   </ng-template>
   <ng-template
