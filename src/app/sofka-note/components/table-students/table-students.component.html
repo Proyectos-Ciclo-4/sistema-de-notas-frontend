@@ -45,7 +45,7 @@
 
 <p-table [value]="studentsCourse" dataKey="nombre"  responsiveLayout="scroll">
   <ng-template pTemplate="header">
-    <tr [ngClass]="'row'">
+    <tr>
       <th [ngClass]="'t-head'" style="width: 3rem"></th>
       <th [ngClass]="'t-head'">N°</th>
       <th [ngClass]="'t-head'" pSortableColumn="nombre">
@@ -87,14 +87,14 @@
             <p-table [value]="estudiante.estadosTarea" dataKey="orden">
               <ng-template pTemplate="header">
                 <tr>
-                  <th [ngClass]="'t-head'" pSortableColumn="orden">Item</th>
-                  <th [ngClass]="'t-head'" pSortableColumn="titulo">
+                  <th [ngClass]="'t-head-child'" pSortableColumn="orden">Item</th>
+                  <th [ngClass]="'t-head-child'"  pSortableColumn="titulo">
                     Tarea <p-sortIcon field="titulo"></p-sortIcon>
                   </th>
-                  <th [ngClass]="'t-head'" pSortableColumn="fechaLimite">
+                  <th [ngClass]="'t-head-child'" pSortableColumn="fechaLimite">
                     Fecha entrega <p-sortIcon field="fechaLimite"></p-sortIcon>
                   </th>
-                  <th [ngClass]="'t-head'" pSortableColumn="calificacion">
+                  <th [ngClass]="'t-head-child'"  pSortableColumn="calificacion">
                     Calificación <p-sortIcon field="calificacion"></p-sortIcon>
                   </th>
                 </tr>
@@ -104,7 +104,7 @@
                   <td>{{ i + 1 }}</td>
                   <td>{{ estadosTarea.titulo }}</td>
                   <td>{{ estadosTarea.fechaLimite | date: "dd/MM/yyyy" }}</td>
-                  <td *ngIf="estadosTarea.estado === getStatus().CALIFICADA">
+                  <td [ngClass]="'calificada'" *ngIf="estadosTarea.estado === getStatus().CALIFICADA">
                     {{ estadosTarea.calificacion }}
                   </td>
                   <td *ngIf="getStatus().ENTREGADA == estadosTarea.estado">
@@ -117,7 +117,7 @@
                       class="p-button-outlined p-button-success"
                     ></button>
                   </td>
-                  <td
+                  <td [ngClass]="'vencida '"
                     *ngIf="
                       moment(moment(date, 'DD/MM/YYYY')).diff(
                         estadosTarea.fechaLimite,
@@ -131,6 +131,7 @@
                   </td>
 
                   <td
+                  [ngClass]="'sin-entregar'"
                     *ngIf="
                       moment(moment(date, 'DD/MM/YYYY')).diff(
                         estadosTarea.fechaLimite,

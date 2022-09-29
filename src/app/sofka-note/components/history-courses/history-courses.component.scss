@@ -6,9 +6,11 @@
 
 .t-head{
     color: $text-color !important;
+    font-weight: bold;
+    border-bottom: 1px solid $primary-color !important;
+    background-color: $background-color !important;
 }
 
 .t-data{
-    border-right: 1px solid $background-color !important;
     padding-left: 3px;
 }

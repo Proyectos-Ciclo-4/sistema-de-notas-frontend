@@ -1,16 +1,35 @@
 @import "../../../../assets/scss/global.scss";
 
-.t-head{
-    color: $text-color !important;
-    font-weight: bold;
-    border-bottom: 1px solid $primary-color !important;
+.t-head {
+  color: $text-color !important;
+  font-weight: bold;
+  border-bottom: 1px solid $primary-color !important;
+  background-color: $background-color !important;
 }
 
-.t-data{
-    border-bottom: 1px solid $primary-color !important;
-    padding-left: 3px;
+.t-data {
+  border-bottom: 1px solid $primary-color !important;
+  padding-left: 3px;
 }
 
-.prueba{
-  width: 70%;
+.vencida {
+  color: $error-color !important;
+  font-weight: bold !important;
+  cursor: auto;
+}
+
+.calificada {
+  font-weight: bold;
+}
+
+.sin-entregar {
+  font-weight: bold;
+  color: $text-color !important;
+}
+
+.t-head-child {
+  color: $light-color !important;
+  font-weight: bold;
+  border-bottom: 1px solid $primary-color !important;
+  background-color: $secondary-color !important;
 }

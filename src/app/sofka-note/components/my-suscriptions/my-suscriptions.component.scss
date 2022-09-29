@@ -8,3 +8,10 @@ tr {
   }
   border-bottom: 1.3px solid $primary-color;
 }
+
+.t-head{
+    color: $text-color !important;
+    font-weight: bold;
+    border-bottom: 1px solid $primary-color !important;
+    background-color: $background-color !important;
+}

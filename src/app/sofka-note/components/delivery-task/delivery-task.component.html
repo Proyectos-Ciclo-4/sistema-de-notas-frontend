@@ -68,7 +68,7 @@
 
 <div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
   <h1 class="m-2">Cumplimiento:45%</h1>
-  <app-header-title></app-header-title>
+  <!-- <app-header-title></app-header-title> -->
   <p-table
     [value]="deliveries"
     styleClass="p-datatable-striped"
@@ -76,12 +76,12 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>N°</th>
-        <th>Tarea</th>
-        <th>Limite</th>
-        <th>Estado</th>
-        <th>Entrega</th>
-        <th>Subir archivo</th>
+        <th [ngClass]="'t-head'">N°</th>
+        <th [ngClass]="'t-head'">Tarea</th>
+        <th [ngClass]="'t-head'">Limite</th>
+        <th [ngClass]="'t-head'">Estado</th>
+        <th [ngClass]="'t-head'">Entrega</th>
+        <th [ngClass]="'t-head'">Subir archivo</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-delivery>
