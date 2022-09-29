@@ -6,4 +6,6 @@ export interface TaskModel {
     titulo:      string;
     fechaLimite: string;
     porcentaje:  number;
+    orden?: number | null
+    descripcion?: string | null
 }

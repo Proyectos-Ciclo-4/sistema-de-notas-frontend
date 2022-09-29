@@ -33,9 +33,10 @@
           inputId="topic-dropdown"
           [options]="topics"
           optionLabel="titulo"
-          placeholder="Tipo de Identificación"
+          placeholder="Seleccione tema"
           [autoDisplayFirst]="false"
           [(ngModel)]="topic"
+          (onChange)="searchDelivery()"
         ></p-dropdown>
         <label for="topic-dropdown"
           >Tema <span class="text-red-600">*</span></label
@@ -65,22 +66,22 @@
   </div>
 </div>
 
-<div class="card-custom p-1 pb-5" *ngIf="homeworkStatus.length > 0">
+<div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
   <h1 class="m-2">Cumplimiento:45%</h1>
-  <app-header-title></app-header-title>
+  <!-- <app-header-title></app-header-title> -->
   <p-table
-    [value]="homeworkStatus"
+    [value]="deliveries"
     styleClass="p-datatable-striped"
     responsiveLayout="scroll"
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>N°</th>
-        <th>Tarea</th>
-        <th>Limite</th>
-        <th>Estado</th>
-        <th>Entrega</th>
-        <th>Subir archivo</th>
+        <th [ngClass]="'t-head'">N°</th>
+        <th [ngClass]="'t-head'">Tarea</th>
+        <th [ngClass]="'t-head'">Limite</th>
+        <th [ngClass]="'t-head'">Estado</th>
+        <th [ngClass]="'t-head'">Entrega</th>
+        <th [ngClass]="'t-head'">Subir archivo</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-delivery>
@@ -96,6 +97,7 @@
             'sin-entregar': delivery.estado === getStatus().SIN_ENTREGAR,
             calificada: delivery.estado === getStatus().CALIFICADA
           }"
+          (click)="delivery.estado == getStatus().CALIFICADA && showDetails(delivery)"
         >
           {{ delivery.estado }}
         </td>
@@ -109,8 +111,7 @@
                 delivery.estado != getStatus().VENCIDA
               "
             >
-              <h1>
-              </h1>
+              <h1></h1>
               <input
                 type="file"
                 (change)="onUpload($event)"
@@ -139,6 +140,9 @@
             <a *ngIf="delivery.archivoURL" [href]="delivery.urlarchivo" download
               ><i class="pi pi-eye"></i
             ></a>
+
+
+    
           </div>
         </td>
       </tr>
@@ -147,3 +151,10 @@
 </div>
 
 <app-loading *ngIf="showLoading"></app-loading>
+
+<app-modal-note
+  [isView]="true"
+  [delivery]="delivery"
+  (closeModal)="closeModal($event)"
+  [displayModal]="showModal"
+></app-modal-note>

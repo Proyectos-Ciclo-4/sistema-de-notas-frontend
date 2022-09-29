@@ -1,13 +1,11 @@
-<p-tabView class="w-full">
+<p-tabView (onChange)="clearComponent($event)" class="w-full">
   <p-tabPanel header="Inscripciones" [headerStyle]="headerStyle">
     <div class="card-custom p-1 pb-5">
-
       <app-my-suscriptions></app-my-suscriptions>
     </div>
   </p-tabPanel>
 
   <p-tabPanel [selected]="true" header="Mis tareas" [headerStyle]="headerStyle">
-       <app-delivery-task></app-delivery-task>
-  
+    <app-delivery-task></app-delivery-task>
   </p-tabPanel>
 </p-tabView>

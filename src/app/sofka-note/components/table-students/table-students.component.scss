@@ -1,0 +1,17 @@
+@import "../../../../assets/scss/global.scss";
+
+.vencida {
+  color: $error-color !important;
+  font-weight: bold !important;
+  cursor: auto;
+}
+
+.calificada {
+  font-weight: bold;
+}
+
+.sin-entregar {
+  font-weight: bold;
+  color: $text-color !important;
+}
+

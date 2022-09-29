@@ -1,7 +1,7 @@
-<p-tabView>
+<p-tabView (onChange)="clearComponent($event)">
   <!-- START SECTION MIS ESTUDIANTES -->
 
-  <p-tabPanel header="Mis estudiantes" [headerStyle]="headerStyle">
+  <p-tabPanel  header="Mis estudiantes" [headerStyle]="headerStyle">
     <div class="card-custom p-1 pb-5">
       <app-table-students></app-table-students>
     </div>
@@ -9,7 +9,11 @@
   <!-- END SECTION MIS ESTUDIANTES -->
 
   <!-- START SECTION CREAR -->
-  <p-tabPanel [selected]="true" header="Crear" [headerStyle]="headerStyle">
+  <p-tabPanel
+    [selected]="true"
+    header="Crear"
+    [headerStyle]="headerStyle"
+  >
     <!-- START SECTION REGISTAR CURSOS Y TAREAS -->
     <div class="card-custom p-1 pb-5">
       <app-header-title
@@ -19,7 +23,7 @@
       ></app-header-title>
       <div
         *ngIf="showCreateCourse"
-        class="scalein animation-duration-1000  card-custom"
+        class="scalein animation-duration-1000 card-custom"
       >
         <div class="flex justify-content-center align-items-center">
           <div class="w-full">

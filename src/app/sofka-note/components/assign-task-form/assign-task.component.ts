@@ -12,6 +12,7 @@ import { ApiServiceService } from '../../services/api-service.service';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { TaskCommand } from '../../interfaces/commands/taskCommand';
 import { Auth } from '@angular/fire/auth';
+import { ClearService } from '../../services/clear-service.service';
 
 @Component({
   selector: 'app-assign-task',
@@ -32,14 +33,25 @@ export class AssignTaskComponent implements OnInit {
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
-    private auth$: Auth
+    private auth$: Auth,
+    private clearComponent$: ClearService
   ) {
     this.formTopic = this.createFormGroup();
     this.today = moment().format('YYYY-MM-DD');
     this.dateSelect = this.today;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clearComponent$.clearComponent.subscribe(() => {
+      this.topics = [];
+      this.topic == null;
+      this.formTopic.reset();
+      this.showSuggestion = false;
+      this.course = null;
+      this.termSearch = '';
+      this.courses = [];
+    });
+  }
 
   createFormGroup(): FormGroup {
     return new FormGroup({
@@ -79,7 +91,6 @@ export class AssignTaskComponent implements OnInit {
           temaNombre: this.topic?.titulo,
           porcentaje: 0,
         };
-        debugger;
         this.api$.createTask(taskCommand).subscribe({
           next: (res) => {
             this.showLoading = false;

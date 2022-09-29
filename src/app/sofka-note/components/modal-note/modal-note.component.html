@@ -1,5 +1,5 @@
 <p-dialog
-  [header]="header"
+  [header]="delivery?.titulo || ''"
   [(visible)]="displayModal"
   [modal]="true"
   [style]="{ width: '50vw', color: 'gray' }"
@@ -9,8 +9,12 @@
   [closable]="false"
 >
   <div>
-    <p class="texts-header">Fecha y hora de entrega: 25/09/2022 10:00 a.m.</p>
-    <p class="texts-header">Archivo(s): <a href="#">queesangular.pdf</a></p>
+    <p class="texts-header">
+      Fecha y hora de entrega: {{ delivery?.fechaEntregado }}
+    </p>
+    <p class="texts-header">
+      Archivo(s): <a [href]="delivery?.archivoURL" download="">Entrega</a>
+    </p>
   </div>
   <form
     class="login-form pt-5"
@@ -21,8 +25,10 @@
     <div class="p-inputgroup w-3 flex flex-column mb-4">
       <span class="p-float-label">
         <input
+          [value]="delivery?.calificacion"
+          [readonly]="isView"
           name="note"
-          formControlName="note"
+          formControlName="calificacion"
           id="float-input-note"
           type="number"
           pInputText
@@ -33,17 +39,22 @@
           >Nota <span class="text-red-600">*</span></label
         >
       </span>
-      <small id="float-input-feedback-help font-bold" class="p-error block">{{
-        formAddNote.get("note")?.getError("invalidNumber")
-      }}</small>
+      <small
+        *ngIf="!isView"
+        id="float-input-feedback-help font-bold"
+        class="p-error block"
+        >{{ formAddNote.get("note")?.getError("invalidNumber") }}</small
+      >
     </div>
 
     <!-- Input Retroalimentación -->
     <div class="p-inputgroup w-full flex flex-column">
       <span class="p-float-label">
         <input
+          [value]="delivery?.retroalimentacion"
+          [readonly]="isView"
           name="feedback"
-          formControlName="feedback"
+          formControlName="retroalimentacion"
           id="float-input-feedback"
           type="feedback"
           pInputText
@@ -60,6 +71,7 @@
 
     <div class="w-full flex justify-content-end mt-5">
       <button
+        *ngIf="!isView"
         [disabled]="formAddNote.invalid"
         class="mr-2"
         pButton

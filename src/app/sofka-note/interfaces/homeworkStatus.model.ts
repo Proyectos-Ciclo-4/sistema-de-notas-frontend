@@ -9,5 +9,6 @@ export interface HomeworkStatusModel {
   temaNombre: string;
   fechaLimite: Date;
   orden: number;
-  archivoURL: string | null
+  archivoURL: string | null;
+  retroalimentacion: string | null;
 }

@@ -43,3 +43,23 @@ a {
 .card-custom {
   @include box-shadow-card($light-color);
 }
+
+.t-head-child {
+  color: $light-color !important;
+  font-weight: bold;
+  border-bottom: 1px solid $primary-color !important;
+  background-color: $secondary-color !important;
+}
+
+.t-head-collapse {
+  color: $text-color !important;
+  font-weight: bold;
+  border-bottom: 1px solid $primary-color !important;
+  background-color: $background-color !important;
+}
+
+.t-data-collapse {
+  border-bottom: 1px solid $primary-color !important;
+  padding-left: 3px;
+}
+
