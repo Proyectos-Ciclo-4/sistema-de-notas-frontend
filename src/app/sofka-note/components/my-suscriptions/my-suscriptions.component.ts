@@ -5,6 +5,7 @@ import { Auth } from '@angular/fire/auth';
 import { EnrollCommand } from '../../interfaces/commands/enrollCommand';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { StudentModel } from '../../interfaces/student.model';
+import { ClearService } from '../../services/clear-service.service';
 
 @Component({
   selector: 'app-my-suscriptions',
@@ -21,10 +22,14 @@ export class MySuscriptionsComponent implements OnInit {
   constructor(
     private api$: ApiServiceService,
     private auth$: Auth,
-    private swal$: SweetalertService
+    private swal$: SweetalertService,
+    private clearComponent$: ClearService
   ) {}
   ngOnInit(): void {
     this.getStudentView();
+    this.clearComponent$.clearComponent.subscribe(() => {
+      this.termSearch = '';
+    });
   }
 
   courseSuggestions(termSearch: string) {

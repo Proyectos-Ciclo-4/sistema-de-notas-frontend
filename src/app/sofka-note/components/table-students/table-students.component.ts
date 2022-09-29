@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { Status } from '../../enum/status.enum';
 import { HomeComponent } from '../../pages/home/home.component';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
+import { ClearService } from '../../services/clear-service.service';
 
 @Component({
   selector: 'app-table-students',
@@ -29,13 +30,22 @@ export class TableStudentsComponent implements OnInit {
   constructor(
     private api$: ApiServiceService,
     private auth$: Auth,
-    private swal$: SweetalertService
+    private swal$: SweetalertService,
+    private clearComponent$: ClearService
   ) {}
 
   ngOnInit(): void {
     setInterval(() => {
       this.date = moment().format('DD/MM/YYYY HH: mm: ss');
     }, 1000);
+    this.clearComponent$.clearComponent.subscribe(() => {
+      this.course = null;
+      this.termSearch = '';
+      this.courses = [];
+      this.studentsCourse = [];
+      this.delivery = null;
+      this.studentId = '';
+    });
   }
 
   selectCourse(course: CourseModel) {
@@ -84,7 +94,6 @@ export class TableStudentsComponent implements OnInit {
   }
 
   getStudentsCourse() {
-  
     this.showLoading = true;
     this.api$.getStudentByCourseId(this.course?._id!).subscribe({
       next: (resp) => {

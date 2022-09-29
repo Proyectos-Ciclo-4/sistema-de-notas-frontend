@@ -8,9 +8,9 @@ import * as moment from 'moment';
 import { Auth } from '@angular/fire/auth';
 import { CourseGeneric } from '../../interfaces/courseGeneric';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
-import { HttpClient } from '@angular/common/http';
 import { Status } from '../../enum/status.enum';
 import { DeliveryCommand } from '../../interfaces/commands/deliveryCommand';
+import { ClearService } from '../../services/clear-service.service';
 
 @Component({
   selector: 'app-delivery-task',
@@ -38,13 +38,26 @@ export class DeliveryTaskComponent implements OnInit {
     private api$: ApiServiceService,
     private swal$: SweetalertService,
     private auth$: Auth,
-    private http: HttpClient
+    private clearComponent$: ClearService
   ) {}
 
   ngOnInit(): void {
     setInterval(() => {
       this.date = moment().format('DD/MM/YYYY HH: mm: ss');
     }, 1000);
+    this.clearComponent$.clearComponent.subscribe(() => {
+      this.course = null;
+      this.courses = [];
+      this.termSearch = '';
+      this.showSuggestion = false;
+      this.topics = [];
+      this.topic = null;
+      this.deliveries = [];
+      this.file = null;
+      this.idDelivery = '';
+      this.showLoading = false;
+      this.delivery = null;
+    });
   }
 
   courseSuggestions(termSearch: string) {
@@ -108,7 +121,6 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   saveFile(delivery: HomeworkStatusModel) {
-  
     //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
     const nameFile = `${
       this.auth$.currentUser?.uid + delivery.tareaID
@@ -164,7 +176,6 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   deliverHomework(delivery: HomeworkStatusModel, url: string) {
-
     const deliverycommand: DeliveryCommand = {
       archivoURL: url,
       tareaID: delivery.tareaID,

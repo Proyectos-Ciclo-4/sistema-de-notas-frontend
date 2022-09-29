@@ -1,4 +1,4 @@
-import { Component, OnInit ,OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CourseModel } from '../../interfaces/course.model';
 import { ApiServiceService } from '../../services/api-service.service';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
@@ -6,6 +6,7 @@ import { TreeNode } from 'primeng/api';
 import { TopicModel } from '../../interfaces/topic.model';
 import { Auth } from '@angular/fire/auth';
 import { DeleteTaskCommand } from '../../interfaces/commands/deleteTaskCommand';
+import { ClearService } from '../../services/clear-service.service';
 
 @Component({
   selector: 'app-history-courses',
@@ -13,7 +14,7 @@ import { DeleteTaskCommand } from '../../interfaces/commands/deleteTaskCommand';
   styleUrls: ['./history-courses.component.scss'],
   styles: [],
 })
-export class HistoryCoursesComponent implements OnInit ,OnDestroy {
+export class HistoryCoursesComponent implements OnInit, OnDestroy {
   showSuggestion: boolean = false;
   course?: CourseModel | null;
   termSearch: string = '';
@@ -25,18 +26,22 @@ export class HistoryCoursesComponent implements OnInit ,OnDestroy {
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
-    private auth$: Auth
-  ) {
-  }
+    private auth$: Auth,
+    private clearComponent: ClearService
+  ) {}
   ngOnInit(): void {
     this.cols = [
       { field: 'titulo', header: 'Tema' },
       { field: 'tarea', header: 'Tarea' },
     ];
+    this.clearComponent.clearComponent.subscribe(() => {
+      this.course = null;
+      this.termSearch = '';
+      this.courses = [];
+      this.files = [];
+    });
   }
-  ngOnDestroy(): void {
-      
-  }
+  ngOnDestroy(): void {}
 
   courseSuggestions(termSearch: string) {
     this.course = null;
@@ -161,11 +166,13 @@ export class HistoryCoursesComponent implements OnInit ,OnDestroy {
 
   getCourseById() {
     this.showLoading = true;
-    this.api$.getCourseById(this.course?._id!).subscribe({
-      next: (resp) => {
-        this.course = resp;
-        this.files = this.generateTreeNode(this.course.temas);
-      },
-    });
+    setTimeout(() => {
+      this.api$.getCourseById(this.course?._id!).subscribe({
+        next: (resp) => {
+          this.course = resp;
+          this.files = this.generateTreeNode(this.course.temas);
+        },
+      });
+    }, 2000);
   }
 }
