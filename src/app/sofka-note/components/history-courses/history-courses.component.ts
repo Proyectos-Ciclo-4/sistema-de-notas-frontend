@@ -30,6 +30,7 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
     private auth$: Auth,
     private clearComponent: ClearService
   ) {}
+  
   ngOnInit(): void {
     this.clearComponent.clearComponent.subscribe(() => {
       this.course = null;
