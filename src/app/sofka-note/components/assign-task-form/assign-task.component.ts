@@ -79,7 +79,6 @@ export class AssignTaskComponent implements OnInit {
           temaNombre: this.topic?.titulo,
           porcentaje: 0,
         };
-        debugger;
         this.api$.createTask(taskCommand).subscribe({
           next: (res) => {
             this.showLoading = false;

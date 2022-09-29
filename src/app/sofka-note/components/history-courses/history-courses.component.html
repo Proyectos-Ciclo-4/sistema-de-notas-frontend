@@ -62,8 +62,9 @@
       </td>
       <td class="text-center">
         <p-button
+        
           *ngIf="rowData.showActions"
-          (onClick)="deleteItem(rowData)"
+          (onClick)="deleteItem(rowData,rowNode)"
           icon="pi pi-trash"
           styleClass="p-button-danger"
         ></p-button>
@@ -71,3 +72,5 @@
     </tr>
   </ng-template>
 </p-treeTable>
+
+<app-loading *ngIf="showLoading"></app-loading>

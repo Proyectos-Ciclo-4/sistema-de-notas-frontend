@@ -43,7 +43,7 @@ export class DeliveryTaskComponent implements OnInit {
 
   ngOnInit(): void {
     setInterval(() => {
-      this.date = moment().add(-10, 'days').format('DD/MM/YYYY HH: mm: ss');
+      this.date = moment().format('DD/MM/YYYY HH: mm: ss');
     }, 1000);
   }
 
@@ -108,6 +108,7 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   saveFile(delivery: HomeworkStatusModel) {
+  
     //TODO: VALIDAR SI EL USUARIO YA ENTREGO EL ARCHIVO
     const nameFile = `${
       this.auth$.currentUser?.uid + delivery.tareaID
@@ -129,7 +130,7 @@ export class DeliveryTaskComponent implements OnInit {
           .then(async (res) => {
             getDownloadURL(res.ref).then((url) => {
               delivery.archivoURL = url;
-              this.deliverHomework(delivery);
+              this.deliverHomework(delivery, url);
             });
           });
         this.file = null;
@@ -162,9 +163,10 @@ export class DeliveryTaskComponent implements OnInit {
       .sort((a, b) => a.orden - b.orden)!;
   }
 
-  deliverHomework(delivery: HomeworkStatusModel) {
+  deliverHomework(delivery: HomeworkStatusModel, url: string) {
+
     const deliverycommand: DeliveryCommand = {
-      archivoURL: delivery.urlarchivo,
+      archivoURL: url,
       tareaID: delivery.tareaID,
       cursoID: this.course?.cursoID!,
       estudianteID: this.auth$.currentUser?.uid!,

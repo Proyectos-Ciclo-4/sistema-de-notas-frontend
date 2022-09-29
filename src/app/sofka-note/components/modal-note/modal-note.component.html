@@ -26,9 +26,9 @@
       <span class="p-float-label">
         <input
           [value]="delivery?.calificacion"
-          [disabled]="isView"
+          [readonly]="isView"
           name="note"
-          formControlName="note"
+          formControlName="calificacion"
           id="float-input-note"
           type="number"
           pInputText
@@ -52,9 +52,9 @@
       <span class="p-float-label">
         <input
           [value]="delivery?.retroalimentacion"
-          [disabled]="isView"
+          [readonly]="isView"
           name="feedback"
-          formControlName="feedback"
+          formControlName="retroalimentacion"
           id="float-input-feedback"
           type="feedback"
           pInputText

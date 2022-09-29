@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   }
 
   courseSuggestions(termSearch: string) {
+    this.ngOnInit
     this.course = null;
     this.termSearch = termSearch;
     this.showSuggestion = true;
@@ -69,4 +70,12 @@ export class HomeComponent implements OnInit {
     this.showCreateCourse = !this.showCreateCourse;
     this.showTask = !this.showTask;
   }
+
+  clearComponent() {
+    this.course = null;
+    this.termSearch = '';
+    this.courses = [];
+    this.showCreateCourse = true;
+  }
+
 }

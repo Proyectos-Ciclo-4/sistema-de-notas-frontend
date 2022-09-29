@@ -8,6 +8,8 @@ import {
 import { Router } from '@angular/router';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
+import { ApiServiceService } from '../../services/api-service.service';
+import { GradeCommand } from '../../interfaces/commands/gradeCommand';
 
 @Component({
   selector: 'app-modal-note',
@@ -19,17 +21,24 @@ export class ModalNoteComponent implements OnInit {
   @Input() displayModal: boolean = false;
   @Input() delivery: HomeworkStatusModel | null = null;
   @Input() isView: boolean = false;
+  @Input() courseId: string = '';
+  @Input() studentId: string = '';
   @Output() closeModal: EventEmitter<boolean> = new EventEmitter();
+  @Output() newDeliver: EventEmitter<HomeworkStatusModel> = new EventEmitter()
 
   formAddNote!: FormGroup;
 
-  constructor(private swal$: SweetalertService, private router: Router) {
+  constructor(
+    private swal$: SweetalertService,
+    private router: Router,
+    private api$: ApiServiceService
+  ) {
     this.formAddNote = new FormGroup({
-      note: new FormControl(this.delivery?.calificacion, [
+      calificacion: new FormControl(this.delivery?.calificacion, [
         Validators.required,
         this.validNote.bind(this),
       ]),
-      feedback: new FormControl(this.delivery?.calificacion, [
+      retroalimentacion: new FormControl(this.delivery?.calificacion, [
         Validators.required,
         Validators.maxLength(500),
       ]),
@@ -45,6 +54,11 @@ export class ModalNoteComponent implements OnInit {
     this.delivery = null;
   }
 
+  succesGrade(){
+    this.newDeliver.emit(this.delivery!)
+    this.closeModalEmmiter();
+  }
+
   clearData() {
     this.formAddNote.reset();
     this.router.navigate(['/sofkau-note/home']);
@@ -57,8 +71,25 @@ export class ModalNoteComponent implements OnInit {
     const btnMessage = 'Agregar';
     this.swal$.confirmationPopup(title, message, btnMessage).then((result) => {
       if (result.isConfirmed) {
-        this.swal$.succesMessage('Calificación agregada con éxito');
-        this.closeModalEmmiter();
+        const gradeCommand: GradeCommand = {
+          ...this.formAddNote.value,
+          cursoID: this.courseId,
+          estudianteID: this.studentId,
+          tareaID: this.delivery?.tareaID!,
+        };
+        this.api$.gradeTask(gradeCommand).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.swal$.succesMessage('Calificación agregada con éxito');
+            this.delivery!.calificacion! = this.formAddNote.value.calificacion!
+            this.delivery!.retroalimentacion! = this.formAddNote.value.retroalimentacion!
+            this.succesGrade()
+          },
+          error: (err) => {
+            this.swal$.errorMessage();
+            console.log(err);
+          },
+        });
       }
     });
   }

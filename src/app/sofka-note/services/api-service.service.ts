@@ -11,17 +11,16 @@ import { EnrollCommand } from '../interfaces/commands/enrollCommand';
 import { StudentModel } from '../interfaces/student.model';
 import { CourseGeneric } from '../interfaces/courseGeneric';
 import { DeliveryCommand } from '../interfaces/commands/deliveryCommand';
+import { GradeCommand } from '../interfaces/commands/gradeCommand';
+import { DeleteTaskCommand } from '../interfaces/commands/deleteTaskCommand';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiServiceService {
-
   private BASE_URL: string = environment.baseUrl;
 
-  constructor(private storage: Storage, private http: HttpClient) {
-    
-  }
+  constructor(private storage: Storage, private http: HttpClient) {}
 
   createCourse(courseCommand: CourseCommand): Observable<CourseCommand> {
     return this.http.post<CourseCommand>(
@@ -48,6 +47,15 @@ export class ApiServiceService {
     return this.http.post<DeliveryCommand>(
       `${this.BASE_URL}/entregarTarea`,
       delivery
+    );
+  }
+
+  deleteTask(
+    deleTaskCommand: DeleteTaskCommand
+  ): Observable<DeleteTaskCommand> {
+    return this.http.post<DeleteTaskCommand>(
+      `${this.BASE_URL}/eliminarTarea`,
+      deleTaskCommand
     );
   }
 
@@ -96,6 +104,25 @@ export class ApiServiceService {
   getInscriptions(studentId: string) {
     return this.http.get<StudentModel>(
       `${this.BASE_URL}/buscarAlumno/${studentId}`
+    );
+  }
+
+  getStudentByCourseId(courseId: string): Observable<StudentModel[]> {
+    return this.http.get<StudentModel[]>(
+      `${this.BASE_URL}/encontrarEstudiantesEnCurso/${courseId}`
+    );
+  }
+
+  gradeTask(gradeCommand: GradeCommand): Observable<GradeCommand> {
+    return this.http.post<GradeCommand>(
+      `${this.BASE_URL}/calificarTarea`,
+      gradeCommand
+    );
+  }
+
+  getCourseById(courseId: string): Observable<CourseModel> {
+    return this.http.get<CourseModel>(
+      `${this.BASE_URL}/buscarCurso/${courseId}`
     );
   }
 }

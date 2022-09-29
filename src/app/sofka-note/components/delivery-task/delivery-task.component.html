@@ -33,7 +33,7 @@
           inputId="topic-dropdown"
           [options]="topics"
           optionLabel="titulo"
-          placeholder="Tipo de Identificación"
+          placeholder="Seleccione tema"
           [autoDisplayFirst]="false"
           [(ngModel)]="topic"
           (onChange)="searchDelivery()"
@@ -140,6 +140,9 @@
             <a *ngIf="delivery.archivoURL" [href]="delivery.urlarchivo" download
               ><i class="pi pi-eye"></i
             ></a>
+
+
+    
           </div>
         </td>
       </tr>

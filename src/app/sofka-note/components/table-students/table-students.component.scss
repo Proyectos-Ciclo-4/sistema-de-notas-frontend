@@ -1,0 +1,16 @@
+@import "../../../../assets/scss/global.scss";
+
+.t-head{
+    color: $text-color !important;
+    font-weight: bold;
+    border-bottom: 1px solid $primary-color !important;
+}
+
+.t-data{
+    border-bottom: 1px solid $primary-color !important;
+    padding-left: 3px;
+}
+
+.prueba{
+  width: 70%;
+}

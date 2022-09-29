@@ -32,6 +32,7 @@ export class SearchInputComponent implements OnInit {
 
   search(event: Event) {
     this.onEnter.emit(this.term);
+    
   }
 
   pressKey(event: any) {

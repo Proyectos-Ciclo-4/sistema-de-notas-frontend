@@ -18,6 +18,7 @@ import { DeliveryTaskComponent } from './components/delivery-task/delivery-task.
 import { MySuscriptionsComponent } from './components/my-suscriptions/my-suscriptions.component';
 import { ModalNoteComponent } from './components/modal-note/modal-note.component';
 
+
 @NgModule({
   declarations: [
     HomeComponent,
