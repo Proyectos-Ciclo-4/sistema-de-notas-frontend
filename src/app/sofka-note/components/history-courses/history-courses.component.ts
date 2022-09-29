@@ -7,6 +7,7 @@ import { TopicModel } from '../../interfaces/topic.model';
 import { Auth } from '@angular/fire/auth';
 import { DeleteTaskCommand } from '../../interfaces/commands/deleteTaskCommand';
 import { ClearService } from '../../services/clear-service.service';
+import { TaskModel } from '../../interfaces/task.model';
 
 @Component({
   selector: 'app-history-courses',
@@ -21,8 +22,8 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
   courses: CourseModel[] = [];
   showLoading: boolean = false;
   files: TreeNode[] = [];
+  topics: TopicModel[] = [];
 
-  cols: any[] = [];
   constructor(
     private api$: ApiServiceService,
     private swal$: SweetalertService,
@@ -30,15 +31,11 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
     private clearComponent: ClearService
   ) {}
   ngOnInit(): void {
-    this.cols = [
-      { field: 'titulo', header: 'Tema' },
-      { field: 'tarea', header: 'Tarea' },
-    ];
     this.clearComponent.clearComponent.subscribe(() => {
       this.course = null;
       this.termSearch = '';
       this.courses = [];
-      this.files = [];
+      this.topics = [];
     });
   }
   ngOnDestroy(): void {}
@@ -66,113 +63,40 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
     this.course = course;
     this.courses = [];
     this.showSuggestion = false;
-    this.files = this.generateTreeNode(this.course.temas);
+    this.topics = this.course.temas;
   }
 
-  generateTreeNode(topics: TopicModel[]): TreeNode[] {
-    this.showLoading = true;
-    const createNode = topics.map(
-      ({ temaID, titulo, cursoID, orden, tareas }: TopicModel) => {
-        let children: any = [];
-        if (tareas!?.length > 0) {
-          children = [
-            {
-              data: {
-                titulo: 'Tareas',
-                tarea: '',
-                porcentaje: '',
-                temaID,
-                cursoID,
-                orden,
-                type: 'delete.all.task',
-                showActions: false,
-              },
-              children: [
-                ...tareas!.map((tarea) => ({
-                  data: {
-                    titulo: '',
-                    tarea: tarea.titulo,
-                    porcentaje: tarea.porcentaje,
-                    temaID,
-                    cursoID,
-                    orden: '',
-                    tareaId: tarea._id,
-                    type: 'delete.one.task',
-                    showActions: true,
-                  },
-                })),
-              ],
-            },
-          ];
-        }
-        return {
-          data: {
-            titulo: titulo,
-            tarea: '',
-            porcentaje: '',
-            temaID,
-            cursoID,
-            orden,
-            type: 'delete.topic',
-            showActions: false,
-          },
-          children,
-        };
-      }
-    );
-    this.showLoading = false;
-    return createNode;
-  }
 
-  deleteItem(item: any, rowNode: TreeNode) {
+  deleteItem(item: TaskModel) {
     const deleteTaskCommand: DeleteTaskCommand = {
       cursoID: item.cursoID,
       temaID: item.temaID,
-      tareaID: item.tareaId,
+      tareaID: item._id,
     };
     let title = '';
     let text = 'Una vez eliminado no se podrá revertir';
     let btnMessage = 'Si, eliminar';
-
-    switch (item.type) {
-      case 'delete.topic':
-        title = `¿Estás seguro de eliminar el tema?`;
-        break;
-      case 'delete.all.task':
-        title = `¿Estás seguro de eliminar todas las tareas?`;
-        break;
-      case 'delete.one.task':
-        title = `¿Estás seguro de eliminar la tarea?`;
-        this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
-          if (result.isConfirmed) {
-            this.showLoading = true;
-            this.api$.deleteTask(deleteTaskCommand).subscribe({
-              next: (res) => {
-                this.swal$.succesMessage('Item elimado correctamente');
-                this.getCourseById();
-              },
-              error: (err) => {
-                this.swal$.errorMessage();
-                this.showLoading = false;
-              },
+    this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading = true;
+        this.api$.deleteTask(deleteTaskCommand).subscribe({
+          next: (res) => {
+            this.swal$.succesMessage('Item elimado correctamente');
+            this.topics = this.topics.map((topic) => {
+              return {
+                ...topic,
+                tareas: topic.tareas?.filter((task) => task._id != item._id),
+              };
             });
-          }
+            this.showLoading = false;
+          },
+          error: (err) => {
+            this.swal$.errorMessage();
+            this.showLoading = false;
+          },
         });
-        break;
-      default:
-        break;
-    }
+      }
+    });
   }
 
-  getCourseById() {
-    this.showLoading = true;
-    setTimeout(() => {
-      this.api$.getCourseById(this.course?._id!).subscribe({
-        next: (resp) => {
-          this.course = resp;
-          this.files = this.generateTreeNode(this.course.temas);
-        },
-      });
-    }, 2000);
-  }
 }

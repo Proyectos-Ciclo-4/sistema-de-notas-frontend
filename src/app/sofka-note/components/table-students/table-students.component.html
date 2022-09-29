@@ -43,15 +43,21 @@
 
 <app-header-title></app-header-title>
 
-<p-table [value]="studentsCourse" dataKey="nombre"  responsiveLayout="scroll">
+<p-table
+  [value]="studentsCourse"
+  dataKey="nombre"
+  responsiveLayout="scroll"
+  [paginator]="true"
+  [rows]="5"
+>
   <ng-template pTemplate="header">
     <tr>
-      <th [ngClass]="'t-head'" style="width: 3rem"></th>
-      <th [ngClass]="'t-head'">N°</th>
-      <th [ngClass]="'t-head'" pSortableColumn="nombre">
+      <th [ngClass]="'t-head-collapse'" style="width: 3rem"></th>
+      <th [ngClass]="'t-head-collapse'">N°</th>
+      <th [ngClass]="'t-head-collapse'" pSortableColumn="nombre">
         Alumno<p-sortIcon field="nombre"></p-sortIcon>
       </th>
-      <th [ngClass]="'t-head'" pSortableColumn="avance">
+      <th [ngClass]="'t-head-collapse'" pSortableColumn="avance">
         Cumplimiento <p-sortIcon field="avance"></p-sortIcon>
       </th>
     </tr>
@@ -63,7 +69,7 @@
     let-expanded="expanded"
   >
     <tr>
-      <td [ngClass]="'t-data'">
+      <td [ngClass]="'t-data-collapse'">
         <button
           (click)="getStudentId(estudiante._id)"
           type="button"
@@ -74,88 +80,91 @@
           [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
         ></button>
       </td>
-      <td [ngClass]="'t-data'">{{ i + 1 }}</td>
-      <td [ngClass]="'t-data'">{{ estudiante.nombre }}</td>
-      <td [ngClass]="'t-data'">{{ estudiante.avance }}</td>
+      <td [ngClass]="'t-data-collapse'">{{ i + 1 }}</td>
+      <td [ngClass]="'t-data-collapse'">{{ estudiante.nombre }}</td>
+      <td [ngClass]="'t-data-collapse'">{{ estudiante.avance }}</td>
     </tr>
   </ng-template>
 
-    <ng-template pTemplate="rowexpansion" let-estudiante>
-      <tr>
-        <td colspan="7">
-          <div class="p-5">
-            <p-table [value]="estudiante.estadosTarea" dataKey="orden">
-              <ng-template pTemplate="header">
-                <tr>
-                  <th [ngClass]="'t-head-child'" pSortableColumn="orden">Item</th>
-                  <th [ngClass]="'t-head-child'"  pSortableColumn="titulo">
-                    Tarea <p-sortIcon field="titulo"></p-sortIcon>
-                  </th>
-                  <th [ngClass]="'t-head-child'" pSortableColumn="fechaLimite">
-                    Fecha entrega <p-sortIcon field="fechaLimite"></p-sortIcon>
-                  </th>
-                  <th [ngClass]="'t-head-child'"  pSortableColumn="calificacion">
-                    Calificación <p-sortIcon field="calificacion"></p-sortIcon>
-                  </th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-i="rowIndex" let-estadosTarea>
-                <tr>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ estadosTarea.titulo }}</td>
-                  <td>{{ estadosTarea.fechaLimite | date: "dd/MM/yyyy" }}</td>
-                  <td [ngClass]="'calificada'" *ngIf="estadosTarea.estado === getStatus().CALIFICADA">
-                    {{ estadosTarea.calificacion }}
-                  </td>
-                  <td *ngIf="getStatus().ENTREGADA == estadosTarea.estado">
-                    <button
-                      (click)="AddNote(estadosTarea)"
-                      pButton
-                      pRipple
-                      type="button"
-                      label="Calificar"
-                      class="p-button-outlined p-button-success"
-                    ></button>
-                  </td>
-                  <td [ngClass]="'vencida '"
-                    *ngIf="
-                      moment(moment(date, 'DD/MM/YYYY')).diff(
-                        estadosTarea.fechaLimite,
-                        'days'
-                      ) > 0 &&
-                      estadosTarea.estado != getStatus().CALIFICADA &&
-                      getStatus().ENTREGADA !== estadosTarea.estado
-                    "
-                  >
-                    {{ getStatus().NO_ENTREGADA }}
-                  </td>
+  <ng-template pTemplate="rowexpansion" let-estudiante>
+    <tr>
+      <td colspan="7">
+        <div class="p-5">
+          <p-table [value]="estudiante.estadosTarea" dataKey="orden">
+            <ng-template pTemplate="header">
+              <tr>
+                <th [ngClass]="'t-head-child'" pSortableColumn="orden">Item</th>
+                <th [ngClass]="'t-head-child'" pSortableColumn="titulo">
+                  Tarea <p-sortIcon field="titulo"></p-sortIcon>
+                </th>
+                <th [ngClass]="'t-head-child'" pSortableColumn="fechaLimite">
+                  Fecha entrega <p-sortIcon field="fechaLimite"></p-sortIcon>
+                </th>
+                <th [ngClass]="'t-head-child'" pSortableColumn="calificacion">
+                  Calificación <p-sortIcon field="calificacion"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-estadosTarea>
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ estadosTarea.titulo }}</td>
+                <td>{{ estadosTarea.fechaLimite | date: "dd/MM/yyyy" }}</td>
+                <td
+                  [ngClass]="'calificada'"
+                  *ngIf="estadosTarea.estado === getStatus().CALIFICADA"
+                >
+                  {{ estadosTarea.calificacion }}
+                </td>
+                <td *ngIf="getStatus().ENTREGADA == estadosTarea.estado">
+                  <button
+                    (click)="AddNote(estadosTarea)"
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Calificar"
+                    class="p-button-outlined p-button-success"
+                  ></button>
+                </td>
+                <td
+                  [ngClass]="'vencida '"
+                  *ngIf="
+                    moment(moment(date, 'DD/MM/YYYY')).diff(
+                      estadosTarea.fechaLimite,
+                      'days'
+                    ) > 0 &&
+                    estadosTarea.estado != getStatus().CALIFICADA &&
+                    getStatus().ENTREGADA !== estadosTarea.estado
+                  "
+                >
+                  {{ getStatus().NO_ENTREGADA }}
+                </td>
 
-                  <td
+                <td
                   [ngClass]="'sin-entregar'"
-                    *ngIf="
-                      moment(moment(date, 'DD/MM/YYYY')).diff(
-                        estadosTarea.fechaLimite,
-                        'days'
-                      ) <= 0 &&
-                      estadosTarea.estado != getStatus().CALIFICADA &&
-                      getStatus().ENTREGADA !== estadosTarea.estado
-                    "
-                  >
-                    {{ getStatus().SIN_ENTREGAR }}
-                  </td>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="emptymessage">
-                <tr>
-                  <td colspan="6">No hay tareas por entregar</td>
-                </tr>
-              </ng-template>
-            </p-table>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-
+                  *ngIf="
+                    moment(moment(date, 'DD/MM/YYYY')).diff(
+                      estadosTarea.fechaLimite,
+                      'days'
+                    ) <= 0 &&
+                    estadosTarea.estado != getStatus().CALIFICADA &&
+                    getStatus().ENTREGADA !== estadosTarea.estado
+                  "
+                >
+                  {{ getStatus().SIN_ENTREGAR }}
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6">No hay tareas por entregar</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
 
 <app-modal-note

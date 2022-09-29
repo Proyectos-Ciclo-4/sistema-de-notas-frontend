@@ -18,7 +18,7 @@
   </ul>
 </div>
 <app-header-title></app-header-title>
-<p-treeTable
+<!-- <p-treeTable
   *ngIf="course"
   [value]="files"
   [columns]="cols"
@@ -73,6 +73,83 @@
       </td>
     </tr>
   </ng-template>
-</p-treeTable>
+</p-treeTable> -->
+
+<p-table
+  [value]="topics"
+  dataKey="titulo"
+  responsiveLayout="scroll"
+  [paginator]="true"
+  [rows]="5"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <!-- <th [ngClass]="'t-head'" style="width: 3rem"></th> -->
+      <!-- <th [ngClass]="'t-head'">N°</th> -->
+    </tr>
+  </ng-template>
+  <ng-template
+    let-i="rowIndex"
+    pTemplate="body"
+    let-tema
+    let-expanded="expanded"
+  >
+    <tr>
+      <td [ngClass]="'t-data'">
+        <button
+          type="button"
+          pButton
+          pRipple
+          [pRowToggler]="tema"
+          class="p-button-text p-button-rounded p-button-plain"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
+      </td>
+      <td [ngClass]="'t-data'">{{ tema.titulo }}</td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="rowexpansion" let-tema>
+    <tr>
+      <td colspan="7">
+        <div class="p-5">
+          <p-table [value]="tema.tareas" dataKey="_id">
+            <ng-template pTemplate="header">
+              <tr>
+                <th [ngClass]="'t-head-child'" style="width: 70px;" pSortableColumn="orden">Orden</th>
+                <th [ngClass]="'t-head-child'" pSortableColumn="titulo">
+                  Tarea <p-sortIcon field="titulo"></p-sortIcon>
+                </th>
+                <th [ngClass]="'t-head-child'" pSortableColumn="descripcion">
+                  Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+                </th>
+                <th [ngClass]="'t-head-child'" style="width: 80px;">Acciones</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-i="rowIndex" let-tareas>
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ tareas.titulo }}</td>
+                <td>{{ tareas.descripcion }}</td>
+                <td class="text-center">
+                  <p-button
+                    (onClick)="deleteItem(tareas)"
+                    icon="pi pi-trash"
+                    styleClass="p-button-danger"
+                  ></p-button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6">No hay tareas registradas</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
 
 <app-loading *ngIf="showLoading"></app-loading>
