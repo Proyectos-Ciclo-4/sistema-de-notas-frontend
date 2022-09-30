@@ -33,6 +33,7 @@ export class DeliveryTaskComponent implements OnInit {
   moment = moment;
   delivery: HomeworkStatusModel | null = null;
   showModal: boolean = false;
+  compliance: number = 0;
 
   constructor(
     private api$: ApiServiceService,
@@ -85,8 +86,10 @@ export class DeliveryTaskComponent implements OnInit {
   selectCourse(course: CourseGeneric) {
     this.termSearch = course.nombreCurso;
     this.course = course;
+    this.compliance = this.course.promedio;
     this.courses = [];
     this.showSuggestion = false;
+    debugger;
     if (this.course.estadosTarea.length > 0) {
       let set = new Set(
         this.course.estadosTarea.map(({ temaNombre: titulo, temaID }) =>
@@ -189,6 +192,11 @@ export class DeliveryTaskComponent implements OnInit {
         this.showLoading = false;
         delivery.estado = this.getStatus().ENTREGADA;
         delivery.fechaEntregado = moment().format('YYYY-MM-DD');
+        this.compliance =
+          (this.deliveries.filter((d) => d.estado == this.getStatus().ENTREGADA)
+            .length /
+            this.deliveries.length) *
+          100;
       },
       error: (err) => {
         this.swal$.errorMessage();

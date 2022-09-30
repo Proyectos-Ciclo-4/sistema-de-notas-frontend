@@ -26,6 +26,7 @@ export class TableStudentsComponent implements OnInit {
   moment = moment;
   delivery: HomeworkStatusModel | null = null;
   studentId: string = '';
+  compliance: number = 0;
 
   constructor(
     private api$: ApiServiceService,
@@ -74,8 +75,10 @@ export class TableStudentsComponent implements OnInit {
   }
 
   clearFilter() {
-    (this.termSearch = ''), (this.course = null);
+    this.termSearch = '';
+    this.course = null;
     this.courses = [];
+    this.studentsCourse = [];
   }
 
   //Event close modal
@@ -97,6 +100,8 @@ export class TableStudentsComponent implements OnInit {
     this.showLoading = true;
     this.api$.getStudentByCourseId(this.course?._id!).subscribe({
       next: (resp) => {
+        debugger;
+        this.compliance = resp[0].inscripciones[0].promedio
         this.studentsCourse = resp.map(
           ({ _id, nombre, avance, inscripciones }) => {
             return {

@@ -67,12 +67,13 @@
 </div>
 
 <div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
-  <h1 class="m-2">Cumplimiento:45%</h1>
+  <h1 class="m-2">Cumplimiento: {{compliance | number: '1.1-1' }} %</h1>
   <!-- <app-header-title></app-header-title> -->
   <p-table
     [value]="deliveries"
     styleClass="p-datatable-striped"
     responsiveLayout="scroll"
+    [rows]="6" [paginator]="true" 
   >
     <ng-template pTemplate="header">
       <tr>

@@ -82,7 +82,7 @@
       </td>
       <td [ngClass]="'t-data-collapse'">{{ i + 1 }}</td>
       <td [ngClass]="'t-data-collapse'">{{ estudiante.nombre }}</td>
-      <td [ngClass]="'t-data-collapse'">{{ estudiante.avance }}</td>
+      <td [ngClass]="'t-data-collapse'">{{ compliance }}%</td>
     </tr>
   </ng-template>
 
@@ -90,15 +90,23 @@
     <tr>
       <td colspan="7">
         <div class="p-5">
-          <p-table [value]="estudiante.estadosTarea" dataKey="orden">
+          <p-table
+            [value]="estudiante.estadosTarea"
+            dataKey="orden"
+            [rows]="4"
+            [paginator]="true"
+          >
             <ng-template pTemplate="header">
               <tr>
                 <th [ngClass]="'t-head-child'" pSortableColumn="orden">Item</th>
                 <th [ngClass]="'t-head-child'" pSortableColumn="titulo">
                   Tarea <p-sortIcon field="titulo"></p-sortIcon>
                 </th>
+                <th [ngClass]="'t-head-child'" pSortableColumn="fechaEntregado">
+                  Fecha entrega <p-sortIcon field="fechaEntregado"></p-sortIcon>
+                </th>
                 <th [ngClass]="'t-head-child'" pSortableColumn="fechaLimite">
-                  Fecha entrega <p-sortIcon field="fechaLimite"></p-sortIcon>
+                  Fecha limite <p-sortIcon field="fechaLimite"></p-sortIcon>
                 </th>
                 <th [ngClass]="'t-head-child'" pSortableColumn="calificacion">
                   Calificación <p-sortIcon field="calificacion"></p-sortIcon>
@@ -109,6 +117,7 @@
               <tr>
                 <td>{{ i + 1 }}</td>
                 <td>{{ estadosTarea.titulo }}</td>
+                <td>{{ estadosTarea.fechaEntregado | date: "dd/MM/yyyy" }}</td>
                 <td>{{ estadosTarea.fechaLimite | date: "dd/MM/yyyy" }}</td>
                 <td
                   [ngClass]="'calificada'"
