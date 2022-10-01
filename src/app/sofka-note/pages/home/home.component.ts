@@ -3,6 +3,7 @@ import { ApiServiceService } from '../../services/api-service.service';
 import { CourseModel } from '../../interfaces/course.model';
 import { Auth } from '@angular/fire/auth';
 import { ClearService } from '../../services/clear-service.service';
+import { WebSocketService } from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private api$: ApiServiceService,
     private auth$: Auth,
-    private clearComponent$: ClearService
+    private clearComponent$: ClearService,
+    private webSocket$: WebSocketService
   ) {
     this.headerStyle = {
       display: 'flex',
@@ -32,7 +34,11 @@ export class HomeComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.webSocket$.conect(this.auth$.currentUser?.uid!).subscribe((event) => {
+      console.log(event);
+    });
+  }
 
   searchCourse(termSearch: string) {
     // this.courses = this.api$.searchCourse(termSearch);
@@ -76,7 +82,7 @@ export class HomeComponent implements OnInit {
     this.showTask = !this.showTask;
   }
 
-  clearComponent(event:any) {
+  clearComponent(event: any) {
     this.course = null;
     this.termSearch = '';
     this.courses = [];

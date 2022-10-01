@@ -61,7 +61,11 @@ export class SignUpComponent implements OnInit {
         Validators.required,
         this.validCelPhone.bind(this),
       ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email,
+        Validators.maxLength(50),
+      ]),
       password: new FormControl('', [
         Validators.required,
         Validators.maxLength(50),
@@ -82,7 +86,7 @@ export class SignUpComponent implements OnInit {
 
   validatePassword(control: AbstractControl) {
     const regex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&+-])([A-Za-z\d$@$!%*?&+-]|[^ ]){8,15}$/;
     return regex.test(control.value)
       ? null
       : {
@@ -108,7 +112,7 @@ export class SignUpComponent implements OnInit {
 
   clearData() {
     this.formSignup.reset();
-    this.router.navigate(["/login"])
+    this.router.navigate(['/login']);
   }
 
   register() {
@@ -160,7 +164,7 @@ export class SignUpComponent implements OnInit {
     };
     this.authservice.createProfesorCommand(teacherCommand).subscribe({
       next: (res) => {
-        console.log("Teacher added");
+        console.log('Teacher added');
       },
       error: () => {
         this.swal$.errorMessage();
@@ -175,7 +179,7 @@ export class SignUpComponent implements OnInit {
     };
     this.authservice.createStudentCommand(studentComman).subscribe({
       next: (res) => {
-        console.log("srudent added");
+        console.log('srudent added');
       },
       error: () => {
         this.swal$.errorMessage();

@@ -40,7 +40,7 @@ export class SweetalertService {
 
   resetPassword() {
     Swal.fire({
-      title: 'Recuperar contraseña',
+      title: 'Coloca un correo para recuperar tu contraseña',
       input: 'email',
       inputAttributes: {
         autocapitalize: 'off',
