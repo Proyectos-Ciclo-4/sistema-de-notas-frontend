@@ -89,7 +89,6 @@ export class DeliveryTaskComponent implements OnInit {
     this.compliance = this.course.promedio;
     this.courses = [];
     this.showSuggestion = false;
-    debugger;
     if (this.course.estadosTarea.length > 0) {
       let set = new Set(
         this.course.estadosTarea.map(({ temaNombre: titulo, temaID }) =>
@@ -183,7 +182,7 @@ export class DeliveryTaskComponent implements OnInit {
       archivoURL: url,
       tareaID: delivery.tareaID,
       cursoID: this.course?.cursoID!,
-      estudianteID: this.auth$.currentUser?.uid!
+      estudianteID: this.auth$.currentUser?.uid!,
     };
     this.api$.deliverHomework(deliverycommand).subscribe({
       next: (resp) => {
