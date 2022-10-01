@@ -10,4 +10,5 @@ export const environment = {
   },
   production: true,
   baseUrl: 'https://unote-data-management.herokuapp.com',
+  baseUrlWS: "ws://localhost:8081//vistaProfesor"
 };

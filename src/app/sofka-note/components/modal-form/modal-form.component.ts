@@ -23,7 +23,10 @@ export class ModalFormComponent implements OnInit {
     private auth: Auth
   ) {
     this.formCreateCourse = new FormGroup({
-      title: new FormControl('', [Validators.required]),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(200),
+      ]),
     });
   }
 
@@ -35,7 +38,6 @@ export class ModalFormComponent implements OnInit {
   }
 
   submitCreateCouser() {
-  
     const title = '¿Estás seguro de crear el curso?';
     const message = 'Una vez guardado el curso no se podrá editar o eliminar';
     const btnMessage = 'Crear';
