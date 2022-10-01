@@ -8,5 +8,6 @@ export const environment = {
     authDomain: 'sofkau-note.firebaseapp.com',
     messagingSenderId: '471437960998',
   },
-  production: true
+  production: true,
+  baseUrl: 'https://unote-data-management.herokuapp.com',
 };
