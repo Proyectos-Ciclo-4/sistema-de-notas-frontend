@@ -183,7 +183,7 @@ export class DeliveryTaskComponent implements OnInit {
       archivoURL: url,
       tareaID: delivery.tareaID,
       cursoID: this.course?.cursoID!,
-      estudianteID: this.auth$.currentUser?.uid!,
+      estudianteID: this.auth$.currentUser?.uid!
     };
     this.api$.deliverHomework(deliverycommand).subscribe({
       next: (resp) => {
