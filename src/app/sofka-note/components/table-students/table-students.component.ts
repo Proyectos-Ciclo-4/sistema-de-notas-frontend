@@ -126,7 +126,6 @@ export class TableStudentsComponent implements OnInit {
   }
 
   getStudentId(studenId: string) {
-    console.log(studenId);
     this.studentId = studenId;
   }
 }

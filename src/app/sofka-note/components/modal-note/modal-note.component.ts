@@ -79,7 +79,6 @@ export class ModalNoteComponent implements OnInit {
         };
         this.api$.gradeTask(gradeCommand).subscribe({
           next: (res) => {
-            console.log(res);
             this.swal$.succesMessage('Calificación agregada con éxito');
             this.delivery!.calificacion! = this.formAddNote.value.calificacion!
             this.delivery!.retroalimentacion! = this.formAddNote.value.retroalimentacion!
