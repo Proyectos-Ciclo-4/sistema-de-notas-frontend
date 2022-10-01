@@ -29,8 +29,10 @@
             minWidth: '100%',
             backgroundColor: '#f0f0f0',
             border: 'none',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.38)'
+            borderBottom: '1px solid rgba(0, 0, 0, 0.38)',
+            zIndex:'2'
           }"
+          
           inputId="topic-dropdown"
           [options]="topics"
           optionLabel="titulo"
@@ -38,7 +40,7 @@
           [autoDisplayFirst]="false"
           [(ngModel)]="topic"
         ></p-dropdown>
-        <label for="topic-dropdown"
+        <label for="topic-dropdown" [style]="{zIndex:'3'}"
           >Tema <span class="text-red-600">*</span></label
         >
       </span>

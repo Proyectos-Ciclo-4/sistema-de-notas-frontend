@@ -37,7 +37,7 @@
     let-expanded="expanded"
   >
     <tr>
-      <td [ngClass]="'t-data'">
+      <td [style]="{'width':'60px'}">
         <button
           type="button"
           pButton
@@ -55,7 +55,8 @@
     <tr>
       <td colspan="7">
         <div class="p-5">
-          <p-table [value]="tema.tareas" dataKey="_id">
+          <p-table [value]="tema.tareas" dataKey="_id"   [paginator]="true"
+          [rows]="5">
             <ng-template pTemplate="header">
               <tr>
                 <th [ngClass]="'t-head-child'" style="width: 70px;" pSortableColumn="orden">Orden</th>
