@@ -79,8 +79,8 @@
       <tr>
         <th [ngClass]="'t-head'">N°</th>
         <th [ngClass]="'t-head'">Tarea</th>
-        <th [ngClass]="'t-head'">Limite</th>
-        <th [ngClass]="'t-head'">Estado</th>
+        <th [ngClass]="'t-head'" pSortableColumn="fechaLimite">Limite <p-sortIcon field="fechaLimite"></p-sortIcon></th>
+        <th [ngClass]="'t-head'" pSortableColumn="estado">Estado <p-sortIcon field="estado"></p-sortIcon></th>
         <th [ngClass]="'t-head'">Entrega</th>
         <th [ngClass]="'t-head'">Subir archivo</th>
       </tr>
