@@ -94,7 +94,7 @@ export class AssignTaskComponent implements OnInit {
         this.api$.createTask(taskCommand).subscribe({
           next: (res) => {
             this.showLoading = false;
-            this.swal$.succesMessage('Tarea creado con éxito');
+            this.swal$.succesMessage('Tarea creada con éxito');
             this.formTopic.reset();
             this.formTopic.value['fecha'] = this.today;
           },
@@ -135,7 +135,7 @@ export class AssignTaskComponent implements OnInit {
   validateDate(control: AbstractControl) {
     return moment(control.value).diff(this.today, 'days') < 0
       ? {
-          errorDate: `Fecha no puede ser menor a ${moment(this.today).format(
+          errorDate: `La fecha no puede ser menor a ${moment(this.today).format(
             'DD/MM/YYYY'
           )}`,
         }
