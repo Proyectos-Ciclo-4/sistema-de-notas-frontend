@@ -100,8 +100,7 @@ export class TableStudentsComponent implements OnInit {
     this.showLoading = true;
     this.api$.getStudentByCourseId(this.course?._id!).subscribe({
       next: (resp) => {
-        debugger;
-        this.compliance = resp[0].inscripciones[0].promedio
+        this.compliance = resp[0].inscripciones[0].promedio;
         this.studentsCourse = resp.map(
           ({ _id, nombre, avance, inscripciones }) => {
             return {
