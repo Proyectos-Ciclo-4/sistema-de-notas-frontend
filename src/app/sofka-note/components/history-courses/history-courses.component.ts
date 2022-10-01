@@ -75,7 +75,7 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
     };
     let title = '';
     let text = 'Una vez eliminado no se podrá revertir';
-    let btnMessage = 'Si, eliminar';
+    let btnMessage = 'Aceptar';
     this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
       if (result.isConfirmed) {
         this.showLoading = true;

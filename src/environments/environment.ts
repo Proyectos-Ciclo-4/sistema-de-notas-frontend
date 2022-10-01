@@ -13,8 +13,8 @@ export const environment = {
     messagingSenderId: '471437960998',
   },
   production: false,
-  baseUrl: 'https://unote-data-management.herokuapp.com',
-  // baseUrl:"http://localhost:8080",
+  // baseUrl: 'https://unote-data-management.herokuapp.com',
+  baseUrl:"http://localhost:8080",
   baseUrlWS: "ws://localhost:8081//vistaProfesor"
 };
 

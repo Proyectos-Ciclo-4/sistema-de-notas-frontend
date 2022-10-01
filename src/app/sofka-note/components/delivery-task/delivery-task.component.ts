@@ -127,8 +127,8 @@ export class DeliveryTaskComponent implements OnInit {
     const nameFile = `${
       this.auth$.currentUser?.uid + delivery.tareaID
     }.${this.file.name.split('.').pop()}`;
-    const title = 'Estas seguro de realizar la entrega?';
-    const text = 'Una vez se envía no se podrá revertir';
+    const title = '¿Estás seguro de realizar la entrega?';
+    const text = 'Una vez calificada no será posible cambiar la entrega';
     const btnMessage = 'Si, enviar';
     this.swal$.confirmationPopup(title, text, btnMessage).then((result) => {
       if (result.isConfirmed) {

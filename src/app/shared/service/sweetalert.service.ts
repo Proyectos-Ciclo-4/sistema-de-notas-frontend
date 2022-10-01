@@ -83,6 +83,7 @@ export class SweetalertService {
       cancelButtonColor: '#fa3007',
       confirmButtonColor: '#673ab7',
       confirmButtonText: messageButton,
+      cancelButtonText:'Cancelar',
       customClass:{
         popup:"card-custom"
       }
