@@ -52,10 +52,12 @@ export class SignUpComponent implements OnInit {
       name: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
+        this.validateFullName.bind(this),
       ]),
       lastName: new FormControl('', [
         Validators.required,
         Validators.maxLength(100),
+        this.validateFullName.bind(this),
       ]),
       celPhone: new FormControl('', [
         Validators.required,
@@ -92,6 +94,16 @@ export class SignUpComponent implements OnInit {
       : {
           validPassword:
             'Mínimo 8 caracteres, 1 letra mayúscula y 1 caracter especial ($,%&)',
+        };
+  }
+
+  validateFullName(control: AbstractControl) {
+    const pattern = new RegExp('^[A-Z]+$', 'i');
+    return pattern.test(control.value)
+      ? null
+      : {
+          fullName:
+            'Solo es permitido letras',
         };
   }
 
