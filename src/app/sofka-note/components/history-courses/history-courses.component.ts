@@ -30,7 +30,7 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
     private auth$: Auth,
     private clearComponent: ClearService
   ) {}
-  
+
   ngOnInit(): void {
     this.clearComponent.clearComponent.subscribe(() => {
       this.course = null;
@@ -67,7 +67,6 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
     this.topics = this.course.temas;
   }
 
-
   deleteItem(item: TaskModel) {
     const deleteTaskCommand: DeleteTaskCommand = {
       cursoID: item.cursoID,
@@ -82,7 +81,7 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
         this.showLoading = true;
         this.api$.deleteTask(deleteTaskCommand).subscribe({
           next: (res) => {
-            this.swal$.succesMessage('Item elimado correctamente');
+            this.swal$.succesMessage('Item eliminado correctamente');
             this.topics = this.topics.map((topic) => {
               return {
                 ...topic,
@@ -99,5 +98,4 @@ export class HistoryCoursesComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 }
