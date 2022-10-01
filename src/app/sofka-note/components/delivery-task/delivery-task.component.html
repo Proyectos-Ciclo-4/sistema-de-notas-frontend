@@ -77,18 +77,18 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th [ngClass]="'t-head'">N°</th>
         <th [ngClass]="'t-head'">Tarea</th>
+        <th [ngClass]="'t-head'">Descripción</th>
         <th [ngClass]="'t-head'" pSortableColumn="fechaLimite">Limite <p-sortIcon field="fechaLimite"></p-sortIcon></th>
         <th [ngClass]="'t-head'" pSortableColumn="estado">Estado <p-sortIcon field="estado"></p-sortIcon></th>
-        <th [ngClass]="'t-head'">Entrega</th>
+        <th [ngClass]="'t-head'" [style]="{width:'60px'}">Entrega</th>
         <th [ngClass]="'t-head'">Subir archivo</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-delivery>
       <tr>
-        <td>{{ delivery.orden }}</td>
         <td>{{ delivery.titulo }}</td>
+        <td>{{ delivery.descripcion }}</td>
         <td>{{ delivery.fechaLimite | date: "dd/MM/yyyy" }}</td>
         <td
           [ngClass]="{
