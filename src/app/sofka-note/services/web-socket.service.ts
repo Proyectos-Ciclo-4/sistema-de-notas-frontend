@@ -12,8 +12,8 @@ export class WebSocketService {
 
   constructor() {}
 
-  conect(aggregateId: string): Observable<WebSocketSubject<unknown>> {
-    this.socket = webSocket(`${this.BASE_URL}/${aggregateId}`);
+  conect(aggregateId: string, path: string): Observable<WebSocketSubject<unknown>> {
+    this.socket = webSocket(`${this.BASE_URL}/${path}/`+aggregateId);
     return this.socket as Observable<WebSocketSubject<unknown>>;
   }
   close() {

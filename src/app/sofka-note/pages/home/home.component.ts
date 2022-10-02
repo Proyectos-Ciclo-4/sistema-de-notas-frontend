@@ -35,8 +35,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.webSocket$.conect(this.auth$.currentUser?.uid!).subscribe((event) => {
-      console.log(event);
+    this.webSocket$
+    .conect(this.auth$.currentUser?.uid!, 'vistaProfesor')
+    .subscribe((event: any) => {
     });
   }
 

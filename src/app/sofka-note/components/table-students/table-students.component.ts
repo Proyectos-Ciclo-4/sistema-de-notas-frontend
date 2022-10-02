@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { Status } from '../../enum/status.enum';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
 import { ClearService } from '../../services/clear-service.service';
+import { WebSocketService } from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-table-students',
@@ -26,13 +27,14 @@ export class TableStudentsComponent implements OnInit {
   delivery: HomeworkStatusModel | null = null;
   studentId: string = '';
   compliance: number = 0;
-  isView:boolean= false
+  isView: boolean = false;
 
   constructor(
     private api$: ApiServiceService,
     private auth$: Auth,
     private swal$: SweetalertService,
-    private clearComponent$: ClearService
+    private clearComponent$: ClearService,
+    private webSocket$: WebSocketService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class TableStudentsComponent implements OnInit {
       this.delivery = null;
       this.studentId = '';
     });
+    
   }
 
   selectCourse(course: CourseModel) {
@@ -92,7 +95,7 @@ export class TableStudentsComponent implements OnInit {
   }
 
   AddNote(delivery: HomeworkStatusModel) {
-    this.isView = false
+    this.isView = false;
     this.delivery = delivery;
     this.showDialog = true;
   }
@@ -101,7 +104,7 @@ export class TableStudentsComponent implements OnInit {
     this.showLoading = true;
     this.api$.getStudentByCourseId(this.course?._id!).subscribe({
       next: (resp) => {
-        this.compliance = resp[0].inscripciones[0].avance *100;
+        this.compliance = resp[0].inscripciones[0].avance * 100;
         this.studentsCourse = resp.map(
           ({ _id, nombre, avance, inscripciones }) => {
             return {
@@ -129,8 +132,8 @@ export class TableStudentsComponent implements OnInit {
     this.studentId = studenId;
   }
 
-  viewGrade(delivery: HomeworkStatusModel){
-    this.isView = true
+  viewGrade(delivery: HomeworkStatusModel) {
+    this.isView = true;
     this.delivery = delivery;
     this.showDialog = true;
   }
