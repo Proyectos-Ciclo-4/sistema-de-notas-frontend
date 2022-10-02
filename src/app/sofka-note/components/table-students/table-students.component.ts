@@ -5,7 +5,6 @@ import { Auth } from '@angular/fire/auth';
 import { SweetalertService } from '../../../shared/service/sweetalert.service';
 import * as moment from 'moment';
 import { Status } from '../../enum/status.enum';
-import { HomeComponent } from '../../pages/home/home.component';
 import { HomeworkStatusModel } from '../../interfaces/homeworkStatus.model';
 import { ClearService } from '../../services/clear-service.service';
 
@@ -27,6 +26,7 @@ export class TableStudentsComponent implements OnInit {
   delivery: HomeworkStatusModel | null = null;
   studentId: string = '';
   compliance: number = 0;
+  isView:boolean= false
 
   constructor(
     private api$: ApiServiceService,
@@ -92,6 +92,7 @@ export class TableStudentsComponent implements OnInit {
   }
 
   AddNote(delivery: HomeworkStatusModel) {
+    this.isView = false
     this.delivery = delivery;
     this.showDialog = true;
   }
@@ -100,7 +101,7 @@ export class TableStudentsComponent implements OnInit {
     this.showLoading = true;
     this.api$.getStudentByCourseId(this.course?._id!).subscribe({
       next: (resp) => {
-        this.compliance = resp[0].inscripciones[0].promedio;
+        this.compliance = resp[0].inscripciones[0].avance *100;
         this.studentsCourse = resp.map(
           ({ _id, nombre, avance, inscripciones }) => {
             return {
@@ -126,5 +127,11 @@ export class TableStudentsComponent implements OnInit {
 
   getStudentId(studenId: string) {
     this.studentId = studenId;
+  }
+
+  viewGrade(delivery: HomeworkStatusModel){
+    this.isView = true
+    this.delivery = delivery;
+    this.showDialog = true;
   }
 }

@@ -17,7 +17,7 @@ import { ClearService } from '../../services/clear-service.service';
 @Component({
   selector: 'app-assign-task',
   templateUrl: './assign-task.component.html',
-  styleUrls: ['./assign-task.component.scss'],
+  styleUrls: ['./assign-task.component.scss']
 })
 export class AssignTaskComponent implements OnInit {
   topics: TopicModel[] = [];

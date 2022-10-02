@@ -34,7 +34,7 @@
       pButton
       pRipple
       type="button"
-      label="Cancelar"
+      label="Limpiar"
       class="p-button-danger"
       (click)="clearFilter()"
     ></button>
@@ -120,6 +120,7 @@
                 <td>{{ estadosTarea.fechaEntregado | date: "dd/MM/yyyy" }}</td>
                 <td>{{ estadosTarea.fechaLimite | date: "dd/MM/yyyy" }}</td>
                 <td
+                (click)="viewGrade(estadosTarea)"
                   [ngClass]="'calificada'"
                   *ngIf="estadosTarea.estado === getStatus().CALIFICADA"
                 >
@@ -184,6 +185,7 @@
   [delivery]="delivery"
   [studentId]="studentId"
   [courseId]="course?._id || ''"
+  [isView]="isView"
 ></app-modal-note>
 
 <app-loading *ngIf="showLoading"></app-loading>

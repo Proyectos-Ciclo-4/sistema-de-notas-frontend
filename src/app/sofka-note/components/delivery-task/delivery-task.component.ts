@@ -62,6 +62,7 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   courseSuggestions(termSearch: string) {
+    this.deliveries = []
     this.course = null;
     this.termSearch = termSearch;
     this.showSuggestion = true;
@@ -86,7 +87,7 @@ export class DeliveryTaskComponent implements OnInit {
   selectCourse(course: CourseGeneric) {
     this.termSearch = course.nombreCurso;
     this.course = course;
-    this.compliance = this.course.promedio;
+    this.compliance = this.course.avance * 100;
     this.courses = [];
     this.showSuggestion = false;
     if (this.course.estadosTarea.length > 0) {

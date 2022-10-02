@@ -63,7 +63,7 @@
         />
         <label for="float-input-feedback ">Retroalimentación</label>
       </span>
-      <small id="float-input-feedback-help font-bold" class="p-error block"
+      <small *ngIf="!isView" id="float-input-feedback-help font-bold" class="p-error block"
         >Una vez guardado el registro no se podrá modificar la
         calificación</small
       >

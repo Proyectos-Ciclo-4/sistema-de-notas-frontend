@@ -63,7 +63,6 @@ export class TopicFormComponent implements OnInit {
         this.api$.createTopic(topicCommand).subscribe({
           next: (res) => {
             this.showLoading = false;
-            console.log(res);
             this.swal$.succesMessage('Tema creado con éxito');
             this.formTopic.reset();
           },

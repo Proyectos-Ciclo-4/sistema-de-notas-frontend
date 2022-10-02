@@ -36,7 +36,6 @@
           placeholder="Seleccione tema"
           [autoDisplayFirst]="false"
           [(ngModel)]="topic"
-          (onChange)="searchDelivery()"
         ></p-dropdown>
         <label for="topic-dropdown"
           >Tema <span class="text-red-600">*</span></label
@@ -58,7 +57,7 @@
         pButton
         pRipple
         type="button"
-        label="Cancelar"
+        label="Limpiar"
         class="p-button-danger"
         (click)="clearFilter()"
       ></button>
@@ -67,7 +66,7 @@
 </div>
 
 <div class="card-custom p-1 pb-5" *ngIf="deliveries.length > 0">
-  <h1 class="m-2">Cumplimiento: {{compliance | number: '1.1-1' }} %</h1>
+  <h1 class="m-2">Cumplimiento: {{compliance | number }} %</h1>
   <!-- <app-header-title></app-header-title> -->
   <p-table
     [value]="deliveries"
@@ -78,7 +77,7 @@
     <ng-template pTemplate="header">
       <tr>
         <th [ngClass]="'t-head'">Tarea</th>
-        <th [ngClass]="'t-head'">Descripción</th>
+        <th [ngClass]="'t-head-description'">Descripción</th>
         <th [ngClass]="'t-head'" pSortableColumn="fechaLimite">Limite <p-sortIcon field="fechaLimite"></p-sortIcon></th>
         <th [ngClass]="'t-head'" pSortableColumn="estado">Estado <p-sortIcon field="estado"></p-sortIcon></th>
         <th [ngClass]="'t-head'" [style]="{width:'60px'}">Entrega</th>

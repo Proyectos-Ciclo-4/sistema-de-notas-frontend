@@ -86,7 +86,6 @@ export class ModalNoteComponent implements OnInit {
           },
           error: (err) => {
             this.swal$.errorMessage();
-            console.log(err);
           },
         });
       }

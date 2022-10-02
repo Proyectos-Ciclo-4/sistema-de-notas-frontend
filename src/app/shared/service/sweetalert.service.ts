@@ -56,8 +56,8 @@ export class SweetalertService {
       preConfirm: (email) => {
         return this.authService
           .resetPassword(email)
-          .then((response) => {
-            console.log(response);
+          .then(() => {
+            console.log("correo enviado");
           })
           .catch((error) => {
             Swal.showValidationMessage(`Operación fallida: ${error}`);
