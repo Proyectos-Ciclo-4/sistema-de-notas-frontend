@@ -154,6 +154,7 @@ export class DeliveryTaskComponent implements OnInit {
   }
 
   searchDelivery() {
+    debugger
     this.deliveries = this.course?.estadosTarea
       .filter((task) => task.temaID === this.topic?.temaID)!
       .map((ele, index) => {
