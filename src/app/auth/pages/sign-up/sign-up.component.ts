@@ -98,7 +98,7 @@ export class SignUpComponent implements OnInit {
   }
 
   validateFullName(control: AbstractControl) {
-    const pattern = new RegExp('^[A-Z]+$', 'i');
+    const pattern = new RegExp('^[A-Z ]+$', 'i');
     return pattern.test(control.value)
       ? null
       : {

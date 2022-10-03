@@ -42,6 +42,7 @@ a {
 
 .card-custom {
   @include box-shadow-card($light-color);
+  z-index: 50000;
 }
 
 .t-head-child {
@@ -65,5 +66,9 @@ a {
 
 
 .swal2-container {
-  z-index: 10000;
+  z-index: 20000;
 }
+
+// .swal2-container {
+//   z-index: X;
+// }

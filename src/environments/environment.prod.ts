@@ -12,5 +12,5 @@ export const environment = {
   baseUrl: 'https://unote-data-management.herokuapp.com',
   // baseUrl:"http://localhost:8080",
   // baseUrlWS: "ws://localhost:8081",
-  baseUrlWS: "ws://https://unote-sockets.herokuapp.com"
+  baseUrlWS: "ws://unote-sockets.herokuapp.com"
 };

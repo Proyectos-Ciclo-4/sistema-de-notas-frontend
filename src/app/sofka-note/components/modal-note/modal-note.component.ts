@@ -71,6 +71,7 @@ export class ModalNoteComponent implements OnInit {
     const btnMessage = 'Agregar';
     this.swal$.confirmationPopup(title, message, btnMessage).then((result) => {
       if (result.isConfirmed) {
+        debugger
         const gradeCommand: GradeCommand = {
           ...this.formAddNote.value,
           cursoID: this.courseId,
