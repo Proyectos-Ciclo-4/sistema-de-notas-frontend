@@ -70,6 +70,7 @@ export class TableStudentsComponent implements OnInit {
         .subscribe({
           next: (res) => {
             this.courses = res;
+            this.showSuggestion = false;
           },
         });
     } else {
