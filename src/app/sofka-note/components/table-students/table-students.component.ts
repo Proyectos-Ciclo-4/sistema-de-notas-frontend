@@ -49,7 +49,6 @@ export class TableStudentsComponent implements OnInit {
       this.delivery = null;
       this.studentId = '';
     });
-    
   }
 
   selectCourse(course: CourseModel) {
@@ -101,20 +100,23 @@ export class TableStudentsComponent implements OnInit {
   }
 
   getStudentsCourse() {
+    debugger;
     this.showLoading = true;
     this.api$.getStudentByCourseId(this.course?._id!).subscribe({
       next: (resp) => {
-        this.compliance = resp[0].inscripciones[0].avance * 100;
-        this.studentsCourse = resp.map(
-          ({ _id, nombre, avance, inscripciones }) => {
-            return {
-              _id,
-              nombre,
-              avance,
-              estadosTarea: inscripciones.flatMap((e) => e.estadosTarea),
-            };
-          }
-        );
+        if (resp.length > 0) {
+          this.compliance = resp[0].inscripciones[0].avance * 100;
+          this.studentsCourse = resp.map(
+            ({ _id, nombre, avance, inscripciones }) => {
+              return {
+                _id,
+                nombre,
+                avance,
+                estadosTarea: inscripciones.flatMap((e) => e.estadosTarea),
+              };
+            }
+          );
+        }
         this.showLoading = false;
       },
       error: (err) => {
